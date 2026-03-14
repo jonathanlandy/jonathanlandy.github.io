@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-01-20T09:00:00-08:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Static Pricing Theory</title><link href="https://jslandy.com/pricing" rel="alternate"></link><published>2026-01-20T09:00:00-08:00</published><updated>2026-01-20T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-01-20:/pricing</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/pricing_images/price_header.png"&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-01-20T09:00:00-08:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Static Pricing Theory</title><link href="https://jslandy.com/pricing" rel="alternate"></link><published>2026-01-20T09:00:00-08:00</published><updated>2026-01-20T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-01-20:/pricing</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/pricing_images/price_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;We review the classical framework for profit-maximizing pricing under steady
 demand.  Here, demand elasticity is the key quantity governing price
 sensitivity, and we show how it can be estimated from historical data. Once
 elasticity is known, retailers can plug it directly into the profit-maximizing
 pricing formulas: one for setting prices before a selling period, and another
-for adjusting prices in-season …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/pricing_images/price_header.png"&gt;&lt;/p&gt;
+for adjusting prices in-season …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/pricing_images/price_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;We review the classical framework for profit-maximizing pricing under steady
 demand.  Here, demand elasticity is the key quantity governing price
@@ -99,7 +99,7 @@ p\)&lt;/span&gt;.  One way to fit the model to historical data then is via a sim
 regression in log space. We will stick to this level of approximation here, but
 note that higher-order expansions can be used to capture changes in elasticity
 over wider price ranges.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/pricing_images/constant_elasticity.png" alt="Alt text" title="constant elasticity models"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/pricing_images/constant_elasticity.png" alt="Alt text" title="constant elasticity models"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;: The constant elasticity model (5) is plotted at various
 values of &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt;(here, with&lt;span class="math"&gt;\(A=1\)&lt;/span&gt; in each case).  We can see that the high
@@ -272,7 +272,7 @@ best option.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>The Cost of Allocation Errors</title><link href="https://jslandy.com/misallocation" rel="alternate"></link><published>2025-12-19T09:00:00-08:00</published><updated>2025-12-19T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-12-19:/misallocation</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/misallocation_images/allocation_header.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>The Cost of Allocation Errors</title><link href="https://jslandy.com/misallocation" rel="alternate"></link><published>2025-12-19T09:00:00-08:00</published><updated>2025-12-19T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-12-19:/misallocation</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/misallocation_images/allocation_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Forecast error leads to misallocation of inventory across demand channels,
 driving lost sales.  For example, for a product with &lt;span class="math"&gt;\(100\)&lt;/span&gt; units of demand
@@ -341,7 +341,7 @@ to guide allocation leads to a loss of roughly &lt;span class="math"&gt;\(3\%\)&
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/misallocation_images/allocation_header.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/misallocation_images/allocation_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Forecast error leads to misallocation of inventory across demand channels,
 driving lost sales.  For example, for a product with &lt;span class="math"&gt;\(100\)&lt;/span&gt; units of demand
@@ -440,7 +440,7 @@ our example into (1) gives us the estimated expected loss from misallocation:&lt
 &lt;p&gt;That is, misallocation driven by measurement error reduces expected sales by
 about &lt;span class="math"&gt;\(3\%\)&lt;/span&gt;.  In absolute terms, we expect to sell around &lt;span class="math"&gt;\(91\)&lt;/span&gt; units on average
 rather than &lt;span class="math"&gt;\(94\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/misallocation_images/allocation_example.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/misallocation_images/allocation_example.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;: Expected sales for a product with &lt;span class="math"&gt;\(100\)&lt;/span&gt; units of demand
 split evenly across two channels, shown as a function of the allocation &lt;span class="math"&gt;\(U_1\)&lt;/span&gt;.
@@ -625,13 +625,13 @@ highlight the fractional loss’s dependence on the number of channels.&lt;/p&gt
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>The Wholesale Gamble</title><link href="https://jslandy.com/wholesale" rel="alternate"></link><published>2025-11-04T09:00:00-08:00</published><updated>2025-11-04T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-11-04:/wholesale</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/wholesale_images/wholesale_banner.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>The Wholesale Gamble</title><link href="https://jslandy.com/wholesale" rel="alternate"></link><published>2025-11-04T09:00:00-08:00</published><updated>2025-11-04T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-11-04:/wholesale</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/wholesale_images/wholesale_banner.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Brands often sell through both the direct-to-consumer (DTC) and wholesale
 channels, with demand in each uncertain before the season starts.  Wholesale
 orders happen first at a lower price, and whatever inventory remains goes to
 DTC.  This introduces a key gamble:  Should we always accept a wholesale order
-if it comes in now, or should we reserve some pre-determined amount of …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/wholesale_images/wholesale_banner.png"&gt;&lt;/p&gt;
+if it comes in now, or should we reserve some pre-determined amount of …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/wholesale_images/wholesale_banner.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Brands often sell through both the direct-to-consumer (DTC) and wholesale
 channels, with demand in each uncertain before the season starts.  Wholesale
@@ -666,7 +666,7 @@ choose &lt;span class="math"&gt;\(Q\)&lt;/span&gt; so that these two are equal.&
   If wholesale buyers offer the full price, we should take the sale.&lt;/p&gt;
 &lt;p&gt;The next section shows how to compute the optimal reserve quantity for more
 general price ratios.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/wholesale_images/wholesale_diagram.png" alt="Alt text" title="timeline"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/wholesale_images/wholesale_diagram.png" alt="Alt text" title="timeline"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;: Timeline of the process. After the brand orders units from
 the manufacturer, it sells some pre-season to retailers at a lower wholesale
@@ -736,7 +736,7 @@ unit cost of $25, for a total manufacturing cost of:&lt;/p&gt;
 quite sizable!  In fact, this translates to more than a 5% increase in total
 margin, achieved simply by optimizing the mix between wholesale and DTC
 availability.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/wholesale_images/wholesale_examples.png" alt="Alt text" title="example distributions"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/wholesale_images/wholesale_examples.png" alt="Alt text" title="example distributions"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 2&lt;/em&gt;: Demand for our example shirt follows a normal distribution
 with mean 300 and standard deviation 100. (Left): When the wholesale price is
@@ -879,14 +879,14 @@ the value we quoted in (5) above.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Risk-Adjusted Return on Inventory Buys</title><link href="https://jslandy.com/risk-adjusted-return" rel="alternate"></link><published>2025-08-18T09:00:00-07:00</published><updated>2025-08-18T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-08-18:/risk-adjusted-return</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/risk_adjusted_images/risk_adjusted_banner.jpeg"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Risk-Adjusted Return on Inventory Buys</title><link href="https://jslandy.com/risk-adjusted-return" rel="alternate"></link><published>2025-08-18T09:00:00-07:00</published><updated>2025-08-18T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-08-18:/risk-adjusted-return</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/risk_adjusted_images/risk_adjusted_banner.jpeg"&gt;&lt;/p&gt;
 
 &lt;p&gt;Retailers prefer to carry products that have both high expected demand and low
 demand uncertainty.  Unfortunately, these are competing concerns, and so it's
 not always obvious which product to choose when one option has both higher
 expected demand and higher demand uncertainty.&lt;/p&gt;
 &lt;p&gt;Here, we present a simple formula for a product's risk-adjusted expected
-profit, using the newsvendor model. This score …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/risk_adjusted_images/risk_adjusted_banner.jpeg"&gt;&lt;/p&gt;
+profit, using the newsvendor model. This score …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/risk_adjusted_images/risk_adjusted_banner.jpeg"&gt;&lt;/p&gt;
 
 &lt;p&gt;Retailers prefer to carry products that have both high expected demand and low
 demand uncertainty.  Unfortunately, these are competing concerns, and so it's
@@ -1136,14 +1136,14 @@ a function only of &lt;span class="math"&gt;\(c_g\)&lt;/span&gt; and &lt;span cl
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Optimal Allocation</title><link href="https://jslandy.com/allocation" rel="alternate"></link><published>2025-08-04T09:00:00-07:00</published><updated>2025-08-04T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-08-04:/allocation</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/allocation_images/allocation_header.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Optimal Allocation</title><link href="https://jslandy.com/allocation" rel="alternate"></link><published>2025-08-04T09:00:00-07:00</published><updated>2025-08-04T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-08-04:/allocation</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/allocation_images/allocation_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;We consider the problem of allocating a fixed inventory across multiple
 locations.  To maximize expected sales, units should be distributed so that
 each site reaches the same sell-through probability.  Interestingly, this
 implies we should often send more units to sites with greater demand
 uncertainty.  We walk through an example that shows how operations teams can
-apply the strategy in practice …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/allocation_images/allocation_header.png"&gt;&lt;/p&gt;
+apply the strategy in practice …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/allocation_images/allocation_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;We consider the problem of allocating a fixed inventory across multiple
 locations.  To maximize expected sales, units should be distributed so that
@@ -1234,7 +1234,7 @@ Q_1 = 58 \text{ units, } Q_2 = 142 \text{ units} \tag{9}
 In this case, the total expected sales is around &lt;span class="math"&gt;\(143\)&lt;/span&gt; – just below the total
 expected sales given unlimited inventory.  The figure below plots the total
 sales across different options for &lt;span class="math"&gt;\(U_1\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/allocation_images/allocation_example.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/allocation_images/allocation_example.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;:  Total expected sales as a function of &lt;span class="math"&gt;\(U_1\)&lt;/span&gt;, the number of
 units sent to the first location. The remaining &lt;span class="math"&gt;\(200 - U_1\)&lt;/span&gt; units are sent to
@@ -1304,14 +1304,14 @@ are limited to that site's expected sales alone.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>How Return Rates Affect Margin in E-commerce</title><link href="https://jslandy.com/returns" rel="alternate"></link><published>2025-07-21T09:00:00-07:00</published><updated>2025-07-21T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-07-21:/returns</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/returns_images/returns_header.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>How Return Rates Affect Margin in E-commerce</title><link href="https://jslandy.com/returns" rel="alternate"></link><published>2025-07-21T09:00:00-07:00</published><updated>2025-07-21T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-07-21:/returns</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/returns_images/returns_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;E-commerce apparel return rates today average around 20% — but this average is
 rising, and rates on individual products vary widely.  In this post, we
 introduce simple equations to estimate an item’s expected profit and margin
 based on its return rate, damage rate, and price.&lt;/p&gt;
 &lt;p&gt;Inventory managers can use these formulas to assess true profitability across
-their assortment over time …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/returns_images/returns_header.png"&gt;&lt;/p&gt;
+their assortment over time …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/returns_images/returns_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;E-commerce apparel return rates today average around 20% — but this average is
 rising, and rates on individual products vary widely.  In this post, we
@@ -1381,7 +1381,7 @@ to keep return and damage rates down can pay off meaningfully for e-commerce
 brands.&lt;/p&gt;
 &lt;p&gt;The plot below shows how margin varies with return rate across a few values of
 &lt;span class="math"&gt;\(d\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/returns_images/returns.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/returns_images/returns.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;: Margin vs return and damage rate, using &lt;span class="math"&gt;\(AUC\)&lt;/span&gt; = &amp;#36;15,
 &lt;span class="math"&gt;\(p\)&lt;/span&gt; = &amp;#36;50, and &lt;span class="math"&gt;\(O\)&lt;/span&gt; = &amp;#36;9, as above.&lt;/p&gt;
@@ -1473,14 +1473,14 @@ Doing this and keeping results only up to first order in &lt;span class="math"&g
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Product Categories Supporting Option Breadth</title><link href="https://jslandy.com/econ" rel="alternate"></link><published>2025-07-08T09:00:00-07:00</published><updated>2025-07-08T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-07-08:/econ</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/econ_images/banner.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Product Categories Supporting Option Breadth</title><link href="https://jslandy.com/econ" rel="alternate"></link><published>2025-07-08T09:00:00-07:00</published><updated>2025-07-08T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-07-08:/econ</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/econ_images/banner.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Why do grocery stores often carry over 100 options for both cheese and wine —
 but just a handful for pasta?&lt;/p&gt;
 &lt;p&gt;In this post, we explore the economic forces behind that imbalance,
 highlighting four key traits that determine whether a product category can
 realistically support a broad assortment.  To test the framework, we review
-assortments across various industries and find that …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/econ_images/banner.png"&gt;&lt;/p&gt;
+assortments across various industries and find that …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/econ_images/banner.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Why do grocery stores often carry over 100 options for both cheese and wine —
 but just a handful for pasta?&lt;/p&gt;
@@ -1604,7 +1604,7 @@ data.&lt;/p&gt;
 framework.  In the suspect cases, we assert there must either be more here than
 meets the eye (perhaps hidden supply factors) OR these are legitimate market
 inefficiencies!&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/econ_images/chips.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/econ_images/chips.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;: My local Trader Joes carries 10 tortilla chip options.  The
 unit price is relatively modest, flavors are similar (chip connoisseurs may
@@ -1624,14 +1624,14 @@ whether customers have distinct preferences and are willing to pay for variety.&
 complexity.  But in practice, we see edge cases that are hard to understand.
 Some of these might be explained by obscure market dynamics, but others likely
 reflect true inefficiencies – the challenge of managing complexity.  In those
-cases, better tools and decision frameworks can help.&lt;/p&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Complex, cannibalization-heavy assortments</title><link href="https://jslandy.com/complex" rel="alternate"></link><published>2025-06-16T09:00:00-07:00</published><updated>2025-06-16T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-06-16:/complex</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/complex_images/polarized.png"&gt;&lt;/p&gt;
+cases, better tools and decision frameworks can help.&lt;/p&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Complex, cannibalization-heavy assortments</title><link href="https://jslandy.com/complex" rel="alternate"></link><published>2025-06-16T09:00:00-07:00</published><updated>2025-06-16T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-06-16:/complex</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/complex_images/polarized.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;I'm obsessed with optimizing &lt;em&gt;complex assortments&lt;/em&gt; – catalogs in
 categories like apparel, wine, and beauty, where many products compete for the
 same customer attention.  In these cases, &lt;b&gt;a product should only be carried
 if it satisfies demand that would otherwise go unmet&lt;/b&gt;, lifting net sales.
 But that kind of uplift impact is harder to measure – and far less intuitive –
-than a …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/complex_images/polarized.png"&gt;&lt;/p&gt;
+than a …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/complex_images/polarized.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;I'm obsessed with optimizing &lt;em&gt;complex assortments&lt;/em&gt; – catalogs in
 categories like apparel, wine, and beauty, where many products compete for the
@@ -1662,7 +1662,7 @@ true in many other grocery aisles like juice, cheese, and cereal (but not all
 aisles – we’ll explore that in our next post).  In these cases, optimization
 becomes significantly more challenging – and is often poorly handled in
 practice.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/complex_images/saltysnacks.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/complex_images/saltysnacks.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;: In categories like salty snacks, many similar products
 compete for the same customer attention. Because of this, sales often
@@ -1751,7 +1751,7 @@ option and lift net sales?  To know for sure, we’d have to carry out a careful
 analysis of their sales data.  How about your local bakery’s pastry assortment?
 Or your favorite apparel shop’s hoodie wall? Are those assortments as carefully
 optimized?&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/complex_images/lineup.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/complex_images/lineup.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 2&lt;/em&gt;: Baskin-Robbins currently lists 42 flavors on their site. Of
 these, 11 are chocolate-heavy, while a few lean more playful. In the post, we
@@ -1762,7 +1762,7 @@ bookstores, and apparel catalogs.  The subtle interplay between customer
 segments, overlapping product attributes, and finite attention makes this a
 rich area for optimization.  Improvements here &lt;b&gt;boost business performance,
 lead to better customer experiences, and reduce waste &lt;/b&gt; – removing redundant
-products that often end up unsold.  They’re also fun to think about!&lt;/p&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>The Newsvendor Model and Apparel</title><link href="https://jslandy.com/news" rel="alternate"></link><published>2025-06-02T09:00:00-07:00</published><updated>2025-06-02T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-06-02:/news</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/news_images/banner.png"&gt;&lt;/p&gt;
+products that often end up unsold.  They’re also fun to think about!&lt;/p&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>The Newsvendor Model and Apparel</title><link href="https://jslandy.com/news" rel="alternate"></link><published>2025-06-02T09:00:00-07:00</published><updated>2025-06-02T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-06-02:/news</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/news_images/banner.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;The &lt;em&gt;newsvendor model&lt;/em&gt; provides inventory planners with a framework for
 setting optimal order quantities when demand is uncertain and there is a
@@ -1770,7 +1770,7 @@ limited selling window – as in seasonal apparel.  Buy too little and you run
 the risk of early stockout and missed sales, too much and you risk write-offs
 and markdowns.  Here, we cover:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The classical formula for profit-maximizing order …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/news_images/banner.png"&gt;&lt;/p&gt;
+&lt;li&gt;The classical formula for profit-maximizing order …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/news_images/banner.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;The &lt;em&gt;newsvendor model&lt;/em&gt; provides inventory planners with a framework for
 setting optimal order quantities when demand is uncertain and there is a
@@ -1823,7 +1823,7 @@ so we should order less than the expected demand.  The figure below and its
 caption illustrate this.&lt;/p&gt;
 &lt;p&gt;In the next section, we’ll walk through a detailed numerical example for
 apparel.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/news_images/newsvendor.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/news_images/newsvendor.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure&lt;/em&gt;: Demand distribution for a given product. The expected demand
 is &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; units, but there is also some uncertainty set by the standard
@@ -2022,7 +2022,7 @@ Rearrangement gives (2), the result we quoted above.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Three insights from order quantity theory</title><link href="https://jslandy.com/quantity" rel="alternate"></link><published>2025-05-18T09:00:00-07:00</published><updated>2025-05-18T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-05-18:/quantity</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/quantity_images/enhanced_designsage_prism_reordernologo.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Three insights from order quantity theory</title><link href="https://jslandy.com/quantity" rel="alternate"></link><published>2025-05-18T09:00:00-07:00</published><updated>2025-05-18T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-05-18:/quantity</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/quantity_images/enhanced_designsage_prism_reordernologo.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;In our last note, we discussed safety stock analysis — how to decide
 &lt;em&gt;when&lt;/em&gt; to reorder. Here, we turn to the question of &lt;em&gt;how much&lt;/em&gt; to
@@ -2030,7 +2030,7 @@ order each time, using the classical Economic Order Quantity (EOQ) model.&lt;/p&
 &lt;p&gt;Three key takeaways:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The optimal order size balances capital costs (which favor small, frequent
-  orders) against ordering costs (which favor larger, less frequent orders …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/quantity_images/enhanced_designsage_prism_reordernologo.png"&gt;&lt;/p&gt;
+  orders) against ordering costs (which favor larger, less frequent orders …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/quantity_images/enhanced_designsage_prism_reordernologo.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;In our last note, we discussed safety stock analysis — how to decide
 &lt;em&gt;when&lt;/em&gt; to reorder. Here, we turn to the question of &lt;em&gt;how much&lt;/em&gt; to
@@ -2114,7 +2114,7 @@ order placement cost.&lt;/p&gt;
 &lt;p&gt;Equations (4-6) are the standard results on order sizing theory.  Below, we'll
 dig a little deeper to understand the cost of moving away from the optimal
 choice.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/quantity_images/cost.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/quantity_images/cost.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 1&lt;/em&gt;:  Plot of the costs incurred as a function of quantity
 ordered per purchase, &lt;span class="math"&gt;\(Q\)&lt;/span&gt;.  Here, we’ve set input parameters as follows:  &lt;span class="math"&gt;\(D =
@@ -2164,7 +2164,7 @@ together at the same time.  One set might be on a monthly cadence, another on a
 weekly, etc.  So long as each product gets assigned to a group with order
 frequency that is not off by a factor of &lt;span class="math"&gt;\(4\)&lt;/span&gt; or more from its optimal cadence,
 costs will be within a factor of &lt;span class="math"&gt;\(\sim 2\)&lt;/span&gt; of the minimum possible.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/quantity_images/cost2.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/quantity_images/cost2.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 2&lt;/em&gt;:  As long as we place orders at a &lt;span class="math"&gt;\(Q\)&lt;/span&gt; that is not off from
 the optimal &lt;span class="math"&gt;\(Q^*\)&lt;/span&gt; by a factor of &lt;span class="math"&gt;\(4\)&lt;/span&gt; or more, the resulting cost will be no
@@ -2205,7 +2205,7 @@ However, in a case where the seasonal profile is quite strong, it may make
 sense to introduce two or more different ordering rates throughout the year.
 In this case, during busy seasons, the order frequency should go up, and in the
 slow seasons, it can relax – set as in (12).&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/quantity_images/seasonality.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/quantity_images/seasonality.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Figure 3&lt;/em&gt;:  Demand is plotted by month for a seasonal product.  In the
 inset, we plot the optimal orders per month over the year as well – now also
@@ -2290,7 +2290,7 @@ time – stay tuned.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Three lessons from safety stock theory</title><link href="https://jslandy.com/safetystock" rel="alternate"></link><published>2025-05-05T09:00:00-07:00</published><updated>2025-05-05T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-05-05:/safetystock</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/ss_images/prism.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Three lessons from safety stock theory</title><link href="https://jslandy.com/safetystock" rel="alternate"></link><published>2025-05-05T09:00:00-07:00</published><updated>2025-05-05T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-05-05:/safetystock</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/ss_images/prism.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;In this back-to-basics post, we review three results from safety stock theory
 that can help retailers to maintain a lean inventory without compromising
@@ -2302,7 +2302,7 @@ stockout risk against inventory costs.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;The two major drivers of stockout risk are uncertainty in customer demand and
-supplier lead time …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/ss_images/prism.png"&gt;&lt;/p&gt;
+supplier lead time …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/ss_images/prism.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;In this back-to-basics post, we review three results from safety stock theory
 that can help retailers to maintain a lean inventory without compromising
@@ -2329,7 +2329,7 @@ business selling a single product—a widget. Daily demand averages 500 units
 with a standard deviation of 200.  The warehouse attempts to maintain
 inventory to meet this fluctuating demand.  Fig. 1 shows a simulated demand
 plot.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/ss_images/demand.png" alt="daily demand fluctuations" title="demand plot"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/ss_images/demand.png" alt="daily demand fluctuations" title="demand plot"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Fig 1.&lt;/em&gt; Example demand plot.  Our hypothetical company sells 500 &lt;span class="math"&gt;\(\pm\)&lt;/span&gt;
 200 widgets per day.&lt;/p&gt;
@@ -2338,7 +2338,7 @@ places an order for 40,000 more units. Delivery timing is uncertain—the order
 might arrive in 3 to 9 weeks, averaging 6.  If demand spikes or the
 shipment is delayed, a stockout can occur, leading to missed sales. Fig. 2
 shows an example inventory trace, with stockouts highlighted in red.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/ss_images/supply_example.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/ss_images/supply_example.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Fig 2.&lt;/em&gt; Example supply plot.  Acme places an order for 40,000 units
 whenever the inventory dips below the black dashed line (here, 20,000 units).
@@ -2371,7 +2371,7 @@ inventory dips below 26,000 units, rather than 20,000. If they could hit this
 each time, the average number of units on hand would then be around 27,000, vs
 21,000 before.  This raises holding costs, but the reduction in stockout rate
 makes this an economical tradeoff in their case.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/ss_images/tradeoff.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/ss_images/tradeoff.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Fig 3.&lt;/em&gt; Mean inventory held versus fraction of time stocked out for
 Acme Inc. Each point comes from a simulation run with a different trigger
@@ -2394,7 +2394,7 @@ hitting 5% stockout rate at all times.  This produces the green point, bringing
 them back to the 27,000 unit average inventory—a 10% reduction!&lt;/p&gt;
 &lt;p&gt;The takeaway: simply sticking to a consistent operational process can
 meaningfully cut inventory costs.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/ss_images/tradeoff_convex.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/ss_images/tradeoff_convex.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Fig 4.&lt;/em&gt; Because the tradeoff curve is convex, maintaining a consistent
 stockout rate leads to a lower average inventory than switching between
@@ -2414,7 +2414,7 @@ their supply chain and managed to reduce their delivery variability, moving
 from a range of 3–9 weeks to 5–7 weeks.  The benefits show up clearly in the
 updated plot below: The mean inventory Acme needs to maintain their 5% stockout
 rate is reduced by 25%!&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/ss_images/tradeoff_compared.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/ss_images/tradeoff_compared.png" alt="supply example" title="demand plot"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Fig 5.&lt;/em&gt; After stabilizing delivery times (cutting variability from
 three weeks down to one), Acme is able to cut mean inventory level by 25%.&lt;/p&gt;
@@ -2497,7 +2497,7 @@ by 35%.  Go Acme!&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Setting colorway count in an apparel product line</title><link href="https://jslandy.com/colorways" rel="alternate"></link><published>2025-04-08T09:00:00-07:00</published><updated>2025-04-08T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-04-08:/colorways</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/colorway_images/5_abstract_wall_no_logo_v2.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Setting colorway count in an apparel product line</title><link href="https://jslandy.com/colorways" rel="alternate"></link><published>2025-04-08T09:00:00-07:00</published><updated>2025-04-08T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-04-08:/colorways</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/colorway_images/5_abstract_wall_no_logo_v2.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Merchandisers often carry a single garment in multiple prints or colorways.
 This can lift net sales by appealing to different preferences, but beyond a
@@ -2507,7 +2507,7 @@ expense but not sales.&lt;/p&gt;
 cases.  The results:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;For products where customers usually …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/colorway_images/5_abstract_wall_no_logo_v2.png"&gt;&lt;/p&gt;
+&lt;p&gt;For products where customers usually …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/colorway_images/5_abstract_wall_no_logo_v2.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Merchandisers often carry a single garment in multiple prints or colorways.
 This can lift net sales by appealing to different preferences, but beyond a
@@ -2584,7 +2584,7 @@ without running a great many tests.  In contrast, the more common product-level
 demand modeling methods fall short here — these can't capture cannibalization
 effects between similar variants, and so cannot identify the optimal colorway
 count.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/colorway_images/score_table.png" alt="individual customer preferences across dresses" title="dress preferences"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/colorway_images/score_table.png" alt="individual customer preferences across dresses" title="dress preferences"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Fig 1.&lt;/em&gt; Customer affinity scores (purchase probabilities) are shown
 across four print variants for a given dress.  The top score for each client is
@@ -2638,7 +2638,7 @@ and retention strategy. Each season, carry a mix of evergreen hits to draw in
 new buyers and fresh prints to keep loyal customers engaged.  Again, the
 optimal mix can be determined by applying our analysis &lt;a
 href="/newbuy"&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/colorway_images/oxfords.jpg" alt="dress shirts" title="dress_shirts"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/colorway_images/oxfords.jpg" alt="dress shirts" title="dress_shirts"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Fig 2.&lt;/em&gt; When customers are willing to buy more than one variant of a
 product (e.g., for dress shirts, as shown here), the assortment should have
@@ -2655,14 +2655,14 @@ case.  However, we do still need to ensure we have the right balance of
 products aimed at each segment — both across styles and the mix of new vs
 evergreen bestsellers.  By combining customer-level data with a structured
 framework, merchandisers can make more confident decisions — and build leaner,
-more effective product lines.&lt;/p&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Garment Color and Lighting</title><link href="https://jslandy.com/color" rel="alternate"></link><published>2025-03-24T09:00:00-07:00</published><updated>2025-03-24T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-03-24:/color</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/color_images/colorandshadow_nologo.png"&gt;&lt;/p&gt;
+more effective product lines.&lt;/p&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Garment Color and Lighting</title><link href="https://jslandy.com/color" rel="alternate"></link><published>2025-03-24T09:00:00-07:00</published><updated>2025-03-24T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-03-24:/color</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/color_images/colorandshadow_nologo.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Accurately identifying a garment's color is essential for many modeling
 applications. However, a quick glance at any single garment image reveals a mix
 of colors—e.g., consider the many shades of purple in the sweater above. This
 suggests the question:  &lt;b&gt;Are the colors in a "single-color" garment image
 related in any meaningful way?&lt;/b&gt;&lt;/p&gt;
-&lt;p&gt;By analyzing images, we find that …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/color_images/colorandshadow_nologo.png"&gt;&lt;/p&gt;
+&lt;p&gt;By analyzing images, we find that …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/color_images/colorandshadow_nologo.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;Accurately identifying a garment's color is essential for many modeling
 applications. However, a quick glance at any single garment image reveals a mix
@@ -2742,7 +2742,7 @@ screenshot below:&lt;/p&gt;
 &lt;p&gt;
 Here, we've used the color-wheel notation for the hue, with &lt;span class="math"&gt;\(300^\circ\)&lt;/span&gt;
 implying we are 5/6-ths of the way around the circle (between red and blue).&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/color_images/color_picker.jpg" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/color_images/color_picker.jpg" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;h2&gt;Exploring garment color curves&lt;/h2&gt;
 &lt;p&gt;Now that we've introduced the HSV color model and reviewed how to navigate a
@@ -2763,7 +2763,7 @@ reflection: Glossy fibers reflect light like a mirror, bouncing back all
 wavelengths rather than just the fabric’s inherent color.  Under direct
 lighting, this effect intensifies, adding white light and lowering saturation,
 as observed.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/color_images/blue_sweatshirt_color.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/color_images/blue_sweatshirt_color.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;i&gt;The Apres Crew&lt;/i&gt; above is made from cotton. Now, let’s examine a similar
 wool product: &lt;i&gt;The Evans Crew in Forest Birdseye Wool&lt;/i&gt;, shown below. Once
@@ -2777,7 +2777,7 @@ the cotton case.  This is also visible in the garment image itself: The lit-up
 regions indeed look noticeably whiter than do those in the Apres above.&lt;/p&gt;
 &lt;p&gt;Two similar products, two unique color curves describing the colors present in
 their images.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/color_images/green_sweatshirt_color.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/color_images/green_sweatshirt_color.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;h2&gt;Summary&lt;/h2&gt;
 &lt;p&gt;To summarize: Garment color isn’t as simple as it seems—lighting and fabric
@@ -2851,14 +2851,14 @@ discoveries—at play within modern retail applications!&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Balancing new and bestsellers in apparel</title><link href="https://jslandy.com/newbuy" rel="alternate"></link><published>2025-03-06T09:00:00-08:00</published><updated>2025-03-06T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-03-06:/newbuy</id><summary type="html">&lt;p align="center"&gt;&lt;img src="images/newbuy_images/newbuy.jpg"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Balancing new and bestsellers in apparel</title><link href="https://jslandy.com/newbuy" rel="alternate"></link><published>2025-03-06T09:00:00-08:00</published><updated>2025-03-06T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2025-03-06:/newbuy</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/newbuy_images/newbuy.jpg"&gt;&lt;/p&gt;
 
 &lt;p&gt;It's risky for a business to invest in new, unproven products.  Yet, there
 are two strong forces pushing apparel businesses to invest heavily in new
 styles.  In this post, we examine how these competing forces shape strategy
 across different apparel sectors and introduce a mathematical framework for
 rationally setting new style investment.  By applying this model, businesses
-can make data-driven …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="images/newbuy_images/newbuy.jpg"&gt;&lt;/p&gt;
+can make data-driven …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/newbuy_images/newbuy.jpg"&gt;&lt;/p&gt;
 
 &lt;p&gt;It's risky for a business to invest in new, unproven products.  Yet, there
 are two strong forces pushing apparel businesses to invest heavily in new
@@ -2963,7 +2963,7 @@ style drift constraint.  The main takeaways are:&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;These ideas are intuitive - having them encoded formally allows for their
 precise investment implications to be explored.&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/newbuy_images/constraints.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/newbuy_images/constraints.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;h3&gt;Numerical Example&lt;/h3&gt;
 &lt;p&gt;Here, we'll consider a business with the following parameters:&lt;/p&gt;
@@ -3025,7 +3025,7 @@ pushing businesses to keep up.&lt;/p&gt;
 &lt;p&gt;Similarly, we've heard that fashions change relatively slowly within the eye
 glass sector.  Could this be because people buy fewer pairs of glasses than
 they do tops or dresses?&lt;/p&gt;
-&lt;p align="center"&gt;&lt;img src="images/newbuy_images/wedding_dress.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/newbuy_images/wedding_dress.png" alt="Alt text" title="contraints"&gt;&lt;/p&gt;
 
 &lt;h2&gt;Summary&lt;/h2&gt;
 &lt;p&gt;Navigating the balance between new styles and proven bestsellers is a
@@ -3155,7 +3155,7 @@ the right side of (1).&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Mathematics of parking tickets</title><link href="https://jslandy.com/math-of-parking-tickets" rel="alternate"></link><published>2023-12-13T09:00:00-08:00</published><updated>2023-12-13T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2023-12-13:/math-of-parking-tickets</id><summary type="html">&lt;p align="center"&gt;
-         &lt;img src="images/take_the_ticket.jpg"&gt;
+         &lt;img src="https://jslandy.com/images/take_the_ticket.jpg"&gt;
 
 &lt;/p&gt;
 
@@ -3225,7 +3225,7 @@ effectively check a given spot with rate &lt;span class="math"&gt;\(\lambda\)&lt
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</summary><content type="html">&lt;p align="center"&gt;
-         &lt;img src="images/take_the_ticket.jpg"&gt;
+         &lt;img src="https://jslandy.com/images/take_the_ticket.jpg"&gt;
 
 &lt;/p&gt;
 
@@ -3286,7 +3286,7 @@ down over time.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p align="center"&gt;
-         &lt;img src="images/parking.png"&gt;
+         &lt;img src="https://jslandy.com/images/parking.png"&gt;
 
 &lt;/p&gt;
 
@@ -3352,7 +3352,7 @@ down over time.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category></entry><entry><title>Spaced repetition can allow for infinite recall</title><link href="https://jslandy.com/memory%20recall" rel="alternate"></link><published>2022-08-07T00:00:00-07:00</published><updated>2022-08-07T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2022-08-07:/memory recall</id><summary type="html">&lt;p align="center"&gt;
-         &lt;img src="images/jeopardy.jpg"&gt;
+         &lt;img src="https://jslandy.com/images/jeopardy.jpg"&gt;
 
 &lt;/p&gt;
 
@@ -3363,7 +3363,7 @@ memorization of a great many facts [1].  The ideas behind this are two-fold:&lt;
 &lt;p&gt;When one first "learns" a new fact, it needs to be reviewed frequently in
   order to not forget it.  However, with each additional review, the fact can
 be retained longer before a refresher is needed …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;
-         &lt;img src="images/jeopardy.jpg"&gt;
+         &lt;img src="https://jslandy.com/images/jeopardy.jpg"&gt;
 
 &lt;/p&gt;
 
@@ -3973,7 +3973,7 @@ respectively.&lt;/p&gt;
 strategy as a function of &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; for the example price series shown in black
 (this has a hidden, separate x-axis).&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;img src="images/price_per_share.png" alt="price paid" style="width:100%"&gt;
+&lt;img src="https://jslandy.com/images/price_per_share.png" alt="price paid" style="width:100%"&gt;
 
 &lt;/p&gt;
 
@@ -4097,7 +4097,7 @@ day.  For example, if one caps the daily spend at fifty percent above that on
 the first day, the &lt;span class="math"&gt;\(\gamma=10\)&lt;/span&gt; case here gives a spend distribution of &lt;span class="math"&gt;\(10194
 \pm 2069\)&lt;/span&gt;, and a mean price per share of &lt;span class="math"&gt;\(9.86\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;img src="images/spend_distributions.png" alt="price paid" style="width:100%"&gt;
+&lt;img src="https://jslandy.com/images/spend_distributions.png" alt="price paid" style="width:100%"&gt;
 
 &lt;/p&gt;
 
@@ -4335,7 +4335,7 @@ A simple example of the sort of physical system we've described here is shown
 in Fig. 1a.&lt;/p&gt;
 &lt;hr&gt;
 &lt;figure class="image"&gt;
-  &lt;img src="images/duality.png"&gt;
+  &lt;img src="https://jslandy.com/images/duality.png"&gt;
 &lt;/figure&gt;
 &lt;p&gt;&lt;b&gt;Fig. 1:&lt;/b&gt; An example system:  (a) A particle at &lt;span class="math"&gt;\(\textbf{x}_p=\textbf{0}\)&lt;/span&gt;
 interacts with three walls.  The total long range force on the particle is
@@ -4722,7 +4722,7 @@ increased deprivation, followed by sudden jolts in increased consumption, as
 shown in the cartoon below -- this is the best approach.  In particular, it
 beats the steady consumption rate strategy.&lt;/p&gt;
 &lt;p align="center"&gt;
-         &lt;img src="images/engine.png"&gt;
+         &lt;img src="https://jslandy.com/images/engine.png"&gt;
 
 &lt;/p&gt;
 
@@ -4897,7 +4897,7 @@ shown in our first figure above. &lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="articles"></category><category term="misc"></category></entry><entry><title>2 + 1 = 4, by quinoa</title><link href="https://jslandy.com/quinoa%20packing" rel="alternate"></link><published>2020-07-03T00:00:00-07:00</published><updated>2020-07-03T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2020-07-03:/quinoa packing</id><summary type="html">&lt;p align="center"&gt;
-         &lt;img src="images/quinoa.jpg"&gt;
+         &lt;img src="https://jslandy.com/images/quinoa.jpg"&gt;
 
 &lt;/p&gt;
 
@@ -4907,7 +4907,7 @@ dried quinoa, which would ultimately create 4 cups of cooked quinoa.  See image
 above.&lt;/p&gt;
 &lt;p&gt;My first reaction was to believe that some error had been made.  However, I
 then realized that …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;
-         &lt;img src="images/quinoa.jpg"&gt;
+         &lt;img src="https://jslandy.com/images/quinoa.jpg"&gt;
 
 &lt;/p&gt;
 
