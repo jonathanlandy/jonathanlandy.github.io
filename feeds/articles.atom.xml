@@ -3936,7 +3936,7 @@ limit to leading order, so will give us the leading order result.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="misc"></category></entry><entry><title>Generalized Dollar Cost Averaging</title><link href="https://jslandy.com/generalized_dollar_cost_averaging" rel="alternate"></link><published>2021-03-20T00:00:00-07:00</published><updated>2021-03-20T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2021-03-20:/generalized_dollar_cost_averaging</id><summary type="html">&lt;p&gt;In this note, I consider a generalization of Dollar Cost Averaging -- a popular
+&lt;/script&gt;</content><category term="articles"></category><category term="misc"></category><category term="math/stats"></category><category term="programming"></category></entry><entry><title>Generalized Dollar Cost Averaging</title><link href="https://jslandy.com/generalized_dollar_cost_averaging" rel="alternate"></link><published>2021-03-20T00:00:00-07:00</published><updated>2021-03-20T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2021-03-20:/generalized_dollar_cost_averaging</id><summary type="html">&lt;p&gt;In this note, I consider a generalization of Dollar Cost Averaging -- a popular
 investing strategy that involves gradually building up one's holding in a stock
 over a pre-specified period of time.  The generalization I consider can
 guarantee better prices paid per share -- relative to the standard approach --
