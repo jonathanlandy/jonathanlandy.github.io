@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Accurately identifying a garment&#39;s color is essential for many modeling applications. However, a quick glance at any single garment image reveals a mix of colors—e.g., consider the many shades of purple in the sweater above. This suggests the question: Are the colors in a &#34;single-color&#34; garment image related in any meaningful way? By analyzing images, we find that …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Garment Color and Lighting"/>
+  <meta property="og:description" content="Accurately identifying a garment&#39;s color is essential for many modeling applications. However, a quick glance at any single garment image reveals a mix of colors—e.g., consider the many shades of purple in the sweater above. This suggests the question: Are the colors in a &#34;single-color&#34; garment image related in any meaningful way? By analyzing images, we find that …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/color"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-03-24 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Garment Color and Lighting</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="color">Garment Color and Lighting</h1>
+    <p>
+      Published on Mon 24 March 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/color_images/colorandshadow_nologo.png"></p>
+
+<p>Accurately identifying a garment's color is essential for many modeling
+applications. However, a quick glance at any single garment image reveals a mix
+of colors—e.g., consider the many shades of purple in the sweater above. This
+suggests the question:  <b>Are the colors in a "single-color" garment image
+related in any meaningful way?</b></p>
+<p>By analyzing images, we find that:</p>
+<ul>
+<li>The <b>hue is consistent and well-defined</b> across a garment.</li>
+<li><b>All colors fall along a single curve in color space.</b></li>
+<li>Along this curve, <b>brighter areas appear less saturated</b>, as direct
+  light mixes in white.  This effect varies by material—glossier fabrics (such
+  as wool) retain less color intensity under direct lighting.</li>
+</ul>
+<p>So yes, the sweater above is “purple.” But beneath this simple statement lies a
+complex reality—garments never really have a single color.  Instead, optical
+physics shifts color with lighting in a precise, garment-specific way,
+ultimately giving each its own signature <b>"color curve"</b>.  Details below.</p>
+<h2>Color theory 101</h2>
+<p>To describe color effectively, we first need to review some basics.</p>
+<p>Our eyes detect color using red, green, and blue (RGB) receptors. Because of
+this, any human-visible color can be created by mixing just these three base
+colors. On a computer, this is formalized: each pixel on a screen contains
+three corresponding light sources—one for each base color—and each color is
+encoded as a numerical triplet. For example,
+</p>
+<div class="math">\begin{equation}
+(255, 0, 255) \tag{1}
+\end{equation}</div>
+<p>
+represents full-strength red (values range from 0 to 255), no green, and
+full-strength blue, which together produce purple. When passed a numerical
+triplet like this, the three lights in a pixel are activated accordingly,
+generating the desired color.</p>
+<p>Now, when all three colors are fully and equally activated, we amazingly
+perceive white (as Newton showed in 1665, white light is composed of all
+colors). If they are equally activated but at lower intensity, we see gray. A
+color appears vivid / colorful then, only when at least one of the RGB
+receptors is less activated than the others, creating an imbalance.  Building
+on top of these observations, the Hue-Saturation-Value (HSV) model provides an
+alternative way to describe a color:</p>
+<ul>
+<li><b>Hue</b> = The "colorful" component, a mix of red, green, and blue, where
+  at least one is fully absent and one fully activated. These hues form the
+  color wheel.</li>
+<li><b>Saturation</b> = How much white is mixed in (0 = white, 1 = pure hue).</li>
+<li><b>Value</b> = Brightness level (1 = full intensity, 0 = black).</li>
+</ul>
+<p>Compared to the RGB model, HSV more explicitly separates "colorfulness" from
+brightness, making it easier to reason about when discussing color perception.</p>
+<h2>Color pickers—a first example</h2>
+<p>To illustrate HSV in action, I used Google’s color picker to build up one color
+from the sweater image above.  The process follows these steps, shown in the
+screenshot below:</p>
+<ul>
+<li>1) <b>Select the hue</b> → The sweater's hue is an equal mix of red and blue,
+  with no green present. When we select this from the color wheel (bar) at the
+  bottom, the corresponding color rectangle appears at the upper right.  The
+  pure hue appears in the upper-right corner of this rectangle (marked by the
+  red circle in the upper-right).</li>
+<li>2) <b>Adjust saturation</b> → Mixing in white reduces saturation, moving the
+  color to the second red circle.</li>
+<li>3) <b>Adjust value</b> → Mixing in black lowers the brightness / value,
+  bringing us to the final red circle. The resulting color appears in the large
+  color square at left.</li>
+</ul>
+<p>In RGB terms, we’ve moved from:</p>
+<div class="math">\begin{equation}
+(255, 0, 255) \rightarrow (255, 240, 255) \rightarrow (96, 90, 96). \tag{2}
+\end{equation}</div>
+<p>In HSV terms, the transformation is
+</p>
+<div class="math">\begin{equation}
+(300^\circ, 100\%, 100\%) \rightarrow (300^\circ, 6\%, 100\%) \rightarrow
+(300^\circ, 6\%, 38\%). \tag{3}
+\end{equation}</div>
+<p>
+Here, we've used the color-wheel notation for the hue, with <span class="math">\(300^\circ\)</span>
+implying we are 5/6-ths of the way around the circle (between red and blue).</p>
+<p align="center"><img src="images/color_images/color_picker.jpg" alt="Alt text" title="contraints"></p>
+
+<h2>Exploring garment color curves</h2>
+<p>Now that we've introduced the HSV color model and reviewed how to navigate a
+color picker, we're ready to analyze garment colors. As promised, we’ll examine
+how color varies with lighting across fabrics. To that end, I’ve selected
+images of two similar products—both sweatshirts from <a
+href="https://www.taylorstitch.com/">Taylor Stitch</a>.</p>
+<p>First up is <i>The Apres Crew in Indigo Terry</i>, shown below. At the upper
+right, we’ve extracted the six dominant colors from the image. Below that, we
+plot the color rectangle at the sweatshirt’s fixed hue, with red circles
+marking the six extracted colors. Notice that these colors do follow a smooth
+curve in this space—this garment's "color curve".</p>
+<p>At first, I expected this curve would be vertical, meaning shadowed areas would
+simply be darker, lower-value / intensity versions of some fixed base color.
+Instead, brighter areas also have lower saturation—more white is mixed in,
+<b>meaningfully changing the garment's color</b>. This occurs due to specular
+reflection: Glossy fibers reflect light like a mirror, bouncing back all
+wavelengths rather than just the fabric’s inherent color.  Under direct
+lighting, this effect intensifies, adding white light and lowering saturation,
+as observed.</p>
+<p align="center"><img src="images/color_images/blue_sweatshirt_color.png" alt="Alt text" title="contraints"></p>
+
+<p><i>The Apres Crew</i> above is made from cotton. Now, let’s examine a similar
+wool product: <i>The Evans Crew in Forest Birdseye Wool</i>, shown below. Once
+again, we’ve extracted the six dominant colors (upper right) and plotted them
+in the color rectangle at the garment’s fixed hue (bottom right).</p>
+<p>A similar pattern emerges: the colors follow a smooth, well-defined curve.
+However, notice that <b>this curve is less steep than in the cotton
+example</b>. This happens because wool is glossier than cotton—its brighter
+areas undergo more specular reflection, causing them to appear whiter than in
+the cotton case.  This is also visible in the garment image itself: The lit-up
+regions indeed look noticeably whiter than do those in the Apres above.</p>
+<p>Two similar products, two unique color curves describing the colors present in
+their images.</p>
+<p align="center"><img src="images/color_images/green_sweatshirt_color.png" alt="Alt text" title="contraints"></p>
+
+<h2>Summary</h2>
+<p>To summarize: Garment color isn’t as simple as it seems—lighting and fabric
+properties fundamentally alter the colors we perceive. We can’t ever truly say
+then that a product has one specific, singular color. Instead, each product is
+defined by its own signature "color curve", reflecting how light and shadow
+interact with its fabric. Brighter areas aren’t just more intense—they also
+appear less saturated as specular reflection mixes in white light. This effect
+is especially pronounced in glossier materials like wool, where light bounces
+off fibers more like a mirror.</p>
+<p>What a joy to find the physics of perception—shaped by centuries-old
+discoveries—at play within modern retail applications!</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

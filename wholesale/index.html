@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Brands often sell through both the direct-to-consumer (DTC) and wholesale channels, with demand in each uncertain before the season starts. Wholesale orders happen first at a lower price, and whatever inventory remains goes to DTC. This introduces a key gamble: Should we always accept a wholesale order if it comes in now, or should we reserve some pre-determined amount of …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="The Wholesale Gamble"/>
+  <meta property="og:description" content="Brands often sell through both the direct-to-consumer (DTC) and wholesale channels, with demand in each uncertain before the season starts. Wholesale orders happen first at a lower price, and whatever inventory remains goes to DTC. This introduces a key gamble: Should we always accept a wholesale order if it comes in now, or should we reserve some pre-determined amount of …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/wholesale"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-11-04 09:00:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; The Wholesale Gamble</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="wholesale">The Wholesale Gamble</h1>
+    <p>
+      Published on Tue 04 November 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/wholesale_images/wholesale_banner.png"></p>
+
+<p>Brands often sell through both the direct-to-consumer (DTC) and wholesale
+channels, with demand in each uncertain before the season starts.  Wholesale
+orders happen first at a lower price, and whatever inventory remains goes to
+DTC.  This introduces a key gamble:  Should we always accept a wholesale order
+if it comes in now, or should we reserve some pre-determined amount of
+inventory for DTC, where the margin is higher but sales are not guaranteed?  In
+this post, we outline a simple rule for making that tradeoff and show that it
+can meaningfully increase net revenue across channels.</p>
+<h2>Wholesale process and key results</h2>
+<p>Each season, a brand develops its line and places production orders, locking in
+quantities. While production is underway, the line is sold to retailers at the
+wholesale price — typically one-third to one-half of the DTC price. This
+creates a familiar tradeoff: take the guaranteed wholesale sale now, or reserve
+units for potentially higher-margin DTC sales later, risking clearance costs if
+demand falls short.  Figure 1 below summarizes the timeline of this process.</p>
+<p>In Appendix A, we show that the optimal DTC reserve quantity <span class="math">\(Q\)</span> satsifies:</p>
+<div class="math">\begin{equation}
+\text{Probability}(\text{DTC sells through at } Q) = \frac{\text{wholesale price}}{\text{DTC price}} \tag{1}
+\end{equation}</div>
+<p>The left side here represents the probability that all <span class="math">\(Q\)</span> reserved units sell
+through DTC; the right side is the wholesale-to-DTC price ratio.  We should
+choose <span class="math">\(Q\)</span> so that these two are equal.</p>
+<p>To build intuition:
+- When wholesale prices are much lower, DTC sales are far more valuable.  In
+  this case, (1) states that we should reserve units up to the point where a
+  DTC stockout becomes unlikely.
+- On the other hand, if wholesale and DTC prices are equal, there’s no reason
+  to hold back inventory for DTC.  In this case, (1) says that the probability
+  of DTC stockout should be <span class="math">\(1\)</span> at the optimal reserve quantity, which implies
+  <span class="math">\(Q=0\)</span>.  In other words, we shouldn't reserve inventory for DTC in this limit:
+  If wholesale buyers offer the full price, we should take the sale.</p>
+<p>The next section shows how to compute the optimal reserve quantity for more
+general price ratios.</p>
+<p align="center"><img src="images/wholesale_images/wholesale_diagram.png" alt="Alt text" title="timeline"></p>
+
+<p><em>Figure 1</em>: Timeline of the process. After the brand orders units from
+the manufacturer, it sells some pre-season to retailers at a lower wholesale
+price. Once shipments arrive, inventory is distributed to both DTC locations
+and wholesale partners. Units held for DTC sell at higher margins.  But if we
+reserve too many units, we might incur significant clearance costs.</p>
+<h2>Practical Examples</h2>
+<p>In the following examples, we’ll consider a shirt with an average realized DTC
+price of $100. We assume DTC demand follows a normal distribution with mean 300
+and standard deviation 100:
+</p>
+<div class="math">\begin{equation}
+\text{DTC demand} \sim \mathbb{N}(\mu_{DTC}=300,\;\sigma_{DTC}=100), \tag{2}
+\end{equation}</div>
+<p>This means that before the season begins, our best estimate of DTC demand is
+300 units, though actual demand could be higher or lower. In particular,
+there’s about a 65% chance it will fall between 200 and 400 units (<span class="math">\(\mu_{DTC}
+\pm \sigma_{DTC}\)</span>).  The standard deviation can be estimated empirically by
+comparing past demand outcomes to original forecasts.</p>
+<p>We’ll now use (1) to see how the optimal number of units to reserve for DTC
+changes with the wholesale price.</p>
+<h3>Case 1: Wholesale price is half retail price</h3>
+<p>Suppose the wholesale price of our shirt is $50 — half the DTC price. Plugging
+this into (1), we want the value of
+Q that satisfies:</p>
+<div class="math">\begin{equation}
+\text{Probability}(\text{DTC sells through at } Q) = \frac{50}{100} = \frac{1}{2}. \tag{3}
+\end{equation}</div>
+<p>
+For a normal distribution, the point where stockouts occur half the time is the
+mean of the demand distribution — this is shown in the left panel of Figure 2
+below.  This means that in this case, we should reserve <span class="math">\(Q = 300\)</span> units for
+DTC.</p>
+<h3>Case 2: Wholesale price is one-third retail price</h3>
+<h4>Optimal Reserve Quantity</h4>
+<p>Now suppose the shirt is offered to wholesalers at a steeper discount — &#36;33,
+or one-third the DTC price. Plugging this into (1) gives:
+</p>
+<div class="math">\begin{equation}
+\text{Probability}(\text{DTC sells through at } Q) = \frac{33}{100} \approx \frac{1}{3}. \tag{4}
+\end{equation}</div>
+<p>
+As shown in the right panel of Figure 2, this corresponds to <span class="math">\(Q = 344\)</span> units
+— greater than the expected DTC demand of <span class="math">\(300\)</span>. In other words, even if a
+wholesale account wanted to purchase those extra <span class="math">\(44\)</span> units before the season,
+it’s better on average to reserve them for DTC, where the margin is much
+higher.  More generally, as the DTC prices rises relative to wholesale, we'll
+want to reserve more units for the DTC channel.</p>
+<h4>Revenue Benefit</h4>
+<p>How much additional revenue do we expect when we hold exactly <span class="math">\(344\)</span> units for
+DTC rather than the expected demand of <span class="math">\(300\)</span>? As shown in Appendix B, the
+expected net revenue gain is approximately:</p>
+<div class="math">\begin{equation}
+\text{Net expected revenue lift} = \$2800 \tag{5}
+\end{equation}</div>
+<p>
+To put this in context, suppose we originally produced <span class="math">\(500\)</span> units at an average
+unit cost of $25, for a total manufacturing cost of:</p>
+<div class="math">\begin{equation}
+\text{Total manufacturing cost} = \$25 \times 500 = \$12500. \tag{6}
+\end{equation}</div>
+<p>The incremental margin improvement is then</p>
+<div class="math">\begin{equation}
+\text{Extra margin} = \frac{2800}{12500} \approx 22\%, \tag{7}
+\end{equation}</div>
+<p>
+quite sizable!  In fact, this translates to more than a 5% increase in total
+margin, achieved simply by optimizing the mix between wholesale and DTC
+availability.</p>
+<p align="center"><img src="images/wholesale_images/wholesale_examples.png" alt="Alt text" title="example distributions"></p>
+
+<p><em>Figure 2</em>: Demand for our example shirt follows a normal distribution
+with mean 300 and standard deviation 100. (Left): When the wholesale price is
+half the DTC price, the optimal reserve is <span class="math">\(Q=300\)</span>, where DTC stocks out half
+the time. (Right): When the wholesale price is one-third of DTC, the optimal
+reserve rises to about <span class="math">\(Q=344\)</span>, since higher DTC margins justify holding more
+inventory for potential DTC demand.</p>
+<h2>Summary</h2>
+<p>When a product sells through both wholesale and DTC channels, optimal inventory
+management requires that we hold back DTC units only until the expected revenue
+of doing so no longer outweighs the certainty of a wholesale sale.  Finding
+that balance requires that we consider the odds of DTC sell-through at the
+reserved inventory quantity.</p>
+<p>Our examples highlight a clear rule of thumb: The higher the DTC price relative
+to wholesale, the more inventory a brand should reserve for DTC. As the margin
+gap between channels widens, it becomes increasingly worthwhile to take some
+risk on DTC demand rather than securing lower-margin wholesale revenue early.
+In practice, this optimization can deliver a sizable uplift in total margin —
+5% in our second example — without requiring a change to overall buy quantities
+or pricing.</p>
+<h2>Appendix A: Derivation of (1)</h2>
+<p>Consider whether it makes sense to reserve the <span class="math">\(Q\)</span>-th unit for DTC.  The
+expected revenue lift from doing so is
+</p>
+<div class="math">\begin{equation}
+\text{Revenue lift on reserving } Q \text{-th unit} =
+\text{Probability}(\text{DTC sells through at } Q) \times \text{DTC price} \tag{8}
+\end{equation}</div>
+<p>
+For the first few units, the probability of DTC sell-through is high, so this
+expected value is close to the full DTC price. But for later units — say, the
+thousandth — the likelihood of selling through declines, and the expected
+revenue lift (8) becomes only a small fraction of that price.</p>
+<p>When we have the option to sell a unit at the wholesale price, we should
+decline that sale only if the expected DTC revenue exceeds the wholesale
+revenue we give up. The point of indifference occurs where the two are equal,
+</p>
+<div class="math">\begin{equation}
+\text{Probability}(\text{DTC sells through at } Q) \times \text{DTC price}
+= \text{wholesale price} \tag{9}
+\end{equation}</div>
+<p>
+Rearranging gives (1).</p>
+<h2>Appendix B:</h2>
+<p>Here, we consider the expected revenue benefit of the optimal <span class="math">\(344\)</span> units DTC
+reservation in our second example above, relative to simply reserving the
+expected <span class="math">\(300\)</span> unit DTC demand.</p>
+<p>First, suppose a retailer had asked to purchase these <span class="math">\(44\)</span> extra units and we
+let them take them. In this case, we'd enjoy
+</p>
+<div class="math">\begin{equation}
+\text{Wholesale revenue declined } = 44 \times \$ 33 = \$ 1452 \tag{10}
+\end{equation}</div>
+<p>
+On the other hand, expected revenue from DTC if we have <span class="math">\(344\)</span> units is
+</p>
+<div class="math">\begin{equation}
+\text{DTC expected revenue} = \$100 \times \int_{0}^{344} q \cdot p(q) dq + \$100 \times  \int_{344}^{\infty} 344 \cdot p(q) dq \tag{11}
+\end{equation}</div>
+<p>
+A quick calculation shows this is $30260.</p>
+<p>Had we instead only reserved <span class="math">\(300\)</span> units, the expected DTC revenue would have
+been
+</p>
+<div class="math">\begin{equation}
+\text{DTC expected revenue} =  \$100 \times \int_{0}^{300} q \cdot p(q) dq + \$100 \times  \int_{300}^{\infty} 300 \cdot p(q) dq \tag{12}
+\end{equation}</div>
+<p>
+Here, we get $26000.</p>
+<div class="math">\begin{equation}
+\text{Extra DTC revenue} = \$30260 -  \$26000 = \$4260. \tag{13}
+\end{equation}</div>
+<p>
+The net expected revenue increase is this extra DTC component minus the forgone
+wholesale revenue,
+</p>
+<div class="math">\begin{equation}
+\text{Net expected revenue lift} = \$4260 - \$1452 \approx \$2800, \tag{14}
+\end{equation}</div>
+<p>
+the value we quoted in (5) above.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

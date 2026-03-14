@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="CPPI* is a risk management tactic that can be applied to any investment portfolio. The approach entails banking a percentage of profits whenever a new all time high wealth is achieved, thereby ensuring that a portfolio&#39;s drawdown never goes below some maximum percentage. Here, I review CPPI and then consider the mean growth rate of a CPPI portfolio. I find …" />
+<meta name="keywords" content="finance">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Universal limiting mean return of CPPI investment portfolios"/>
+  <meta property="og:description" content="CPPI* is a risk management tactic that can be applied to any investment portfolio. The approach entails banking a percentage of profits whenever a new all time high wealth is achieved, thereby ensuring that a portfolio&#39;s drawdown never goes below some maximum percentage. Here, I review CPPI and then consider the mean growth rate of a CPPI portfolio. I find …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/universal-mean-return-formula-of-the-cppi-investment-strategy"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2019-12-09 16:14:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="finance"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Universal limiting mean return of CPPI investment portfolios</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="universal-mean-return-formula-of-the-cppi-investment-strategy">Universal limiting mean return of CPPI investment portfolios</h1>
+    <p>
+      Published on Mon 09 December 2019
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>CPPI* is a risk management tactic that can be applied to
+any investment portfolio. The approach entails banking a percentage of
+profits whenever a new all time high wealth is achieved, thereby
+ensuring that a portfolio's drawdown never goes below some maximum
+percentage. Here, I review CPPI and then consider the mean growth rate
+of a CPPI portfolio. I find that in a certain, common limit, this mean
+growth is given by a universal formula,
+(\ref{cppi_asymptotic_growth}) below. This universal result does not
+depend in detail on the statistics of the investment in question, but
+instead only on its mean return and standard deviation. I illustrate
+the formula's accuracy with a simulation in python.</p>
+<p>*CPPI = "Constant Proportion Portfolio Insurance"</p>
+<h2>Introduction</h2>
+<p>The drawdown of an investment portfolio at a given date is equal to
+the amount of money lost relative to its maximum held capital up to
+that date. This is illustrated in the figure at right -- a portfolio
+that once held $100 now holds only $90, so the drawdown is currently
+$10.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2019/12/dd.png"></p>
+
+<p>CPPI is a method that can be applied to guarantee that the maximum
+fractional drawdown is never more than some predetermined value -- the
+idea is to simply squirrel away an appropriate portion of earnings
+whenever we hit a new maximum account value, and only risk what's left
+over from that point on. For example, to cap the max loss at 50%, one
+should only risk 50% of the initial capital and then continue to bank
+50% of any additional earnings whenever a new all time high is
+reached.</p>
+<p>According to Wikipedia, the first person to study CPPI was Perold, who derived the statistical properties of a CPPI portfolio's value at time <span class="math">\(t\)</span>, assuming the underlying stochastic investment follows a Wiener process. I was introduced to the CPPI concept by the book "Algorithmic Trading" by Ernest Chan. This book implicitly poses the question of what the mean return is for general, discrete investment strategies. Here, I show that a universal formula applies in this case, valid at low to modest leverages and small unit investment Sharpe ratios -- this result is given in equation (\ref{cppi_asymptotic_growth}) below.</p>
+<p>The post proceeds as follows: In the next section, I define some notation and then write down the limiting result. In the following section, I give a numerical example in python. Finally, an appendix contains a derivation of the main result. This makes use of the universal limiting drawdown distribution result from my <a href="/universal-drawdown-statistics-in-investing">prior post</a>.</p>
+<h2>CPPI formulation and universal mean growth rate</h2>
+<p>In this section, I review the CPPI strategy and give the limiting mean return result. Consider a portfolio that at time <span class="math">\(t\)</span> has value,
+</p>
+<div class="math">$$
+\begin{align}\tag{1}
+W_t = S_t + \Gamma_t
+\end{align}
+$$</div>
+<p>
+where <span class="math">\(W\)</span> is our total wealth, <span class="math">\(S\)</span> is the banked (safe) portion, and <span class="math">\(\Gamma\)</span> is the portion we are willing to bet or gamble. The savings is set so that each time we reach a new all time high wealth, <span class="math">\(S\)</span> is adjusted to be equal to a fraction <span class="math">\(\Pi\)</span> of the net wealth. When this is done, the value of <span class="math">\(\Gamma\)</span> must also be adjusted downwards -- some of the investment money is moved to savings. Before adjustment, the result of a bet moves <span class="math">\(\Gamma\)</span> to
+</p>
+<div class="math">\begin{align}\label{gamble_eom_cppi} \tag{2}
+\widetilde{\Gamma}_{t+1} \equiv \left (1 + f (g_{t} - 1)\right) \Gamma_t.
+\end{align}</div>
+<p>
+Here, the tilde at left indicates this is the value before any reallocation is applied -- in case we have reached a new high, <span class="math">\(g_t\)</span> is a stochastic investment outcome variable, and <span class="math">\(f\)</span> is our "leverage" -- a constant that encodes how heavily we bet on the game. I will assume all <span class="math">\(g_i\)</span> are independent random variables that are identically distributed with distribution <span class="math">\(p(g)\)</span>. I will assume that <span class="math">\(f\)</span> is a fixed value throughout time, and will write
+</p>
+<div class="math">\begin{align} \tag{3} \label{3}
+f = \frac{1}{\phi} \frac{ \langle g -1 \rangle }{ \text{var}(g)}
+\end{align}</div>
+<p>
+This re-parameterization helps to make the math work out more nicely below. It is also motivated by the Kelly formula, which specifies the gambling leverage that maximizes wealth at long times (here, setting <span class="math">\(\phi \to 1\)</span> gives the Kelly exposure).</p>
+<p>The equations above define the CPPI scheme. The main result of this post is that in the limit where the leverage is not too high, and the stochastic <span class="math">\(g\)</span> has small Sharpe ratio (mean return over standard deviation), the mean log wealth at time <span class="math">\(t\)</span> satisfies
+</p>
+<div class="math">\begin{align} \label{cppi_asymptotic_growth} \tag{4}
+\frac{1}{t}\langle \log W_{t} - \log W_{0} \rangle \sim \frac{ \langle g -1 \rangle^2 }{ \text{var}(g)} (1-\Pi) \frac{(2 \phi -1)}{2 \phi ^2}.
+\end{align}</div>
+<p>
+This result can be used to estimate the mean growth of a portfolio to which CPPI is applied. Before illustrating its accuracy via a simulation below, I highlight a few points about the result:</p>
+<ol>
+<li>The fact that (\ref{cppi_asymptotic_growth}) is universal makes it very practical to apply to a real world investment: Rather than having to estimate the full distribution for <span class="math">\(g\)</span>, we need only estimate its mean and variance to get an estimate for the portfolio's long-time mean return.</li>
+<li>The mean return (\ref{cppi_asymptotic_growth}) is equivalent to that found by Perold for Gaussian processes -- as expected, since the result is "universal".</li>
+<li>The maximum return at fixed <span class="math">\(\Pi\)</span> is again obtained at <span class="math">\(\phi = 1\)</span>, the Kelly maximum.</li>
+<li>If <span class="math">\(\phi = 1/2\)</span>, we are at twice Kelly exposure and the mean return is zero -- this a well known result. At <span class="math">\(\phi &lt; 1/2\)</span>, we are above twice Kelly and the return is negative.</li>
+<li>The mean return is reduced by a factor <span class="math">\((1-\Pi)\)</span> -- the fraction of new high wealths we are exposing to loss. It is interesting that the result is not suppressed faster than this as we hold out more wealth, given that we have lower exposure after a loss than we would otherwise.</li>
+<li>One can ask what <span class="math">\(\phi\)</span> gives us the same mean return using CPPI as we would obtain at full exposure using <span class="math">\(\phi_0\)</span>. E.g., consider the case of <span class="math">\(\Pi = 1/2\)</span>, which corresponds to insuring that half of our wealth is protected from loss. Equating the mean gains of these two gives
+    <div class="math">\begin{align}
+    \frac{1}{2} \frac{(2 \phi -1)}{2 \phi ^2} = \frac{(2 (2)-1)}{2 (2)^2} = \frac{3}{8}.
+    \end{align}</div>
+    The two roots for <span class="math">\(\phi\)</span> are plotted versus <span class="math">\(\phi_0\)</span> below.</li>
+</ol>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2019/12/solution_half_safe.png"></p>
+
+<p>Notice that we can't find solutions for all <span class="math">\(\phi_0\)</span> -- it's not possible to match the mean return for high leverages at full exposure when we force protection of some of our assets.</p>
+<p>We now turn to a simulation example.</p>
+<h2>Python CPPI simulation</h2>
+<p>In the code below, we consider a system where in each step we either "win" or "lose": If we win, the money we risk grows by a factor of <span class="math">\(f \times 1.02\)</span>, and if we lose, it goes down by a factor of <span class="math">\(f \times 1 / 1.02\)</span>. We take the probability of winning to be <span class="math">\(0.65\)</span>. This game has a Sharpe ratio of <span class="math">\(0.32\)</span>, small enough that our approximation should work well. The code below carries out a simulated repeated investment game over 100 trials -- we hope that it is clear what is happening at each step.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># investment definitions -- a random walk</span>
+<span class="n">LIFT_ON_WIN</span> <span class="o">=</span> <span class="mf">1.02</span>
+<span class="n">LIFT_ON_LOSS</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">LIFT_ON_WIN</span>
+
+<span class="n">P_WIN</span> <span class="o">=</span> <span class="mf">0.65</span>
+<span class="n">P_LOSS</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">P_WIN</span>
+
+<span class="n">g_minus_1_bar</span> <span class="o">=</span> <span class="n">P_WIN</span> <span class="o">*</span> <span class="p">(</span><span class="n">LIFT_ON_WIN</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">P_LOSS</span> <span class="o">*</span> <span class="p">(</span><span class="n">LIFT_ON_LOSS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">var_g</span> <span class="o">=</span> <span class="n">P_WIN</span> <span class="o">*</span> <span class="p">(</span><span class="n">LIFT_ON_WIN</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">P_LOSS</span> <span class="o">*</span> <span class="p">(</span><span class="n">LIFT_ON_LOSS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">g_minus_1_bar</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">full_kelly</span> <span class="o">=</span> <span class="n">g_minus_1_bar</span> <span class="o">/</span> <span class="n">var_g</span>
+
+<span class="n">sharpe</span> <span class="o">=</span> <span class="n">g_minus_1_bar</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_g</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;Sharpe ratio of g unit bet: </span><span class="si">%.4f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">sharpe</span>
+
+<span class="k">def</span> <span class="nf">simulate_once</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+    <span class="n">initial_value</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">full_kelly</span> <span class="o">/</span> <span class="n">phi</span>
+
+    <span class="n">current_nav</span> <span class="o">=</span> <span class="n">initial_value</span>
+    <span class="n">current_max</span> <span class="o">=</span> <span class="n">current_nav</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="c1"># update current max</span>
+        <span class="n">current_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">current_nav</span><span class="p">,</span> <span class="n">current_max</span><span class="p">)</span>
+
+        <span class="c1"># calculate current effective nav</span>
+        <span class="n">current_drawdown</span> <span class="o">=</span> <span class="n">current_max</span> <span class="o">-</span> <span class="n">current_nav</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">current_max</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">current_drawdown</span>
+
+        <span class="c1"># play round of investment game</span>
+        <span class="n">dice_roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="p">(</span><span class="n">dice_roll</span> <span class="o">&lt;</span> <span class="n">P_WIN</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">win</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">LIFT_ON_WIN</span> <span class="o">*</span> <span class="n">win</span> <span class="o">+</span> <span class="n">LIFT_ON_LOSS</span> <span class="o">*</span> <span class="n">loss</span>
+        <span class="n">nav_change</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># update wealth</span>
+        <span class="n">current_nav</span> <span class="o">+=</span> <span class="n">nav_change</span>
+
+    <span class="k">return</span> <span class="n">current_nav</span>
+
+<span class="n">end_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># kelly and cppi properties</span>
+<span class="n">PHI</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">PI</span> <span class="o">=</span> <span class="mf">.75</span>
+<span class="n">STEPS</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">TRIALS</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># simulation loop</span>
+<span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TRIALS</span><span class="p">):</span>
+<span class="n">end_nav</span> <span class="o">=</span> <span class="n">simulate_once</span><span class="p">(</span><span class="n">phi</span><span class="o">=</span><span class="n">PHI</span><span class="p">,</span> <span class="n">pi</span><span class="o">=</span><span class="n">PI</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">STEPS</span><span class="p">)</span>
+<span class="n">end_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end_nav</span><span class="p">)</span>
+
+<span class="n">theory</span> <span class="o">=</span> <span class="p">(</span><span class="n">g_minus_1_bar</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">var_g</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">PI</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">PHI</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">PHI</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;Experiment: </span><span class="si">%2.5f</span><span class="s1">&#39;</span><span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">end_results</span><span class="p">))</span> <span class="o">/</span> <span class="n">STEPS</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;Theory: </span><span class="si">%2.5f</span><span class="s1">&#39;</span><span class="o">%</span> <span class="n">theory</span>
+
+<span class="c1"># OUTPUT:</span>
+<span class="c1"># Sharpe ratio of g unit bet: 0.3249</span>
+<span class="c1"># Experiment: 0.00251</span>
+<span class="c1"># Theory: 0.00251</span>
+</code></pre></div>
+
+<p>The last lines above show the output of our print statements. In particular, the last two lines show the mean growth rate observed over the 100 trials and the theoretical value (\ref{cppi_asymptotic_growth}) -- these agree to three decimal places.</p>
+<p>Using a loop over <span class="math">\(\phi\)</span> values, I used the code above to obtain the plot below of mean returns vs <span class="math">\(\phi\)</span>. This shows that the limiting result works quite well over most <span class="math">\(\phi\)</span> -- though there is some systematic, modest discrepancy at small <span class="math">\(\phi\)</span>. This is expected as the quadratic expansion for log wealth used below starts to break down at high exposures. Nevertheless, the fit is qualitatively quite good at all <span class="math">\(\phi\)</span>. This suggests that our result (\ref{cppi_asymptotic_growth}) can be used for quick mean return forecasts for most practical, applied cases of CPPI.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2019/12/mean_cppi_growth_rate.png"></p>
+
+<h2>Appendix: Derivation of mean return</h2>
+<p>We give a rough sketch here of a proof of (\ref{cppi_asymptotic_growth}). Our aim is to quickly get the universal form in a relatively clean way. Note that these results may be new, or perhaps well known to finance theorists -- I'm not sure.</p>
+<p>To begin let us define
+</p>
+<div class="math">\begin{align}
+\Gamma^*_t = \max_{t^{\prime} \leq t} \Gamma_t.
+\end{align}</div>
+<p>
+This is the maximum <span class="math">\(\Gamma\)</span> seen to date at time <span class="math">\(t\)</span>. Necessarily, this is the value of <span class="math">\(\Gamma\)</span> as of the most recent all time high preceeding <span class="math">\(t\)</span>. If <span class="math">\(\Gamma_t &lt; \Gamma^*_t\)</span>, we say that we are in drawdown by value <span class="math">\(\Gamma^*_t - \Gamma_t\)</span>. At all times, we have
+</p>
+<div class="math">\begin{align}\nonumber
+S_t &amp;= \frac{\Pi}{1 - \Pi} \Gamma^*_t \\
+&amp;\equiv \rho \Gamma^*_t.
+\end{align}</div>
+<p>
+This result holds because the saved portion is <span class="math">\(\Pi\)</span> times the net wealth when we reach a new high and <span class="math">\(\Gamma^*\)</span> is what's left over, <span class="math">\((1 - \Pi)\)</span> times the net wealth at that time.</p>
+<p>From the above definitions, our net wealth after a step is given by
+</p>
+<div class="math">\begin{align}\nonumber
+W_{t+1} &amp;= W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{W_{t}} \right ) \\ \nonumber
+&amp;= W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{S_t + \Gamma_t} \right ) \\
+&amp;= W_{t} \left ( 1 + f(g_t -1) \frac{\frac{\Gamma_t}{\Gamma^*_t}}{\rho+ \frac{\Gamma_t}{\Gamma^*_t}} \right )
+\end{align}</div>
+<p>
+Iterating and taking the logarithm we obtain
+</p>
+<div class="math">\begin{align}\nonumber \tag{A1} \label{A1}
+\log W_{t} &amp;= \log W_{0} + \sum_{i=0}^{t-1} \log \left ( 1 + f(g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right ) \\
+&amp;\approx \log W_{0} + \sum_{i=0}^{t-1} f (g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} - \frac{f^2}{2} \left ((g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}}\right)^2 + \ldots
+\end{align}</div>
+<p>
+The series expansion in the second line can be shown to converge quickly provided we have selected a leverage <span class="math">\(f\)</span> that always results in a small percentage change in our net wealth each step. Note that it is the breakdown of this expansion that causes the slight divergence at low <span class="math">\(\phi\)</span> in our last plot above.</p>
+<p>Our aim is to evaluate the average of the last equation. The first key point needed to do this is to note that at step <span class="math">\(i\)</span>, we have <span class="math">\(g_i\)</span> and <span class="math">\(\Gamma_i / \Gamma_i^*\)</span> independent (the outcome of the unit bet doesn't depend on how much we have to wager at this time). This allows us to factor the averages above into one over <span class="math">\(g\)</span> and over the <span class="math">\(\Gamma_i / \Gamma_i^*\)</span> distribution. The former is relatively easy to write down if we assume some properties for <span class="math">\(f\)</span> and <span class="math">\(g\)</span>. To proceed on the latter, we note that
+</p>
+<div class="math">\begin{align}\nonumber
+\log \frac{\Gamma_i}{\Gamma^*_i} = \log \Gamma_i - \log \Gamma^*_i
+\end{align}</div>
+<p>
+is the drawdown of a random walk, with steps defined by (\ref{gamble_eom_cppi}). We have argued in our last post that the tail of the distribution of this drawdown distribution is such that
+</p>
+<div class="math">\begin{align}\nonumber
+p( \log \Gamma_i - \log \Gamma^*_i = -k) \propto \exp(\alpha k).
+\end{align}</div>
+<p>
+where <span class="math">\(\alpha\)</span> is given in that post as an implicit function of the statistics of <span class="math">\(g\)</span>. This tail form will hold almost everywhere when the Sharpe ratio is small. We will assume this here.</p>
+<p>Using the change of variables rule, we get
+</p>
+<div class="math">\begin{align}\nonumber
+p\left(\frac{\Gamma_i}{\Gamma^*_i} = k\right) \sim \begin{cases}
+\alpha k^{\alpha - 1} &amp; \text{if } x \in (0, 1) \\
+0 &amp; \text{else}
+\end{cases}
+\end{align}</div>
+<p>
+Again, this is an approximation that assumes we spend relatively little time within one jump from the current all time high -- a result that will hold in the small Sharpe ratio limit. With this result, we obtain
+</p>
+<div class="math">\begin{align}\nonumber \tag{A2} \label{A2}
+\left \langle \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right \rangle &amp;\equiv \int_0^1 \frac{x}{\rho + x} \alpha x^{\alpha - 1} dx \\
+&amp;= \frac{\alpha \, _2F_1\left(1,\alpha +1;\alpha +2;-\frac{1}{\rho }\right)}{\rho (\alpha +1) }
+\end{align}</div>
+<p>
+Here, <span class="math">\(_2F_1\)</span> is the hypergeometric function. Similarly,
+</p>
+<div class="math">\begin{align}\nonumber \tag{A3} \label{A3}
+\left \langle \left( \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right)^2 \right \rangle &amp;\equiv \int_0^1 \left( \frac{x}{\rho + x} \right)^2 \alpha x^{\alpha - 1} dx \\
+&amp;= \frac{\alpha \left(\frac{\rho }{\rho +1}-\frac{(\alpha +1) \, _2F_1\left(1,\alpha
++2;\alpha +3;-\frac{1}{\rho }\right)}{\alpha +2}\right)}{\rho ^2}
+\end{align}</div>
+<p>
+Note that both of the last two lines go to one as <span class="math">\(\rho \to 0\)</span>, the limit where we invest our entire net worth and protect nothing. In this case, the growth equations are just those for a fully invested account. If you plug the last two results into the second line of (\ref{A1}), you get an expression for the mean return.</p>
+<p>To get the above results, we assumed a small Sharpe ratio. Therefore, to simplify things, we can use the value of <span class="math">\(\alpha\)</span> that we derived in our last post that is valid in this limit. This was given by <span class="math">\(\alpha \sim 2 \mu / \sigma^2\)</span>, where <span class="math">\(\mu\)</span> and <span class="math">\(\sigma\)</span> and mean and standard deviation of the random walk. We now evaluate these to get an expression for <span class="math">\(\alpha\)</span> in terms of the statistics of <span class="math">\(g\)</span>. First, we note that the mean drift of <span class="math">\(\log \Gamma\)</span> is given by
+</p>
+<div class="math">\begin{align}\nonumber
+\mu &amp;\equiv \langle \log(1 + f (g-1)) \rangle \\ \nonumber
+&amp;\sim f \langle g -1 \rangle - \frac{f^2}{2} \langle (g-1)^2 \rangle \\
+&amp;\sim f \langle g -1 \rangle - \frac{f^2}{2} \text{var}(g).
+\end{align}</div>
+<p>
+The last line follows from the assumption that the Sharpe ratio for <span class="math">\(g -1\)</span> is small, so that
+</p>
+<div class="math">\begin{align}\nonumber
+\langle (g-1)^2 \rangle &amp;= \left ( \langle (g-1)^2 \rangle - \langle (g-1) \rangle^2 \right) + \langle (g-1) \rangle^2 \\
+&amp;= \text{var}(g) \left ( 1 + \frac{ \langle (g-1) \rangle^2}{\text{var}(g)} \right ).
+\end{align}</div>
+<p>
+Similarly, one can show that
+</p>
+<div class="math">\begin{align}\nonumber
+\sigma^2 &amp;\equiv \text{var} \log(1 + f (g-1)) \\
+&amp;\sim f^2 \text{var}(g).
+\end{align}</div>
+<p>
+This gives
+</p>
+<div class="math">\begin{align}\nonumber
+\alpha &amp;\sim 2 \frac{\mu}{\sigma^2} \\ \nonumber
+&amp;\sim 2 \frac{ f \langle g -1 \rangle - \frac{f^2}{2} \text{var}(g)}{ f^2 \text{var}(g)} \\
+&amp;= \frac{2}{f} \frac{ \langle g -1 \rangle }{ \text{var}(g)} - 1
+\end{align}</div>
+<p>
+The second term in the first line can be neglected because we require the change in value to be a small fraction of our net wealth. We anticipate applying the algorithm to values of <span class="math">\(f\)</span> of order <span class="math">\(f \sim O( \frac{ \langle g -1 \rangle }{ \text{var}(g)})\)</span>, so the above is <span class="math">\(O(1)\)</span>. If we plug these results into the limiting form for <span class="math">\(\alpha\)</span> and use (\ref{3}) for <span class="math">\(f\)</span>, we get
+</p>
+<div class="math">\begin{align} \tag{A4} \label{A4}
+\alpha \sim 2 \phi -1.
+\end{align}</div>
+<p>
+We won't show the details, but if you plug (\ref{A2}), (\ref{A3}), and (\ref{A4}) into (\ref{A1}), this gives (\ref{cppi_asymptotic_growth}). To get there, you need to show that a big collapse of terms occurs in the two hypergeometric functions. This collapse can be derived using the series expansion for <span class="math">\(_2F_1\)</span> in about one page. The collapse of terms only occurs in the small Sharpe ratio limit, where <span class="math">\(\alpha\)</span> is given as above. We note that for some walks, an exponential form holds everywhere. In this case, the more general expression using <span class="math">\(_2F_1\)</span> applies even at high Sharpe ratios -- though we still require <span class="math">\(f\)</span> small.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/finance.html">finance</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

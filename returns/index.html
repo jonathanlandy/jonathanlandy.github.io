@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="E-commerce apparel return rates today average around 20% — but this average is rising, and rates on individual products vary widely. In this post, we introduce simple equations to estimate an item’s expected profit and margin based on its return rate, damage rate, and price. Inventory managers can use these formulas to assess true profitability across their assortment over time …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="How Return Rates Affect Margin in E-commerce"/>
+  <meta property="og:description" content="E-commerce apparel return rates today average around 20% — but this average is rising, and rates on individual products vary widely. In this post, we introduce simple equations to estimate an item’s expected profit and margin based on its return rate, damage rate, and price. Inventory managers can use these formulas to assess true profitability across their assortment over time …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/returns"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-07-21 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; How Return Rates Affect Margin in E-commerce</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="returns">How Return Rates Affect Margin in E-commerce</h1>
+    <p>
+      Published on Mon 21 July 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/returns_images/returns_header.png"></p>
+
+<p>E-commerce apparel return rates today average around 20% — but this average is
+rising, and rates on individual products vary widely.  In this post, we
+introduce simple equations to estimate an item’s expected profit and margin
+based on its return rate, damage rate, and price.</p>
+<p>Inventory managers can use these formulas to assess true profitability across
+their assortment over time.  For example, when the return rate hits 40% — a
+realistic figure for a hard-to-size item — the margin can fall to half of its
+ideal level.</p>
+<h2>Expected profit and margin formulas</h2>
+<p>We assume the item has the following characteristics:</p>
+<ul>
+<li><span class="math">\(r\)</span> = return rate (item is returned but not damaged)</li>
+<li><span class="math">\(d\)</span> =  damage rate (item is returned or lost in a way that requires a full
+  write-off)</li>
+<li><span class="math">\(AUC\)</span> = average unit cost to the retailer</li>
+<li><span class="math">\(p\)</span> = average retail price</li>
+<li><span class="math">\(O\)</span> = operations cost per shipment (shipping + logistics, etc.)</li>
+</ul>
+<p>From these, we derive the following formula (see appendix for derivation):</p>
+<div class="math">\begin{equation}
+\text{expected profit per item} = p - AUC - \frac{O}{1 - r} - \frac{p \cdot
+d}{1-r}. \tag{1}
+\end{equation}</div>
+<p>The first two terms reflect the “ideal” profit – price minus unit cost.  The
+third term accounts for average operational expenses, and the fourth for
+expected losses due to damage.  This last is an approximation that holds well
+when <span class="math">\(d \lesssim 10\%\)</span> – a condition that typically holds in practice.</p>
+<p>To compute expected margin, we have to divide (1) by the expected revenue per
+item.  This gives,</p>
+<div class="math">\begin{equation}
+\text{expected margin} = 1 - (\frac{AUC + \frac{O}{1 - r}}{p}) \cdot (1 +
+\frac{ d}{1-r}). \tag{2}
+\end{equation}</div>
+<p>
+Both (1) and (2) decrease with <span class="math">\(r\)</span>and<span class="math">\(d\)</span>.</p>
+<h2>Example</h2>
+<p>Consider an item with <span class="math">\(r = 20\%\)</span>, <span class="math">\(d = 2\%\)</span>, <span class="math">\(AUC\)</span> = &#36;15, <span class="math">\(p\)</span> = &#36;50, and
+<span class="math">\(O\)</span> = &#36;9.  The ideal margin – based solely on cost vs price – is</p>
+<div class="math">\begin{equation}
+\text{ideal margin} = \frac{50 - 15}{50} = 70\%. \tag{3}
+\end{equation}</div>
+<p>
+But using formula (2), the actual margin drops to
+</p>
+<div class="math">\begin{equation}
+\text{actual margin} = 46\%. \tag{4}
+\end{equation}</div>
+<p>
+If returns rise to <span class="math">\(40\%\)</span> (perhaps the garment sizing is hard to judge online),
+margin drops further
+</p>
+<div class="math">\begin{equation}
+\text{"high return rate" margin} = 38\%. \tag{5}
+\end{equation}</div>
+<p>
+If the damage rate is also increased to <span class="math">\(d = 5\%\)</span>, margin goes to</p>
+<div class="math">\begin{equation}
+\text{"high return \&amp; damage rates" margin} = 35\%, \tag{6}
+\end{equation}</div>
+<p>
+half the ideal (3).</p>
+<p>A company with &#36;10 million in annual revenue would have &#36;7 million to cover
+HQ costs under margin (3), &#36;4.6 million under margin (4), &#36;3.8 million under
+margin (5), and just &#36;3.5 million under margin (6).  We conclude that  working
+to keep return and damage rates down can pay off meaningfully for e-commerce
+brands.</p>
+<p>The plot below shows how margin varies with return rate across a few values of
+<span class="math">\(d\)</span>.</p>
+<p align="center"><img src="images/returns_images/returns.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 1</em>: Margin vs return and damage rate, using <span class="math">\(AUC\)</span> = &#36;15,
+<span class="math">\(p\)</span> = &#36;50, and <span class="math">\(O\)</span> = &#36;9, as above.</p>
+<h2>Appendix:  Derivations</h2>
+<p>With return-without-damage rate <span class="math">\(r\)</span>, the expected number of shipments needed to
+sell an item is</p>
+<div class="math">\begin{equation}
+\text{"expected shipments"} \sim \frac{1}{1-r} \tag{7}
+\end{equation}</div>
+<p>
+With a cost of <span class="math">\(O\)</span> per shipment, total expected operational costs are then</p>
+<div class="math">\begin{equation}
+\text{"expected ops cost"} \sim \frac{O}{1-r} \tag{8}
+\end{equation}</div>
+<p>If damage occurs independently with probability <span class="math">\(d\)</span> per shipment, and damage is
+rare (<span class="math">\(d \lesssim 10\%\)</span>), then the expected loss to damage is approximately:</p>
+<div class="math">\begin{equation}
+\text{"expected damage loss"} \sim \frac{p \cdot d}{1-r} \tag{9}
+\end{equation}</div>
+<p>
+Here, we assume that an item that is damaged cannot be sold, and so we lose the
+sale price <span class="math">\(p\)</span> when this happens.  Putting these together with the basic
+price-cost difference yields the expected profit formula (1).</p>
+<p>To get to margin, we have to divide (1) by the expected revenue per item.  This
+is</p>
+<div class="math">\begin{equation}
+\text{"expected revenue"} \sim p - \frac{p \cdot d}{1 - r} \tag{10}
+\end{equation}</div>
+<p>
+Doing this and keeping results only up to first order in <span class="math">\(d\)</span> gives (2).</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Textbook proofs of the duality theorem often apply abstract arguments that offer little tangible insight into the relationship between a linear program and its dual. Here, we map the general linear program onto a simple mechanics problem. In this context, the significance of the theorem is relatively clear. The general linear program and its dual The goal of a linear …" />
+<meta name="keywords" content="optimization">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Physics-based proof of the duality theorem for linear programs"/>
+  <meta property="og:description" content="Textbook proofs of the duality theorem often apply abstract arguments that offer little tangible insight into the relationship between a linear program and its dual. Here, we map the general linear program onto a simple mechanics problem. In this context, the significance of the theorem is relatively clear. The general linear program and its dual The goal of a linear …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/duality"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2021-02-14 09:24:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="optimization"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Physics-based proof of the duality theorem for linear programs</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="duality">Physics-based proof of the duality theorem for linear programs</h1>
+    <p>
+      Published on Sun 14 February 2021
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Textbook proofs of the duality theorem often apply abstract arguments that
+offer little tangible insight into the relationship between a linear program
+and its dual. Here, we map the general linear program onto a simple mechanics
+problem. In this context, the significance of the theorem is relatively clear.</p>
+<h4>The general linear program and its dual</h4>
+<p>The goal of a linear program is to optimize a linear objective function subject
+to some linear constraints.  By introducing slack and other auxiliary
+variables, the general linear program can be expressed as [1]
+</p>
+<div class="math">\begin{eqnarray}  \tag{1} \label{primal}
+\text{max}_{\textbf{x} \in \mathbb{R}_n}  \textbf{c}^T \cdot \textbf{x},
+\text{subject to: } A \cdot \textbf{x} \leq  \textbf{b}.
+\end{eqnarray}</div>
+<p>Here, the optimization is over <span class="math">\(\textbf{x} \in \mathbb{R}_n\)</span>, <span class="math">\(A\)</span> is a given <span class="math">\(m
+\times n\)</span> real matrix, <span class="math">\(\textbf{b}\)</span> and <span class="math">\(\textbf{c}\)</span> are given real vectors,
+and the inequality holds component-wise.  Any <span class="math">\(\textbf{x}\)</span> that satisfies the
+inequality constraints above is called a <em>feasible solution</em> to
+(\ref{primal}) and if a point can be found with finite components that
+optimizes the objective it is called an <em>optimal solution</em>.  Associated
+with (\ref{primal}) is the dual linear program,
+</p>
+<div class="math">\begin{eqnarray} \label{dual} \tag{2}
+\text{min}_{\textbf{w} \in \mathbb{R}_m} \textbf{b}^T \cdot \textbf{w} ,
+\text{subject to: } A^T \cdot \textbf{w} = \textbf{c}, \textbf{w} \geq
+\textbf{0}.  \end{eqnarray}</div>
+<p>
+The optimization here is over <span class="math">\(\textbf{w} \in \mathbb{R}_m\)</span>, and <span class="math">\(A\)</span>,
+<span class="math">\(\textbf{b}\)</span>, and <span class="math">\(\textbf{c}\)</span> are the same variables present in
+(\ref{primal}).  In this post, we apply some simple ideas from classical
+mechanics to prove the following theorem, one of the central results connecting
+the two linear programs above:</p>
+<h5>Duality theorem</h5>
+<p>If  (\ref{primal}) has an optimal solution at <span class="math">\(\textbf{x}^*\)</span>, then (\ref{dual})
+will also have an optimal solution at some point <span class="math">\(\textbf{w}^*\)</span>, and these
+points satisfy
+</p>
+<div class="math">\begin{eqnarray}\label{strong_law} \tag{3}
+\textbf{c}^T \cdot \textbf{x}^*= \textbf{b}^T \cdot \textbf{w}^*.
+\end{eqnarray}</div>
+<p>
+That is, the optimal objectives of (\ref{primal}) and (\ref{dual}) agree.</p>
+<h5><em>Proof:</em></h5>
+<p>To begin we assume that  <span class="math">\(\textbf{x}^*\)</span>  is an optimal solution to
+(\ref{primal}).  We also assume for simplicity that (i) we have chosen a
+coordinate system so that <span class="math">\(\textbf{x} =  \textbf{0}\)</span> is a feasible solution of
+(\ref{primal}) and that (ii) each row <span class="math">\(\boldsymbol{\widehat{A}}_i\)</span> of <span class="math">\(A\)</span> has been
+normalized to unit length. </p>
+<p>Next, we introduce a physical system relevant to (\ref{primal}) and
+(\ref{dual}):  We consider a mobile point particle that interacts with a set of
+<span class="math">\(m\)</span> fixed walls, all sitting in <span class="math">\(\mathbb{R}_n\)</span>.   The particle's coordinate
+<span class="math">\(\textbf{x}_p\)</span> is initially set to <span class="math">\(\textbf{x}_p = \textbf{0}\)</span>.  The fixed
+<span class="math">\(i\)</span>-th wall sits at those points <span class="math">\(\textbf{x}\)</span> that satisfy <span class="math">\(\boldsymbol{\widehat{A}}_i
+\cdot \textbf{x} = b_i\)</span>.   We take the force on the particle from wall <span class="math">\(i\)</span> to
+have two parts:  (i) a constant, long range force, <span class="math">\(w_i \boldsymbol{\widehat{A}}_i\)</span>,
+normal to the wall, and (ii)  a  "hard core" force, <span class="math">\(-n_i(\textbf{x}_p)
+\boldsymbol{\widehat{A}}_i\)</span>, also normal to the wall.  The hard core force makes the
+wall impenetrable to the particle, but otherwise allows the particle to move
+freely:   Its magnitude is zero when the particle does not touch the wall, but
+on contact it scales up to whatever value is needed to prevent the particle
+from passing through it.</p>
+<p>To relate the physical system to our linear programs, we'll require
+<span class="math">\(\textbf{x}_p\)</span> to be a feasible solution to (\ref{primal}) and the vector of
+long range force magnitudes <span class="math">\(\textbf{w}\)</span> to be a feasible solution to
+(\ref{dual}).  A point <span class="math">\(\textbf{x}_p\)</span> is a feasible solution to (\ref{primal})
+if and only if the particle is within the interior space bounded by the set of
+walls.  Further, the equality constraint of (\ref{dual}) is equivalent to the
+condition that all feasible <span class="math">\(\textbf{w}\)</span> result in a total long range force
+acting on the particle of <span class="math">\(\sum_i  w_i \boldsymbol{\widehat{A}}_i = \textbf{c}\)</span>.   The
+non-negativity condition on feasible <span class="math">\(\textbf{w}\)</span> vectors in (\ref{dual})
+further requires that the long range forces each be either attractive or zero.
+A simple example of the sort of physical system we've described here is shown
+in Fig. 1a.</p>
+<hr>
+<figure class="image">
+  <img src="images/duality.png">
+</figure>
+<p><b>Fig. 1:</b> An example system:  (a) A particle at <span class="math">\(\textbf{x}_p=\textbf{0}\)</span>
+interacts with three walls.  The total long range force on the particle is
+<span class="math">\(\sum_i w_i \boldsymbol{\widehat{A}}_i = \textbf{c}\)</span>. (b) The particle sits at its long
+range potential minimum, <span class="math">\(\textbf{x}^*\)</span>, with walls <span class="math">\(2\)</span> and <span class="math">\(3\)</span> "binding".
+The hard core normal forces from these walls must point inward and sum to
+<span class="math">\(-\textbf{c}\)</span> -- otherwise, there would be a net force on the particle, and it
+would continue to move, but that won't happen once it sits at its potential
+minimum.  Wall <span class="math">\(1\)</span> is not binding and is now a distance <span class="math">\(d_1(\textbf{x}^*)\)</span>
+away from the particle.  This results in a positive difference between the dual
+and primal objectives (\ref{gap}), unless we can find a feasible <span class="math">\(\textbf{w}\)</span>
+for which <span class="math">\(w_1=0\)</span>.  Setting <span class="math">\(\textbf{w}^* = \textbf{n}(\textbf{x}^*)\)</span> --  the
+vector of hard-core normal force magnitudes at <span class="math">\(\textbf{x}^*\)</span> -- provides such
+a solution.  This is non-negative, zero for non-binding walls, and results in a
+total long range force of <span class="math">\(\textbf{c}\)</span> -- a consequence of the point above that
+the particle must remain at rest at its potential minimum.  This choice for
+<span class="math">\(\textbf{w}\)</span> optimizes (\ref{dual}) and gives an objective matching that of
+(\ref{primal}) at
+<span class="math">\(\textbf{x}^*\)</span>.</p>
+<hr>
+<p>When we assert the conditions above, the potential associated with the long
+range forces in our physical system ends up being related to the objective
+functions of (\ref{primal}) and (\ref{dual}).  Up to a constant, the potential
+of a force <span class="math">\(\textbf{f}(\textbf{x})\)</span> is defined to be [2] 
+</p>
+<div class="math">\begin{eqnarray}\label{potential} \tag{4}
+U(\textbf{x}) \equiv -\int \textbf{f}(\textbf{x}) \cdot d\textbf{x}
+\end{eqnarray}</div>
+<p>
+In our case, the long range force between the wall <span class="math">\(i\)</span> and the particle is a
+constant and normal to the wall.  Its potential is therefore simply
+</p>
+<div class="math">\begin{eqnarray}\label{potential_i} \tag{5}
+U_i(\textbf{x}_p) = w_i d_i(\textbf{x}_p),
+\end{eqnarray}</div>
+<p>
+where 
+</p>
+<div class="math">\begin{eqnarray}\label{perp_distance} \tag{6}
+d_{i}(\textbf{x}_p)  \equiv b_i - \boldsymbol{\widehat{A}}_i \cdot \textbf{x}_p.
+\end{eqnarray}</div>
+<p>
+ This is the perpendicular distance between the particle and the wall <span class="math">\(i\)</span>.  The
+physical significance of (\ref{potential_i}) is that it is the total energy it
+takes to separate the particle from wall <span class="math">\(i\)</span> by a distance <span class="math">\(d_i\)</span>, working
+against the attractive force <span class="math">\(w_i\)</span>.  Notice that if we plug
+(\ref{perp_distance}) into (\ref{potential_i}), the total long range potential
+at <span class="math">\(\textbf{x}_p\)</span> can be written as
+</p>
+<div class="math">\begin{eqnarray}\nonumber
+\sum_i w_i d_i(\textbf{x}_p)&amp;=&amp; \sum_i w_i  \left (b_i - \boldsymbol{\widehat{A}}_i
+\cdot \textbf{x}_p  \right) 
+\\ &amp;=&amp; \textbf{w}^T \cdot \textbf{b} - \textbf{c} \cdot \textbf{x}_p. \tag{7}
+ \label{potential_as_objective_difference}
+\end{eqnarray}</div>
+<p>
+Here, we have used one of the feasibility conditions on <span class="math">\(\textbf{w}\)</span> to get the
+last line.   The right side of (\ref{potential_as_objective_difference}) is the
+difference between the dual and primal objectives.  This will be minimized at
+the feasible point <span class="math">\(\textbf{x}_p\)</span> that maximizes <span class="math">\(\textbf{c}\cdot \textbf{x}_p\)</span>
+-- the primal objective -- and at that feasible <span class="math">\(\textbf{w}\)</span> that minimizes
+<span class="math">\(\textbf{w}^T \cdot \textbf{b}\)</span> -- the dual objective.  In other words, we see
+that both our programs independently contribute to the common goal of
+minimizing the particle's long range potential,
+(\ref{potential_as_objective_difference}), subject to our system's constraints.</p>
+<p>The last preperatory remark we must make relates to the fact that we have
+assumed that <span class="math">\(\textbf{x}^*\)</span> is an optimal solution to (\ref{primal}) -- i.e.,
+it is a point that is as far "down" in the <span class="math">\(\textbf{c}\)</span> direction as possible
+within the feasible set.  This must mean that <span class="math">\(\textbf{x}^*\)</span> sits somewhere at
+the boundary of the primal feasible set, with some of the constraints of
+(\ref{primal}) binding -- i.e., satisfied as equalities.  Further, if we place
+and release the particle gently at <span class="math">\(\textbf{x}^*\)</span>, it must stay at rest as it
+can fall no further -- just as a particle acted on by gravity stays at rest
+when it is placed in the bottom of a bucket. To stay at rest, there must be no
+net force on the particle, which means that the hard core normal forces <span class="math">\(-n_i
+\boldsymbol{\widehat{A}}_i\)</span> from the binding walls at <span class="math">\(\textbf{x}^*\)</span>  must sum to
+exactly <span class="math">\(-\textbf{c}\)</span>, fully countering the constant long range force.   The
+set of forces acting on the particle at <span class="math">\(\textbf{x}^*\)</span> is illustrated Fig. 1b
+for our simple example.</p>
+<p>To complete the argument, we note that the long range potential at
+<span class="math">\(\textbf{x}^*\)</span> is given from (\ref{potential_as_objective_difference}) by
+</p>
+<div class="math">\begin{eqnarray} \label{gap} \tag{8} 
+\sum_i w_i d_i(\textbf{x}^*) &amp;=&amp; \textbf{w}^T \cdot \textbf{b} - \textbf{c}
+\cdot \textbf{x}^*.
+\end{eqnarray}</div>
+<p>
+This is non-negative because  <span class="math">\(\textbf{w} \geq \textbf{0}\)</span> and
+<span class="math">\(d_i(\textbf{x}^*) &gt;0\)</span> for each non-binding wall.   It follows that the dual
+objective is always bounded from below by the optimal primal objective.
+Further, the gap between the two -- the left side of (\ref{gap}) -- can only be
+zero if the long range interaction strengths are zero for each non-binding wall
+at <span class="math">\(\textbf{x}^*\)</span> -- i.e., if the particle is not actually attracted to the
+walls that are not binding at <span class="math">\(\textbf{x}^*\)</span>.   The vector
+<span class="math">\(\textbf{n}(\textbf{x}^*)\)</span> of hard core normal force magnitudes at
+<span class="math">\(\textbf{x}^*\)</span> provides such a solution for <span class="math">\(\textbf{w}\)</span>:  This is a feasible
+<span class="math">\(\textbf{w}\)</span>  because it is non-negative and results in normal forces that sum
+to <span class="math">\(\textbf{c}\)</span>.  Further, it is non-zero only for the binding constraints.  It
+follows that <span class="math">\(\textbf{w}^* = \textbf{n}(\textbf{x}^*)\)</span> gives an optimal
+solution to the dual, at which point its objective matches that of the optimal
+primal solution.  This argument is summarized in the caption to Fig. 1.</p>
+<h4>References</h4>
+<p>[1] Matousek, J., and Ga ̈rtner, B. Understanding and using linear programming.
+Springer (2007)</p>
+<p>[2] Marion, Jerry B. Classical dynamics of particles and systems. Academic
+Press, (2013).</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/optimization.html">optimization</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

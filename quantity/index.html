@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="In our last note, we discussed safety stock analysis — how to decide when to reorder. Here, we turn to the question of how much to order each time, using the classical Economic Order Quantity (EOQ) model. Three key takeaways: The optimal order size balances capital costs (which favor small, frequent orders) against ordering costs (which favor larger, less frequent orders …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Three insights from order quantity theory"/>
+  <meta property="og:description" content="In our last note, we discussed safety stock analysis — how to decide when to reorder. Here, we turn to the question of how much to order each time, using the classical Economic Order Quantity (EOQ) model. Three key takeaways: The optimal order size balances capital costs (which favor small, frequent orders) against ordering costs (which favor larger, less frequent orders …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/quantity"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-05-18 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Three insights from order quantity theory</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="quantity">Three insights from order quantity theory</h1>
+    <p>
+      Published on Sun 18 May 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/quantity_images/enhanced_designsage_prism_reordernologo.png"></p>
+
+<p>In our last note, we discussed safety stock analysis — how to decide
+<em>when</em> to reorder. Here, we turn to the question of <em>how much</em> to
+order each time, using the classical Economic Order Quantity (EOQ) model.</p>
+<p>Three key takeaways:</p>
+<ul>
+<li>The optimal order size balances capital costs (which favor small, frequent
+  orders) against ordering costs (which favor larger, less frequent orders).</li>
+<li>The cost curve is forgiving — order frequency can deviate by up to a factor
+  of <span class="math">\(4\)</span> from the optimum, and total cost will always stay within about
+  <span class="math">\(2\times\)</span> the minimum.  This gives flexibility in scheduling.</li>
+<li>This flexibility extends to seasonal demand: If fluctuations aren't extreme,
+  you can stick to a fixed order cadence year-round without much penalty.</li>
+</ul>
+<p>Examples and derivations follow — all geared toward intuition.</p>
+<h2>Review of the basic equations</h2>
+<p>According to the classical theory, optimal order volumes need to balance two
+competing costs:</p>
+<ul>
+<li>
+<p>The holding cost of inventory:  This is often set by interest that must be
+  paid on loans used to purchase inventory – hold more inventory and you have
+  to pay more interest, so this favors placing frequent, smaller orders.</p>
+</li>
+<li>
+<p>The cost of placing orders:  E.g., it may cost some employee wage time to
+  place each order, so this favors placing fewer, larger orders.</p>
+</li>
+</ul>
+<p>With just a little work, we can formalize these concerns and identify the
+optimal order volume.  To begin, we first introduce the following variables:</p>
+<ul>
+<li><span class="math">\(D\)</span> =  annual unit demand</li>
+<li><span class="math">\(C\)</span> = the annual cost of capital per unit – i.e., the unit cost times the
+  interest rate</li>
+<li><span class="math">\(S\)</span> = the cost to place a single order</li>
+<li><span class="math">\(Q\)</span> = the amount we order each time</li>
+</ul>
+<p>Now if <span class="math">\(Q\)</span> is ordered each time, and we reorder when inventory is close to
+zero, the average inventory level throughout the year will be about <span class="math">\(Q/2\)</span>.  The
+total cost of capital will then be
+</p>
+<div class="math">\begin{equation}
+\text{annual capital cost} = \frac{Q}{2} \cdot C \tag{1}
+\end{equation}</div>
+<p>The total number of orders that we must make throughout the year is <span class="math">\(D / Q\)</span>.
+Each order costs <span class="math">\(S\)</span>, so the total annual expense from placing orders is then</p>
+<div class="math">\begin{equation}
+\text{annual order placement cost} = \frac{D}{Q}\cdot S \tag{2}
+\end{equation}</div>
+<p>Combining these, the total cost is</p>
+<div class="math">\begin{equation}
+\text{total annual cost} = \frac{Q}{2} \cdot  C + \frac{D}{Q} \cdot S \tag{3}
+\end{equation}</div>
+<p>
+A plot of this function vs <span class="math">\(Q\)</span> is given below.</p>
+<p>With some algebra, we find that the <span class="math">\(Q\)</span> value that minimizes (3) is
+</p>
+<div class="math">\begin{equation}
+\text{optimal order quantity} \equiv Q^* = \sqrt{\frac{2 D S}{C}} \tag{4}
+\end{equation}</div>
+<p>This is the classical “Economic Order Quantity”.  Notice that if either <span class="math">\(D\)</span> or
+<span class="math">\(S\)</span> goes up, we want to order more with each purchase, while if <span class="math">\(C\)</span> goes up we
+want to order less – makes sense!  Plugging (4) into (3), we get
+</p>
+<div class="math">\begin{equation}
+\text{min total annual cost} = \sqrt{2 D S C} \tag{5}
+\end{equation}</div>
+<p>
+Total costs go up if any of our three variables increase.  Interestingly, at
+the optimal <span class="math">\(Q\)</span> the annual interest and ordering costs are equal in value – you
+can see this in the plot below, where the two dashed lines intersect at <span class="math">\(Q^*\)</span>.
+Finally, dividing <span class="math">\(D\)</span> by <span class="math">\(Q^*\)</span>, we get the optimal order frequency,
+</p>
+<div class="math">\begin{equation}
+\text{optimal orders per year} = \sqrt{\frac{D C}{2 S}} \tag{6}
+\end{equation}</div>
+<p>
+This goes up with both annual demand and capital costs, but goes down with
+order placement cost.</p>
+<p>Equations (4-6) are the standard results on order sizing theory.  Below, we'll
+dig a little deeper to understand the cost of moving away from the optimal
+choice.</p>
+<p align="center"><img src="images/quantity_images/cost.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 1</em>:  Plot of the costs incurred as a function of quantity
+ordered per purchase, <span class="math">\(Q\)</span>.  Here, we’ve set input parameters as follows:  <span class="math">\(D =
+10000\)</span>, <span class="math">\(S\)</span> = &#36;100, and <span class="math">\(C\)</span> = &#36;2 (assuming <span class="math">\(5\%\)</span> annual interest rate,
+with an average unit cost of &#36;40).  In this case, the total cost is
+minimized with <span class="math">\(Q^* = 1000\)</span>, so that ten orders are placed each year.  The
+total servicing cost is then &#36;2000 for the year, with half coming from
+interest payments and half from the cost of placing orders.</p>
+<h2>Wiggle room about the minimum</h2>
+<p>One nice thing about the total cost function near the optimal value is that
+it’s relatively insensitive to the exact order frequency / <span class="math">\(Q\)</span> value we opt to
+run with.  That’s because the total cost function is flat there – it’s
+“derivative with respect to <span class="math">\(Q\)</span> is zero”.  This means that we can adjust our
+order volume a bit and the total costs won’t go up that much.  E.g., if instead
+of ordering <span class="math">\(1000\)</span> units each time, we instead opt to order <span class="math">\(10000 / 12 = 830\)</span>
+each time – so that we can order monthly for simplicity – the cost goes to
+&#36;2033, a modest lift over the &#36;2000 minimum.</p>
+<p>To get precise, let’s now calculate the ‘wiggle’ room we have in setting <span class="math">\(Q\)</span>.
+To do that, we’ll ask what values of <span class="math">\(Q\)</span> keep the costs within a range of
+<span class="math">\(\kappa\)</span>  times the optimal choice.  To find this, we set the total cost in (3)
+equal to this value, giving</p>
+<div class="math">\begin{equation}
+\kappa \sqrt{2 D S C} = \frac{Q}{2} \cdot C + \frac{D}{Q} \cdot S \tag{7}
+\end{equation}</div>
+<p>This is a quadratic equation that we can solve for Q.  The solution is</p>
+<div class="math">\begin{equation}
+Q = Q^* \times \left [\kappa \pm \sqrt{\kappa^2 - 1} \right] \tag{8}
+\end{equation}</div>
+<p>
+For example, if we set <span class="math">\(\kappa \to 1\)</span>, we recover the unique optimal solution,
+<span class="math">\(Q = Q^*\)</span>, as given in (4).  However, if we set <span class="math">\(\kappa \to 2\)</span>, we get</p>
+<div class="math">\begin{equation}
+Q = Q^* \times [2 \pm \sqrt 3] \sim Q^* \times [0.26, 3.7]. \tag{9}
+\end{equation}</div>
+<p>
+That is, we can order at a quantity that differs by almost a factor of <span class="math">\(\sim 4\)</span>
+either way from the optimal solution [1], and the net cost will only double – a
+universal result, independent of the specific parameters plugged in.
+Similarly, to keep costs within a factor of <span class="math">\(\kappa = 1.5\)</span> of the minimum, our
+order quantity should be within a factor of <span class="math">\(2.6\)</span> or so of the optimal choice –
+relatively easy to hit.</p>
+<p>We can leverage this flexibility to simplify our logistics. E.g., if a business
+carries multiple products, it may not be important to order each at its own
+specific optimal cadence.  Instead, the business might group products into sets
+having relatively similar optimal order frequencies, and then order these all
+together at the same time.  One set might be on a monthly cadence, another on a
+weekly, etc.  So long as each product gets assigned to a group with order
+frequency that is not off by a factor of <span class="math">\(4\)</span> or more from its optimal cadence,
+costs will be within a factor of <span class="math">\(\sim 2\)</span> of the minimum possible.</p>
+<p align="center"><img src="images/quantity_images/cost2.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 2</em>:  As long as we place orders at a <span class="math">\(Q\)</span> that is not off from
+the optimal <span class="math">\(Q^*\)</span> by a factor of <span class="math">\(4\)</span> or more, the resulting cost will be no
+more than <span class="math">\(\sim 2\)</span> times the optimal value.  This flexibility allows us to
+simplify ordering logistics without much cost – e.g., we can order all products
+at a common monthly cadence whose optimal order rate is not too far from that
+choice.</p>
+<h2>Seasonally-variable demand</h2>
+<p>Most businesses see demand fluctuate throughout the year in a seasonal manner,
+but the standard model we’ve discussed above neglects that.  How can we adapt
+our solution above to this more realistic situation?</p>
+<p>The approach we suggest is to reimagine the annual demand <span class="math">\(D\)</span> above to actually
+correspond to an annualized form of the monthly demand.  For example, if net
+demand in the month of January is <span class="math">\(d_{Jan}\)</span>, we’d write</p>
+<div class="math">\begin{equation}
+D_{Jan} = 12 \times d_{Jan} \tag{10}
+\end{equation}</div>
+<p>
+for the annualized version of January's demand, and so on for the other months.
+The optimal amount per order as set by this month's demand will then be given
+by</p>
+<div class="math">\begin{equation}
+Q_{Jan}^* = \sqrt{\frac{2 D_{Jan} S}{C}} \tag{11}
+\end{equation}</div>
+<p>
+And the corresponding order frequency will be given by</p>
+<div class="math">\begin{equation}
+\frac{D_{Jan}}{Q_{Jan}^*} = \sqrt{\frac{C D_{Jan}}{2 S}} \tag{12}
+\end{equation}</div>
+<p>Is it important to seasonally adjust the order frequency to its optimal value,
+(12) – or at least some moving average version of this?  Well from our analysis
+in the last section – not necessarily.  It depends on how strong the seasonal
+profile is.  If demand stays within a factor of <span class="math">\(\sim 16\)</span> of the average
+throughout the year – so that the optimal order frequency does not vary by more
+than a factor of <span class="math">\(4\)</span> – we can stick to any value within the range and never pay
+more than <span class="math">\(2 \times\)</span> the optimal cost.  Figure 3 below gives an example.
+However, in a case where the seasonal profile is quite strong, it may make
+sense to introduce two or more different ordering rates throughout the year.
+In this case, during busy seasons, the order frequency should go up, and in the
+slow seasons, it can relax – set as in (12).</p>
+<p align="center"><img src="images/quantity_images/seasonality.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 3</em>:  Demand is plotted by month for a seasonal product.  In the
+inset, we plot the optimal orders per month over the year as well – now also
+seasonal.  However, because the optimal order frequency does not vary by more
+than a factor of <span class="math">\(4\)</span> over the course of the year, we can choose any convenient
+order rate within the span without incurring much cost.  E.g., if we opt to
+order monthly – the gray dashed line in inset – costs will actually not be more
+than <span class="math">\(50\%\)</span> higher than optimal, even in the slow period.</p>
+<h2>Summary</h2>
+<p>In this post, we have extended our prior discussion on inventory management by
+introducing the Economic Order Quantity (EOQ) – the optimal amount of product
+to order that minimizes total annual costs. This balances ordering costs (e.g.,
+administrative overhead) with holding costs (e.g., capital tied up in
+inventory). We have derived the classical EOQ formula and showed that this
+splits costs evenly at the optimum.</p>
+<p>Importantly, the total cost function is flat near the optimum solution, giving
+businesses flexibility to adjust <span class="math">\(Q\)</span> for logistical convenience with minimal
+cost impact — within a factor of <span class="math">\(2\)</span> even if <span class="math">\(Q\)</span> is off by <span class="math">\(\sim 4 \times\)</span>.
+This last point can be applied to seasonal considerations, allowing businesses
+to stick to a fixed order frequency – unless seasonal fluctuations in demand
+are quite strong.</p>
+<p>We plan one more review article on classical inventory management theory next
+time – stay tuned.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

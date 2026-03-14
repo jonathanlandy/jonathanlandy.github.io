@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We consider the problem of allocating a fixed inventory across multiple locations. To maximize expected sales, units should be distributed so that each site reaches the same sell-through probability. Interestingly, this implies we should often send more units to sites with greater demand uncertainty. We walk through an example that shows how operations teams can apply the strategy in practice …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Optimal Allocation"/>
+  <meta property="og:description" content="We consider the problem of allocating a fixed inventory across multiple locations. To maximize expected sales, units should be distributed so that each site reaches the same sell-through probability. Interestingly, this implies we should often send more units to sites with greater demand uncertainty. We walk through an example that shows how operations teams can apply the strategy in practice …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/allocation"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-08-04 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Optimal Allocation</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="allocation">Optimal Allocation</h1>
+    <p>
+      Published on Mon 04 August 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/allocation_images/allocation_header.png"></p>
+
+<p>We consider the problem of allocating a fixed inventory across multiple
+locations.  To maximize expected sales, units should be distributed so that
+each site reaches the same sell-through probability.  Interestingly, this
+implies we should often send more units to sites with greater demand
+uncertainty.  We walk through an example that shows how operations teams can
+apply the strategy in practice.</p>
+<h2>Maximizing global expected sales</h2>
+<p>Retailers often place a single large order for a product, then face the
+challenge of allocating those units across multiple locations. In this post, we
+consider the optimal number of units to send to each site. We assume the team
+has already prepared demand estimates for each location – specifically, a
+distribution <span class="math">\(p_i(q)\)</span>representing the probability that location<span class="math">\(i\)</span> will sell
+<span class="math">\(q\)</span> units over the season, assuming sufficient inventory.</p>
+<p>The key idea is that at the optimal allocation, there are no arbitrage
+opportunities – that is, you can't improve total sales by shifting a unit from
+one location to another.  If such a transfer could increase net sales, the
+original allocation wouldn’t be optimal.</p>
+<p>To explore this, we start by considering the expected sales at a single
+location, given that it receives <span class="math">\(Q\)</span> units.  This is,</p>
+<div class="math">\begin{equation}
+E(\text{sales at site}) = \int_0^Q p(q) \cdot q \cdot  dq + Q \int_Q^{\infty} p(q) \cdot dq. \tag{1}
+\end{equation}</div>
+<p>
+The marginal increase in expected sales (lift in sales given one more unit) is
+then
+</p>
+<div class="math">\begin{equation}
+\partial_Q E(\text{sales at site}) = p(Q)\cdot Q + \int_Q^{\infty} p(q)\cdot dq - p(Q)\cdot Q = 1 - P(d \leq Q). \tag{2}
+\end{equation}</div>
+<p>
+This is simply the probability of sell-through at <span class="math">\(Q\)</span>.  To eliminate arbitrage
+opportunities – maximizing global expected sales – units should then be
+allocated so each site has the same sell-through probability.</p>
+<h2>Worked example</h2>
+<p>Suppose you have two locations.  In the first site,
+</p>
+<div class="math">\begin{equation}
+\mu_1 = 50, \ \ \ \sigma_1 = 10 \tag{3}
+\end{equation}</div>
+<p>
+In the second site,
+</p>
+<div class="math">\begin{equation}
+\mu_2 = 100, \ \ \ \sigma_2 = 50 \tag{4}
+\end{equation}</div>
+<p>
+Here, <span class="math">\(\mu\)</span>and<span class="math">\(\sigma\)</span> are the symbols for expected value and standard
+deviation, respectively.  We’ll assume both sales distributions are normal for
+simplicity.  In this case, the probability of sell-through if we send <span class="math">\(Q\)</span> units
+to a site is simply a function of
+</p>
+<div class="math">\begin{equation}
+z = \frac{Q - \mu}{\sigma} \tag{5}
+\end{equation}</div>
+<p>
+Suppose finally that we have purchased <span class="math">\(200\)</span> units total of the product.  To
+find the right amount to send to each location, we’ll assume a common
+sell-through, set by a common <span class="math">\(z\)</span>value.  Solving for<span class="math">\(Q\)</span> using (5) then gives
+</p>
+<div class="math">\begin{equation}
+Q_1 = \mu_1 + \sigma_1 \cdot z = 50 + 10 z \\ \tag{6}
+\end{equation}</div>
+<div class="math">\begin{equation}
+Q_2 = \mu_2 + \sigma_2 \cdot z = 100 + 50 z \tag{7}
+\end{equation}</div>
+<p>
+From this, we see that each site should first receive units equal to its
+expected demand. Any remaining inventory is then divided among sites in
+proportion to their demand uncertainty. When total inventory exceeds overall
+expected demand, this approach allocates more units to higher-uncertainty
+sites, allowing you to capture upside if demand spikes there. However, when
+inventory is below expected demand, the allocation shifts toward
+lower-uncertainty sites to reduce the risk of unsold stock.</p>
+<p>To set <span class="math">\(z\)</span>, we just need find the value that results in a full allocation of
+our inventory.  Summing (6) and (7), this gives
+</p>
+<div class="math">\begin{equation}
+150 + 60 z = 200 \rightarrow z = \frac{5}{6} \tag{8}
+\end{equation}</div>
+<p>
+Plugging this into (6) and (7) gives
+</p>
+<div class="math">\begin{equation}
+Q_1 = 58 \text{ units, } Q_2 = 142 \text{ units} \tag{9}
+\end{equation}</div>
+<p>
+In this case, the total expected sales is around <span class="math">\(143\)</span> – just below the total
+expected sales given unlimited inventory.  The figure below plots the total
+sales across different options for <span class="math">\(U_1\)</span>.</p>
+<p align="center"><img src="images/allocation_images/allocation_example.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 1</em>:  Total expected sales as a function of <span class="math">\(U_1\)</span>, the number of
+units sent to the first location. The remaining <span class="math">\(200 - U_1\)</span> units are sent to
+the second location.  Around the optimal point, the slope flattens — indicating
+that total sales are relatively insensitive to small deviations from the
+optimal split.  However, as we push away from this towards the extreme limit of
+sending all units to just one location (the plot’s right and left extremes), we
+are limited to that site's expected sales alone.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

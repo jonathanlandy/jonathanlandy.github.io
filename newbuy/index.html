@@ -1,0 +1,447 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="It&#39;s risky for a business to invest in new, unproven products. Yet, there are two strong forces pushing apparel businesses to invest heavily in new styles. In this post, we examine how these competing forces shape strategy across different apparel sectors and introduce a mathematical framework for rationally setting new style investment. By applying this model, businesses can make data-driven …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Balancing new and bestsellers in apparel"/>
+  <meta property="og:description" content="It&#39;s risky for a business to invest in new, unproven products. Yet, there are two strong forces pushing apparel businesses to invest heavily in new styles. In this post, we examine how these competing forces shape strategy across different apparel sectors and introduce a mathematical framework for rationally setting new style investment. By applying this model, businesses can make data-driven …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/newbuy"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-03-06 09:00:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Balancing new and bestsellers in apparel</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="newbuy">Balancing new and bestsellers in apparel</h1>
+    <p>
+      Published on Thu 06 March 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/newbuy_images/newbuy.jpg"></p>
+
+<p>It's risky for a business to invest in new, unproven products.  Yet, there
+are two strong forces pushing apparel businesses to invest heavily in new
+styles.  In this post, we examine how these competing forces shape strategy
+across different apparel sectors and introduce a mathematical framework for
+rationally setting new style investment.  By applying this model, businesses
+can make data-driven decisions that minimize risk while maintaining a dynamic
+and engaging assortment.</p>
+<p>Interested in seeing how this might apply to your business? Read on, or reach
+out to discuss.</p>
+<h2>New styles: risk-reward tradeoff</h2>
+<p>New styles play a crucial role in the apparel industry for two reasons:</p>
+<ul>
+<li>
+<p>First, while proven styles generate steady revenue, each will eventually go
+  out of fashion and need replacement. To ensure strong alternatives are
+available when that happens, brands must continuously explore new styles to
+identify future bestsellers.</p>
+</li>
+<li>
+<p>Just as importantly, new styles keep returning customers engaged — without
+  fresh options, repeat visitors lose interest and shop elsewhere.</p>
+</li>
+</ul>
+<p>With some thought, we can see that these considerations set precise minimum
+investment requirements for new buy - in general one or the other will be more
+strict, depending on the specifics of the business. In either case, some
+minimal level of new buy applies that is essential to keep the business
+thriving.  Unfortunately, new styles also carry significant demand risk -
+unsuccessful ones contribute heavily to clearance costs. Managing this tradeoff
+to set the optimal amount of new style investment is a core challenge of
+apparel merchandising.</p>
+<p>In the following section, we formalize these ideas mathematically, providing a
+framework to help businesses set their new buy exposure — a high-leverage
+decision.  This in-depth analysis will be especially relevant for analysts
+within apparel businesses.  After the heavy lifting, we illustrate the results
+with a numerical example and conclude with a discussion of qualitative
+takeaways for apparel strategy.</p>
+<h2>A Data-Driven Framework for Precision Buying</h2>
+<h3>Optimal new buy equation</h3>
+<p>As outlined above, new buy products carry significantly more risk than rebuy,
+and so we’d like to carry as little new buy as possible.  However, there are
+two counterforces that set minimum new buy investment – the need to have novel
+options for returning customers, and the need to identify replacement
+bestsellers as the old ones go out of style.</p>
+<p>In practice, one of these effects will dominate for a given business. As a
+consequence - see the appendix for derivation - the optimal new buy fraction
+will be given by</p>
+<div class="math">\begin{equation}
+\frac{N}{T} = \max \left(1 - \frac{1}{1 + \alpha \frac{R}{1 - R}},
+ \frac{1}{1 + F \cdot L}
+\right) \tag{1}
+\end{equation}</div>
+<p>We’ll walk through the significance of this equation just below, but first
+define the variables present.  Here,</p>
+<ul>
+<li><span class="math">\(N\)</span> = new buy products carried per year</li>
+<li><span class="math">\(T\)</span> = total product count for the year</li>
+<li><span class="math">\(\alpha\)</span> = typical rebuy order size divided by the minimum order quantity</li>
+<li><span class="math">\(R\)</span> = fraction of sales going to returning customers who demand new buy</li>
+<li><span class="math">\(F\)</span> = fraction of new buy styles deemed worthy of rebuy program status</li>
+<li><span class="math">\(L\)</span> = style lifetime - the average time till a product goes out of style</li>
+</ul>
+<p>With these defined, we see that the left side of (1) gives the fraction of
+products that should be new buy, and the right of (1) relates to the two
+driving forces for new buy:</p>
+<ul>
+<li>The first gives the minimum fraction needed to keep returning customers who
+  demand new buy satisfied.</li>
+<li>The second term is fraction needed to replenish prior best-sellers as they go
+  out of style.</li>
+</ul>
+<p>We take a max of these two to decide which dominates for a given business.</p>
+<h3>Behavior of the two terms</h3>
+<p>Plots of the two terms in (1) can be seen below.</p>
+<p>The first plot at left shows the returning customer constraint as a function of
+<span class="math">\(R\)</span> - the fraction of demand that goes to new buy products.  We plot this for
+three different values for the parameter <span class="math">\(\alpha\)</span>.  The main observations here
+are:</p>
+<ul>
+<li>We obviously need to buy more new buy if the demand for that increases as a
+  fraction of the total demand (if <span class="math">\(R\)</span> increases),</li>
+<li>Further, if new products are purchased at the minimum order quantity, and
+  this is a small fraction of the volume at which rebuy products are purchased,
+  then we'll need to buy a large number of new buy products to meet the demand
+  (as <span class="math">\(\alpha\)</span> goes up, we need to buy into more new buy products to meet
+  demand).</li>
+</ul>
+<p>In the second plot at right, we show the new buy fraction needed to satisfy the
+style drift constraint.  The main takeaways are:</p>
+<ul>
+<li>
+<p>If only a small fraction of new buy is worthy of rebuy, we need to explore
+  more to find good replacements for past best sellers - this will require that
+  we buy into more new buy options.</p>
+</li>
+<li>
+<p>Further, if the style lifetime goes down, we'll be under more pressure to
+  find new bestsellers as the old ones more quickly go out of style. This again
+  will force us to invest more in new buy.</p>
+</li>
+</ul>
+<p>These ideas are intuitive - having them encoded formally allows for their
+precise investment implications to be explored.</p>
+<p align="center"><img src="images/newbuy_images/constraints.png" alt="Alt text" title="contraints"></p>
+
+<h3>Numerical Example</h3>
+<p>Here, we'll consider a business with the following parameters:</p>
+<ul>
+<li><span class="math">\(\alpha = 5\)</span>, so that rebuy products are typically bought at 5x the volume of
+  new buy.</li>
+<li><span class="math">\(R = 0.3\)</span>, returning customers demand that thirty percent of the inventory be
+  new or they lose interest.</li>
+<li><span class="math">\(L = 3\)</span>, a new product can on average be brought back three more years
+  before it needs to be retired.</li>
+<li><span class="math">\(F = 0.1\)</span>, only ten percent of new buy products tried end up having high
+  enough demand to be promoted to rebuy.</li>
+</ul>
+<p>Plugging into (1), the optimal new buy equation, we get</p>
+<div class="math">\begin{equation}
+\frac{N}{T} = \max \left(0.68, 0.77 \right) = 0.77 \tag{2}
+\end{equation}</div>
+<p>
+In this case, we see that the second, style drift constraint is stronger and so
+determines the optimal rebuy.  An interesting implication is that the optimal
+new buy rate is locally insensitive to the returning customer demand -
+satisfying the style drift rate constraint, we have more than enough new buy to
+satisfy the returning customers as well, even if they increase their demand
+somewhat.  However, one can show that if <span class="math">\(R\)</span> were to grow past <span class="math">\(0.4\)</span>, the
+returning customer constraint would then become "binding", and we'd then be
+sensitive to changes there.</p>
+<h2>Qualitative implications for business</h2>
+<h3>The consumer perspective</h3>
+<p>Untested products carry inherent risk. To offset this, businesses with a high
+share of new buy must raise prices across their assortments. This may explain
+why high-end fashion, where styles change seasonally and rebuy is minimal,
+tends to be relatively expensive—especially for smaller boutique shops, where
+risk does not always average out. In contrast, basics like tees and underwear,
+which rely more on proven sellers, remain affordable.</p>
+<h3>Changing customer base</h3>
+<p>Consider a growing brand that initially thrived on a loyal fan base but
+recently expanded its acquisition channels, bringing in many new, less sticky
+customers. While the number of returning customers may rise, their proportion
+of total sales could shrink. If the stronger force for setting new buy is
+returning customer demand, the business can now shift investment toward
+bestsellers.  However, if new buy is dictated by the need to replace fading
+bestsellers, no change is required.</p>
+<h3>Businesses with few returning customers</h3>
+<p>Some businesses, like wedding dress shops or tourist stores, rarely see repeat
+customers. For them, new buy is dictated by the pace of fashion drift rather
+than returning customer demand. Interestingly, categories with infrequent
+purchases—such as wedding dresses—seem to me to experience slower style
+evolution.  This raises the question: Does frequent purchasing accelerate
+fashion cycles as repeat consumers seek novelty?</p>
+<h3>Differing trend time scale</h3>
+<p>Some apparel sectors move faster than others. Women’s fashion, for example,
+evolves more rapidly than men’s. In fast-moving categories - with low <span class="math">\(L\)</span>
+values - businesses must maintain high new buy levels regardless of customer
+retention.</p>
+<p>Historically, fashion cycles were slower. Have advancements in manufacturing
+accelerated trend shifts? If so, further improvements in production speed may
+not stabilize demand but instead drive even faster trend turnover, continually
+pushing businesses to keep up.</p>
+<p>Similarly, we've heard that fashions change relatively slowly within the eye
+glass sector.  Could this be because people buy fewer pairs of glasses than
+they do tops or dresses?</p>
+<p align="center"><img src="images/newbuy_images/wedding_dress.png" alt="Alt text" title="contraints"></p>
+
+<h2>Summary</h2>
+<p>Navigating the balance between new styles and proven bestsellers is a
+fundamental challenge in apparel merchandising. In this post, we explore how
+two key forces — returning customer demand and the need to replace fading
+bestsellers — dictate a brand’s optimal new buy exposure. We introduce a
+mathematical model that quantifies this tradeoff, providing a sensible
+framework for setting new buy investement. This sheds light on why high-end
+fashion demands a higher price point, how changes in customer acquisition
+impact assortment strategy, and why fashion cycles accelerate in some
+categories but remain slow in others. By understanding these dynamics,
+businesses can fine-tune their merchandising strategy to minimize risk while
+keeping their assortments fresh and engaging.</p>
+<h2>Appendix: Derivation of the new buy exposure equation</h2>
+<h3>Returning customer limit</h3>
+<p>Here, we consider the case where the new buy fraction required is set by the
+returning customer requirement – returning customers who demand new buy.  In
+this case, the ratio of this demand to its complement will be proportional to
+the ratio of new buy product count divided by the rebuy product count:</p>
+<div class="math">\begin{equation}
+\frac{R}{1-R} = \frac{1}{\alpha} \frac{N}{T - N}. \tag{3}
+\end{equation}</div>
+<p>The fit parameter <span class="math">\(\alpha\)</span> here is the ratio of the volume at which rebuy
+products are purchased to the minimum order quantity.  If we divide the right
+side on top and bottom by <span class="math">\(T\)</span>, we get</p>
+<div class="math">\begin{equation}
+\frac{R}{1-R} = \frac{1}{\alpha} \frac{N/T}{1 - N / T}. \tag{4}
+\end{equation}</div>
+<p>The ratio <span class="math">\(N / T\)</span> is the fraction of products that are new.  Solving for this
+gives</p>
+<div class="math">\begin{equation}
+\frac{N}{T} = 1 - \frac{1}{1 + \alpha \frac{R}{1 - R}}, \tag{5}
+\end{equation}</div>
+<p>
+the left side of (1).</p>
+<h3>Fashion drift limit</h3>
+<p>Just after (1), we define the total number of products <span class="math">\(T\)</span> as well as the
+number of new buy products, <span class="math">\(N\)</span>.  Let the non-new buy product count be given by
+<span class="math">\(\rho\)</span>. </p>
+<p>The rebuy products are known winners.  We’ve tried these in the past and found
+them to resonate strongly with our customer base.  We’d like to continue to
+sell these and drive revenue with these.  However, each year, some of these
+start to go out of style and must be retired.  On average then,</p>
+<div class="math">\begin{equation}
+\frac{\rho}{L} =  \text{ the number of rebuys that go out of style each year} \tag{6}
+\end{equation}</div>
+<p>We need to be able to replace these with acceptable new buys each year.  Not
+every new buy is worthy of rebuy however.  If we only want to keep the top
+fraction <span class="math">\(F\)</span> of these, the number we can replace must equal the number that go
+out style, giving</p>
+<div class="math">\begin{equation}
+N \cdot F = \frac{\rho}{L} \tag{7}
+\end{equation}</div>
+<p>or</p>
+<div class="math">\begin{equation}
+\rho = N \cdot F \cdot L \tag{8}
+\end{equation}</div>
+<p>Using this and the fact that <span class="math">\(N + \rho = T\)</span>, we then get</p>
+<div class="math">\begin{equation}
+N + N \cdot F \cdot L = T \tag{9}
+\end{equation}</div>
+<p>or</p>
+<div class="math">\begin{equation}
+\frac{N}{T} = \frac{1}{1 + F \cdot L}, \tag{10}
+\end{equation}</div>
+<p>
+the right side of (1).</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

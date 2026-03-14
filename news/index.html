@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="The newsvendor model provides inventory planners with a framework for setting optimal order quantities when demand is uncertain and there is a limited selling window – as in seasonal apparel. Buy too little and you run the risk of early stockout and missed sales, too much and you risk write-offs and markdowns. Here, we cover: The classical formula for profit-maximizing order …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="The Newsvendor Model and Apparel"/>
+  <meta property="og:description" content="The newsvendor model provides inventory planners with a framework for setting optimal order quantities when demand is uncertain and there is a limited selling window – as in seasonal apparel. Buy too little and you run the risk of early stockout and missed sales, too much and you risk write-offs and markdowns. Here, we cover: The classical formula for profit-maximizing order …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/news"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-06-02 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; The Newsvendor Model and Apparel</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="news">The Newsvendor Model and Apparel</h1>
+    <p>
+      Published on Mon 02 June 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/news_images/banner.png"></p>
+
+<p>The <em>newsvendor model</em> provides inventory planners with a framework for
+setting optimal order quantities when demand is uncertain and there is a
+limited selling window – as in seasonal apparel.  Buy too little and you run
+the risk of early stockout and missed sales, too much and you risk write-offs
+and markdowns.  Here, we cover:</p>
+<ul>
+<li>The classical formula for profit-maximizing order size, and also</li>
+<li>A numerical example for apparel.  Here, the model indicates that one should
+  typically aim to stock out by season's end about <span class="math">\(1/3\)</span> of the time.  However,
+  this target can increase sharply as costs rise – as they have recently with
+  inflation and tariffs.</li>
+</ul>
+<p>In practice, the optimal order quantity results we cover here may often serve
+as upper bounds. In apparel, for example, substitutable products can often
+soften the cost of stocking out on any single item.  We’ll explore that dynamic
+in a future post.</p>
+<h2>Review of the basic equations</h2>
+<p>We want to decide how many units <span class="math">\(Q\)</span> to purchase of a product with a limited
+selling window – e.g., a fall sweater or other seasonal apparel item. Demand is
+uncertain but follows a known distribution.  For simplicity, we'll assume it's
+normally distributed in our examples:</p>
+<div class="math">\begin{equation}
+d \sim N(\mu, \sigma^2) \tag{1}
+\end{equation}</div>
+<p>Here, <span class="math">\(\mu\)</span>is the expected demand and<span class="math">\(\sigma^2\)</span> is the variance – both are
+values that can be estimated from past sales data.  Because demand is
+uncertain, we always run the risk of ordering too much or too little.  The
+optimal order quantity balances these two risks.</p>
+<p>The newsvendor model gives the profit-maximizing order quantity. It says we
+should purchase up to the point <span class="math">\(Q\)</span> where:</p>
+<div class="math">\begin{equation}
+P(d \leq Q) = \frac{c_g}{c_g + c_l} \tag{2}
+\end{equation}</div>
+<p>On the left is the probability that demand <span class="math">\(d\)</span> comes in less than or equal to
+<span class="math">\(Q\)</span>.  On the right:</p>
+<ul>
+<li><span class="math">\(c_g\)</span> is the gain from selling one more unit (retail price minus unit cost),
+  and</li>
+<li><span class="math">\(c_l\)</span> is the loss from over-ordering by one unit (unit cost minus salvage
+  value)</li>
+</ul>
+<p>These are values you can look up for your business and plug in to get the
+optimal order quantity.  E.g., if the right side of (2) exactly equals 0.5,
+this says we should order the median demand – equal to the expected demand in a
+normal distribution.  If the right side is greater than 0.5, the margin is high
+and it pays to order more than expected demand to avoid missing out on
+potential sales.  Finally, if it's less than 0.5, loss aversion matters more,
+so we should order less than the expected demand.  The figure below and its
+caption illustrate this.</p>
+<p>In the next section, we’ll walk through a detailed numerical example for
+apparel.</p>
+<p align="center"><img src="images/news_images/newsvendor.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure</em>: Demand distribution for a given product. The expected demand
+is <span class="math">\(\mu\)</span> units, but there is also some uncertainty set by the standard
+deviation <span class="math">\(\sigma\)</span>.  If the margin and salvage values lead to a critical ratio
+of 0.5 – as in (2) – the optimal order quantity equals the expected demand (we
+purchase over the dark purple area, up to <span class="math">\(\mu\)</span>). If the ratio is 0.66 — our
+estimate below for the apparel industry average — the goal is to stock out only
+about one-third of the time. This corresponds to ordering approximately <span class="math">\(0.4
+\sigma\)</span> above the mean, covering the combined dark purple and pink shaded
+areas.</p>
+<h2>Typical conditions for apparel</h2>
+<p>The average gross margin for apparel is about [<a
+href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html">ref</a>]</p>
+<div class="math">\begin{equation}
+\frac{c_g}{c_g + c_u} \approx 0.5 \tag{3}
+\end{equation}</div>
+<p>Here, we’ve introduced <span class="math">\(c_u\)</span>, the unit cost.  This ratio (3) implies that <span class="math">\(c_g
+\approx c_u\)</span>.  If half the unit cost can be recovered through salvage, we then
+have</p>
+<div class="math">\begin{equation}
+\frac{c_g}{c_l} \approx 2 \tag{4}
+\end{equation}</div>
+<p>Plugging this result into (2) then says that we should order up to the point
+<span class="math">\(Q\)</span> which satisfies
+</p>
+<div class="math">\begin{equation}
+P(d \leq Q) \approx \frac{2}{3} \tag{5}
+\end{equation}</div>
+<p>
+That is, we should aim to stock out about <span class="math">\(1/3\)</span> of the time.  Running with our
+normal statistics assumption, a quick numerical calculation shows that this
+requires ordering a quantity equal to
+</p>
+<div class="math">\begin{equation}
+Q \approx \mu + 0.43 \sigma \tag{6}
+\end{equation}</div>
+<p>
+We see then that within apparel margins are typically sufficiently high that –
+at least for independent products – it pays to order a little more than the
+expected demand, so as to avoid missing out on some potential sales if demand
+comes in hot.</p>
+<p>To give a specific example to illustrate application of (6), consider a product
+with expected demand <span class="math">\(\mu = 500\)</span>and uncertainty<span class="math">\(\sigma = 200\)</span>.  In this case,
+the optimal order volume is <span class="math">\(Q = 500 + 0.43 \times 200 = 590\)</span>.  It’s
+counterintuitive (for me at least) that as uncertainty goes up, profit
+maximization requires ordering more here rather than less – but when the
+tradeoff between <span class="math">\(c_g\)</span>and<span class="math">\(c_l\)</span> favors not missing out on potential upside
+under hot demand – it really does [1].</p>
+<h2>Apparel under decreasing margin</h2>
+<p>How do the results above change if margins decrease?</p>
+<ul>
+<li>When retail and salvage prices increase proportionally to the average unit
+  costs, nothing changes, as the ratio <span class="math">\(c_g  / c_l\)</span>  will remain fixed.</li>
+<li>However, in the opposite limit where retail and salvage prices remain fixed
+but average unit cost goes up, we’ll need to order less.  The table below gives
+a summary of this scenario, showing that there is a strong sensitivity to unit
+costs.</li>
+</ul>
+<p>We note that recent tariff and inflation costs have actually contributed to
+increases at the scales considered in the table below – i.e., at scales
+requiring quite large changes to operations!  In general, retailers will
+respond to shocks like these by both lifting prices to some degree and also
+ordering somewhat more conservatively, striking a balance between the two
+limits above.  The optimal balance will depend on each business’s unique demand
+elasticity.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Unit cost lift factor</th>
+      <th>\(P(d \leq Q)\)</th>
+      <th>Optimal order size for normal stats, \(Q\)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10%</td>
+      <td>0.6</td>
+      <td>\(\mu + 0.25 \sigma\)</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>0.5</td>
+      <td>\(\mu\)</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>0.33</td>
+      <td>\(\mu - 0.43\sigma\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Table</em>:  How optimal order quantity changes in apparel when unit costs
+rise, but retail and salvage values are held constant. For example, the middle
+row shows that a <span class="math">\(25\%\)</span> increase in unit cost lowers the optimal order to the
+expected demand — implying it’s optimal to shoot for a 50% stockout rate by
+season’s end, vs the initial <span class="math">\(33\%\)</span> intended stockout rate.  This is based on
+(2), with <span class="math">\(\frac{2-1.25}{1.25 - 0.5} = 0.5\)</span>.</p>
+<h2>Discussion</h2>
+<p>Here, we have reviewed the newsvendor model, a practical framework for
+determining optimal order quantities under uncertain demand and limited selling
+windows – conditions that apply to seasonal apparel.  Our analysis suggested
+that with typical apparel gross margins (~50%), businesses should plan to stock
+out roughly one-third of the time.  However, we also covered how these
+baselines might shift sharply with decreases to margin.</p>
+<p>While the newsvendor model provides useful intuition, it doesn’t include all
+concerns affecting a real business.  First, it treats each product in
+isolation, ignoring substitutability between similar items – this dynamic is
+near to our hearts, and we plan to address this in a future post. Second, many
+retailers have the ability to chase in-season, placing follow-up orders based
+on early performance.  Both of these effects favor decreasing initial order
+sizes.</p>
+<p>The newsvendor model attempts to balance the costs that result from uncertainty
+in demand. A complementary approach one can take to alleviate these costs is
+to work towards reducing this uncertainty in the first place.  VarietyIQ’s
+inventory curation algorithm can help to achieve that goal by balancing
+inventory across demand segments – stabilizing demand for individual products
+via the reduction of internal competition.</p>
+<p>This concludes our series reviewing classical ordering theory!</p>
+<h2>Appendix:  Derivation of (2)</h2>
+<p>If we buy into the <span class="math">\(Q+1\)</span>’st item, the expected gain of that unit purchase is</p>
+<div class="math">\begin{equation}
+c_g \times [1 - P(d \leq Q)] \tag{7}
+\end{equation}</div>
+<p>This is the gain of a sale times the chance demand will be at least <span class="math">\(Q + 1\)</span>, so
+that the new unit will sell.  Similarly, the expected loss on this item is</p>
+<div class="math">\begin{equation}
+c_l \times P(d \leq Q) \tag{8}
+\end{equation}</div>
+<p>To maximize total expected value, we want to buy up to the point where the
+expected gain of adding a new unit is first no larger than the expected loss of
+adding that unit.   At that point, (1) and (2) are equal, so</p>
+<div class="math">\begin{equation}
+c_g \times [1 - P(d \leq Q)] = c_l \times P(d \leq Q) \tag{9}
+\end{equation}</div>
+<p>
+Rearrangement gives (2), the result we quoted above.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

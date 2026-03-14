@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We consider how the GDP or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards newcomers. Edit 9/2022: The model here can&#39;t be complete because it doesn&#39;t take into account city capacity. The true utility functions should be …" />
+<meta name="keywords" content="misc">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Utility functions and immigration"/>
+  <meta property="og:description" content="We consider how the GDP or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards newcomers. Edit 9/2022: The model here can&#39;t be complete because it doesn&#39;t take into account city capacity. The true utility functions should be …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/utility-functions-and-immigration"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2019-06-21 09:24:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="misc"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Utility functions and immigration</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="utility-functions-and-immigration">Utility functions and immigration</h1>
+    <p>
+      Published on Fri 21 June 2019
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We consider how the GDP or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards newcomers.</p>
+<p>Edit 9/2022: The model here can't be complete because it doesn't take into account
+city capacity.  The true utility functions should be shaped like <span class="math">\(S\)</span>-curves.
+Nevertheless, the arguments here can provide some insight into "growth"-phase
+dynamics and preferences.</p>
+<h3>The utility function and benefit per person</h3>
+<p>In this post, we will consider an idealized town whose net output <span class="math">\(U\)</span> (the GDP) scales as a power law with the number of people <span class="math">\(N\)</span> living within it. That is, we'll assume,<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{1} \label{1}  
+U(N) = a N^{\gamma}.  
+\end{eqnarray}</div>
+<p><br>
+We'll assume that the average benefit captured per person is their share of this utility,<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{2} \label{2}  
+BPP(N) = U(N) / N = a N^{\gamma -1}.  
+\end{eqnarray}</div>
+<p><br>
+What can we say about the above <span class="math">\(a\)</span> and <span class="math">\(\gamma\)</span>? Well, we must have <span class="math">\(a&gt; 0\)</span> if the society is productive. Further, because we know that cities allow for more complex economies as the number of occupants grow, we must have <span class="math">\(\gamma &gt; 1\)</span>. These are the only assumptions we will make here. Below, we'll see that these assumptions imply some interesting consequences.</p>
+<h3>Marginal benefits</h3>
+<p>When a new person immigrates to a city, its <span class="math">\(N\)</span> value goes up by one. Here, we consider how the utility and benefit per person changes when this occurs. The increase in net utility is simply<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{3} \label{3}  
+\partial_N U(N) = a \gamma N^{\gamma -1}.  
+\end{eqnarray}</div>
+<p><br>
+Notice that because we have <span class="math">\(\gamma &gt; 1\)</span>, (\ref{3}) is a function that increases with <span class="math">\(N\)</span>. That is, cities with larger populations benefit more (as a collective) per immigrant newcomer than those cities with smaller <span class="math">\(N\)</span> would. This implies that the governments of large cities should be more enthusiastic about welcoming of newcomers than those of smaller cities.</p>
+<p>Now consider the marginal benefit per person when one new person moves to this city. This is simply<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{4} \label{4}  
+\partial_N BPP(N) = a (\gamma - 1) N^{\gamma -2}.  
+\end{eqnarray}</div>
+<p><br>
+Notice that this is different from the form (\ref{3}) that describes the marginal increase in total city utility. In particular, while (\ref{4}) is positive, it is not necessarily increasing with <span class="math">\(N\)</span>: If <span class="math">\(\gamma &lt; 2\)</span>, (\ref{4}) decreases with <span class="math">\(N\)</span>. Cities having <span class="math">\(\gamma\)</span> values like this are such that the net new wealth captured per existing citizen -- thanks to each new immigrant -- quickly decays to zero. The consequence is that city governments and existing citizens can have a conflict of interest when it comes to immigration.</p>
+<h3>Equilibration</h3>
+<p>In a local population that has freedom of movement, we can expect the migration of people to push the benefit per person to be equal across cities. In cases like this, we should then have<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{5} \label{5}  
+a_i N^{\gamma_i -1} \approx a_j N^{\gamma_j -1},  
+\end{eqnarray}</div>
+<p><br>
+for each city <span class="math">\(i\)</span> and <span class="math">\(j\)</span> for which there is low mutual migration costs. We point out that this is not the same result required to maximize the net, global output. This latter score is likely that which an authoritarian government might try to maximize. To maximize net utility, we need to have the marginal utility per city equal across cities, which means<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{6} \label{6}  
+\partial_N U_i(N) = \partial_N U_j(N)  
+\end{eqnarray}</div>
+<p><br>
+or,<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{7} \label{7}  
+a_i \gamma_i N^{\gamma_i -1} = a_j \gamma_j N^{\gamma_j -1}.  
+\end{eqnarray}</div>
+<p><br>
+We see that (\ref{5}) and (\ref{7}) differ in that there are <span class="math">\(\gamma\)</span> factors in (\ref{7}) that are not present in (\ref{5}). This implies that as long as the <span class="math">\(\gamma\)</span> values differ across cities, there will be a conflict of interest between the migrants and the government.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/misc.html">misc</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

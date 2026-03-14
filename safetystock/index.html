@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="In this back-to-basics post, we review three results from safety stock theory that can help retailers to maintain a lean inventory without compromising service levels. Key insights: Stockouts can’t be eliminated entirely—the goal is to balance acceptable stockout risk against inventory costs. The two major drivers of stockout risk are uncertainty in customer demand and supplier lead time …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Three lessons from safety stock theory"/>
+  <meta property="og:description" content="In this back-to-basics post, we review three results from safety stock theory that can help retailers to maintain a lean inventory without compromising service levels. Key insights: Stockouts can’t be eliminated entirely—the goal is to balance acceptable stockout risk against inventory costs. The two major drivers of stockout risk are uncertainty in customer demand and supplier lead time …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/safetystock"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-05-05 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Three lessons from safety stock theory</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="safetystock">Three lessons from safety stock theory</h1>
+    <p>
+      Published on Mon 05 May 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/ss_images/prism.png"></p>
+
+<p>In this back-to-basics post, we review three results from safety stock theory
+that can help retailers to maintain a lean inventory without compromising
+service levels. Key insights:</p>
+<ul>
+<li>
+<p>Stockouts can’t be eliminated entirely—the goal is to balance acceptable
+stockout risk against inventory costs.</p>
+</li>
+<li>
+<p>The two major drivers of stockout risk are uncertainty in customer demand and
+supplier lead time—reducing either lets you run leaner.</p>
+</li>
+<li>
+<p>Operational discipline matters: Selecting—and sticking to—a consistent
+  reorder strategy allows you to hit your target service level at a lower
+  average inventory level.</p>
+</li>
+</ul>
+<p>Illustrative plots ahead!</p>
+<h2>Introducing Acme Inc.</h2>
+<p>In this post, we’ll consider the operations of Acme Inc., a hypothetical
+business selling a single product—a widget. Daily demand averages 500 units
+with a standard deviation of 200.  The warehouse attempts to maintain
+inventory to meet this fluctuating demand.  Fig. 1 shows a simulated demand
+plot.</p>
+<p align="center"><img src="images/ss_images/demand.png" alt="daily demand fluctuations" title="demand plot"></p>
+
+<p><em>Fig 1.</em> Example demand plot.  Our hypothetical company sells 500 <span class="math">\(\pm\)</span>
+200 widgets per day.</p>
+<p>When widget supply falls to an agreed upon "triggering" level, the company
+places an order for 40,000 more units. Delivery timing is uncertain—the order
+might arrive in 3 to 9 weeks, averaging 6.  If demand spikes or the
+shipment is delayed, a stockout can occur, leading to missed sales. Fig. 2
+shows an example inventory trace, with stockouts highlighted in red.</p>
+<p align="center"><img src="images/ss_images/supply_example.png" alt="supply example" title="demand plot"></p>
+
+<p><em>Fig 2.</em> Example supply plot.  Acme places an order for 40,000 units
+whenever the inventory dips below the black dashed line (here, 20,000 units).
+When inventory arrives, it spikes up in the plot.  In this example, delivery
+delays and / or hot demand have caused stockouts to occur in 78 of the ~800
+simulated days.</p>
+<p>In the following sections, we'll explore how the stockout rate depends on
+various factors characterizing the system—each of which can often be controlled
+to improve outcomes.</p>
+<h2>Adjusting purchase behavior</h2>
+<p>In the above example, Acme triggered a reorder whenever inventory dropped below
+20,000 units—enough to cover about 40 days of average demand.  Since it
+typically takes 6 weeks (42 days) for new inventory to arrive, the 40-day
+buffer was sufficient to prevent any stockout before shipment arrival about
+half the time.  Still, the simulation showed 78 days of stockout—about 10% of
+the total period.</p>
+<p>How to reduce the stockout rate? One option is to order more inventory each
+time but keep the trigger level the same. That does help—but it turns out to
+not be the most efficient move. A better approach (at least when stockouts are
+relatively rare) is to raise the reorder trigger while keeping the order size
+fixed.</p>
+<p>When you raise the trigger level, you’ll end up holding more inventory on
+average. That’s the tradeoff: higher average holding costs versus fewer
+stockouts.  Fig. 3 shows this tradeoff for Acme's system: a plot of mean
+inventory held versus fraction of time in stockout, based on simulations at
+different trigger points.</p>
+<p>Seeing this plot, Acme's COO decided they should move from their current ~10%+
+mean stockout rate to 5%.  This turns out to require triggering a reorder when
+inventory dips below 26,000 units, rather than 20,000. If they could hit this
+each time, the average number of units on hand would then be around 27,000, vs
+21,000 before.  This raises holding costs, but the reduction in stockout rate
+makes this an economical tradeoff in their case.</p>
+<p align="center"><img src="images/ss_images/tradeoff.png" alt="supply example" title="demand plot"></p>
+
+<p><em>Fig 3.</em> Mean inventory held versus fraction of time stocked out for
+Acme Inc. Each point comes from a simulation run with a different trigger
+level. Triggering an order earlier (before stock dwindles too much) leads to
+higher inventory levels on average, but also suppresses time in stockout.  Note
+that it's quite difficult to suppress stockout completely.  Acme decided to
+move to the green operating point.</p>
+<h2>Stick with it!</h2>
+<p>One method to reduce the cost of maintaining a high service level—or low
+stockout rate—is to follow a consistent reordering rule.  This works because
+the tradeoff curve between inventory and stockout rate is "convex".</p>
+<p>We illustrate this in Fig. 4, comparing two scenarios.  In the first,
+reordering is haphazard: Acme's frazzled operations team sometimes orders early
+leading to a stockout rate near 1%, other times late, giving a stockout rate
+closer to 9%.  While the average stockout rate is 5%—hitting their
+target—maintaining it requires about 30,000 units of inventory on average
+(the red point on the plot).</p>
+<p>In the second "disciplined" scenario, Acme maintains a consistent process,
+hitting 5% stockout rate at all times.  This produces the green point, bringing
+them back to the 27,000 unit average inventory—a 10% reduction!</p>
+<p>The takeaway: simply sticking to a consistent operational process can
+meaningfully cut inventory costs.</p>
+<p align="center"><img src="images/ss_images/tradeoff_convex.png" alt="supply example" title="demand plot"></p>
+
+<p><em>Fig 4.</em> Because the tradeoff curve is convex, maintaining a consistent
+stockout rate leads to a lower average inventory than switching between
+extremes.  Compare the green point (steady reordering) versus the red point
+(average result from switching between the two black points).</p>
+<h2>Reducing uncertainty</h2>
+<p>A second way to reduce the cost of maintaining a high service level is to lower
+the system’s uncertainty.  In Acme Inc.'s case, demand uncertainty is much less
+likely to cause a stockout than shipment arrival time uncertainty.  This is
+because the mean delivery lead time is relatively long, giving the daily demand
+fluctuations time to average out.  However, if the daily demand uncertainty
+were larger, or if the lead times were shorter, demand variability would play a
+larger role.</p>
+<p>For Acme, the biggest opportunity then is to stabilize the supply chain and
+make delivery times more predictable.  Realizing this, the team streamlined
+their supply chain and managed to reduce their delivery variability, moving
+from a range of 3–9 weeks to 5–7 weeks.  The benefits show up clearly in the
+updated plot below: The mean inventory Acme needs to maintain their 5% stockout
+rate is reduced by 25%!</p>
+<p align="center"><img src="images/ss_images/tradeoff_compared.png" alt="supply example" title="demand plot"></p>
+
+<p><em>Fig 5.</em> After stabilizing delivery times (cutting variability from
+three weeks down to one), Acme is able to cut mean inventory level by 25%.</p>
+<h2>Summary</h2>
+<p>Safety stock management is about striking the right balance between two
+competing risks: tying up too much capital in inventory versus missing sales
+due to stockouts.  By understanding your demand and lead time variability, and
+using either simulation or standard statistical formulas, you can map out the
+tradeoff curve and then select an operating point that fits your business
+goals.</p>
+<p>To decide the right operating point, you'll need to weigh the cost of carrying
+extra inventory against the cost of missed sales.  Margins play a key role
+here, as does the possibility that customers might substitute another product
+from your inventory if the primary item is out of stock.</p>
+<p>Whatever your choice, simply sticking to a consistent approach will allow your
+business to maintain its current average service level with leaner inventory.
+Further, this sets your business up with a virtuous cycle: Any other
+operational improvements that improve reliability, either in demand or shipment
+arrival times, will end up further reducing costs thanks to this process.  Acme
+Inc. is an exemplar—taking this approach they dropped their inventory footprint
+by 35%.  Go Acme!</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

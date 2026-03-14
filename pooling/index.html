@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Pooling of test samples can be used to reduce the mean number of test counts required to determine who in a set of subjects carries a disease. E.g., if the blood samples of a set of office workers are combined and tested, and the test comes back negative, then the full office can be ruled out as disease carriers …" />
+<meta name="keywords" content="math/stats">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Sample pooling to reduce needed disease screening test counts"/>
+  <meta property="og:description" content="Pooling of test samples can be used to reduce the mean number of test counts required to determine who in a set of subjects carries a disease. E.g., if the blood samples of a set of office workers are combined and tested, and the test comes back negative, then the full office can be ruled out as disease carriers …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/pooling"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2020-03-29 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Sample pooling to reduce needed disease screening test counts</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="pooling">Sample pooling to reduce needed disease screening test counts</h1>
+    <p>
+      Published on Sun 29 March 2020
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Pooling of test samples can be used to reduce the mean number of test counts
+required to determine who in a set of subjects carries a disease. E.g., if the
+blood samples of a set of office workers are combined and tested, and the test
+comes back negative, then the full office can be ruled out as disease carriers
+using just a single test (whereas the naive approach would require testing each
+separately).  However, if the test comes back positive, then a refined search
+through the workers must be carried out to decide which have the disease and
+which do not.</p>
+<p>Here, we consider two methods for refined search when a group is flagged
+positive, and provide python code that can be used to find the optimal pooling
+strategy.  This depends on the frequency of disease within the testing
+population, <span class="math">\(p\)</span>.</p>
+<p>Impact summary of pooling concept: </p>
+<ul>
+<li>If <span class="math">\(p = O(1)\)</span>, so that many people have the illness, pooling doesn't help. </li>
+<li>If <span class="math">\(p = 0.1\)</span>, perhaps typical of people being screened with symptoms, we can
+   reduce the test count needed by about <span class="math">\(\sim 0.6\)</span> using pooling, and the two refined
+search methods we consider perform similarly here.</li>
+<li>If <span class="math">\(p = 0.001\)</span>, so that positive cases are rare -- perhaps useful for
+   screening an office of workers expected to be healthy, then we can cut the
+mean test count by a factor of <span class="math">\(50\)</span>, and the bisection method for refined search performs best here (details below).</li>
+</ul>
+<p>Code for this analysis can be found at our github (<a href="https://github.com/EFavDB/pooling/blob/master/pooling_samples.ipynb">link</a>).</p>
+<h4><strong>COVID19 background, strategies considered here</strong></h4>
+<p>The idea of pooling is an old one, but I happened on the idea when an article
+was posted about it to the statistics subreddit this past week (<a
+href="https://www.reddit.com/r/statistics/comments/fl3dlw/q_if_you_could_test_batches_of_64_samples_for/">link</a>).
+There the question was posed what the optimal pooling count would be,
+motivating this post.</p>
+<p>I imagine pooling may be useful for COVID19 under two conditions:  (1)
+situations where testing capactity is the limiting factor (as opposed to speed
+of diagnosis, say), and (2) Situations where a great many people need to be
+screened and it is unlikely that any of them have it -- e.g., daily tests
+within a large office buiding.</p>
+<p>We consider two pooling methods here:  (1) A simple method where if the test
+on the group comes back positive, we immediately screen each individual.  (2) A
+bisection method, where if a group comes back positive, we split it in two and
+run the test on each subgroup, repeating from there recursively.  E.g., in a
+group of size 16 with one positive, the recursive approach generates the following
+set of test subsets (see notebook on our github linked above for code)</p>
+<div class="highlight"><pre><span></span><code><span class="n">seq</span> <span class="o">=</span> <span class="n">generate_random_seq</span><span class="p">()</span>
+<span class="n">test_counts_needed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_count</span><span class="p">(</span><span class="n">seq</span><span class="p">))</span>
+<span class="n">total</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Here, the 13th individual had the disease, and the bisection method required a
+total of 9 tests (one for each row above) to determine the full set of diagnoses.  Note that
+9 is less than 16, the number needed when we screen everyone from the start.</p>
+<p>Our purpose is to provide code and equations that can be used to select from these two
+methods should anyone want to apply this idea.  Caveat:  We currently ignore
+any possibility of error in the tests.  This may make the approach invalid for
+some or all of the current covid19 tests.  Error rates should be studied next
+where appropriate.</p>
+<h4><strong>Model and results</strong></h4>
+<p>We posit that we have a pool of
+</p>
+<div class="math">\begin{eqnarray}
+N = 2^{\mathbb{K}} \tag{1} \label{count_pop}
+\end{eqnarray}</div>
+<p> 
+people to be tested.  In the first round, we pool all their samples and test the
+group.  If the group comes back positive, we then run one of the refined methods to
+figure out which people exactly have the illness.  Each person is supposed to have a probability <span class="math">\(p\)</span> of having the disease.
+Below, we ask how to set <span class="math">\(\mathbb{K}\)</span> -- which determines the pooling size --
+so as to minimize the mean number of tests needed divided by <span class="math">\(N\)</span>, which can be
+considered the pooling reduction factor.</p>
+<p>The mean number of tests needed from the simple strategy is
+</p>
+<div class="math">\begin{eqnarray}\tag{2} \label{simple_result}
+\bar{N}_{simple} = (1 - p)^N\times 1 + \left [1 - (1-p)^N \right] \times (1 + N)
+\end{eqnarray}</div>
+<p>
+The mean number needed in the bisection strategy is
+</p>
+<div class="math">\begin{eqnarray} \tag{3} \label{bisection_result}
+\bar{N}_{bisection} = 1 +  2 \sum_{k=0}^{\mathbb{K}} 2^k \left (1 - (1 -p)^{2^{\mathbb{K}-k}} \right)
+\end{eqnarray}</div>
+<p>
+The proof of (\ref{simple_result}) is straightforward and we give an argument for
+(\ref{bisection_result}) in an appendix. A cell of our notebook checks this
+and confirms its accuracy.</p>
+<p>Using the above results, our code produces plots of the mean number of tests
+needed to screen a population vs <span class="math">\(\mathbb{K}\)</span>.  This then finds the optimal
+number for each type.  The plots below give the results for the three <span class="math">\(p\)</span> values
+noted in the abstract.</p>
+<ul>
+<li>Case 1: <span class="math">\(p = 0.5\)</span>, large fraction of disease carriers.  Main result: The
+pooling strategies both cause the mean number of tests to be larger than if
+we just screened each individual from the start (seen here because the y-axis
+values are always bigger than 1).  The approach is not useful here.</li>
+</ul>
+<p align="center"><img src="https://jslandy.com/images/pooling_05.png"></p>
+
+<ul>
+<li>Case 2: <span class="math">\(p = 0.1\)</span>, modest fraction of disease carriers.  Main result: The two
+methods both give comparable benefits.  It is optimal to pool using
+<span class="math">\(\mathbb{K}=2\)</span>, which gives groups of <span class="math">\(N = 4\)</span> patients. This cuts the number of
+needed tests by a factor of <span class="math">\(0.6\)</span>.</li>
+</ul>
+<p align="center"><img src="https://jslandy.com/images/pooling_01.png"></p>
+
+<ul>
+<li>Case 3: <span class="math">\(p = 0.001\)</span>, small fraction of disease carriers.  Main result:
+Bisection wins, the optimal <span class="math">\(\mathbb{K} = 9\)</span> here, which gives a pooling
+group of size <span class="math">\(512\)</span>.  We cut the test count needed by a factor of <span class="math">\(50\)</span>.  Note:
+We also show here a histogram showing the number of tests needed when we run a
+simulated system like this.  We see that we often only need one test, and there
+is another peak around <span class="math">\(20\)</span> tests, with a long tail after that. </li>
+</ul>
+<p align="center"><img src="https://jslandy.com/images/pooling_01.png"></p>
+<p align="center"><img src="https://jslandy.com/images/pooling_hist.png"></p>
+
+<p>The code to generate the optimal <span class="math">\(\mathbb{K}\)</span> plots above is given below.  This
+can be used to generate generalized plots like those above for any <span class="math">\(p\)</span>. The
+histogram plot is contained in our github repo, linked in our abstract.  Our
+appendix follows.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>
+
+<span class="n">K</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">P_POSITIVE</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+<span class="k">def</span> <span class="nf">theory_bisection</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">P_POSITIVE</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="mi">2</span> <span class="o">**</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">k</span><span class="p">)))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">)]</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">count</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">K</span>
+
+<span class="k">def</span> <span class="nf">theory_simple</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">P_POSITIVE</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">K</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="n">n</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">p0</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">count</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="nb">print</span> <span class="s1">&#39;Bisection: fraction of full testing: </span><span class="si">%2.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">theory_bisection</span><span class="p">())</span>
+<span class="nb">print</span> <span class="s1">&#39;Simple: fraction of full testing: </span><span class="si">%2.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">theory_simple</span><span class="p">())</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">theory_bisection</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)]</span>
+<span class="n">min_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;bisection (min = </span><span class="si">%2.2f</span><span class="s1">)&#39;</span><span class="o">%</span><span class="n">data</span><span class="p">[</span><span class="n">min_index</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">min_index</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">min_index</span><span class="p">],</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">theory_simple</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)]</span>
+<span class="n">min_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;o--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;simple (min = </span><span class="si">%2.2f</span><span class="s1">)&#39;</span><span class="o">%</span><span class="n">data</span><span class="p">[</span><span class="n">min_index</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">min_index</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">min_index</span><span class="p">],</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Test count reduction vs log_2 pooling size, p = </span><span class="si">%0.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="n">p</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;log_2 pooling size&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;mean tests / pooling size&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h4><strong>Appendix: Derivation of (\ref{bisection_result})</strong></h4>
+<p>Consider a binary tree with the root node being the initial test. Each node
+has two children that correspond to the tests of the two subgroups for a given
+test.  We must test these if the parent is positive.  Level <span class="math">\(0\)</span> is the initial
+test and <span class="math">\(k\)</span> rows down we call the level <span class="math">\(k\)</span> of tests.  There are total of <span class="math">\(2^k\)</span>
+posible tests to run at this level, and there are a total of <span class="math">\(\mathbb{K}\)</span> levels.</p>
+<p>The number of tests that need to be run at level <span class="math">\(k\)</span> is set by the number of
+positive tests at level <span class="math">\(k-1\)</span>.  We have
+</p>
+<div class="math">\begin{eqnarray}
+\text{Number of tests} = 1 + \sum_{k=0}^{\mathbb{K} - 1} \text{number positive level k}
+\end{eqnarray}</div>
+<p>
+Averaging this equation gives
+</p>
+<div class="math">\begin{eqnarray}
+\overline{\text{Number of tests}} &amp;=&amp; 1 + \sum_{k=0}^{\mathbb{K} - 1} 2^k \times prob(\text{test at level k positive}) \\
+&amp;=&amp; 1 +  \sum_{k=0}^{\mathbb{K} - 1} 2^k \times [ 1- (1 - p)^{2^{\mathbb{K} - k}}]. 
+\end{eqnarray}</div>
+<p>
+The inner factor here is the probability that a given test of the size being
+considered comes back positive -- this has <span class="math">\(N / 2^k = 2^{\mathbb{K} - k}\)</span> people
+in it.  This is the result shown above in (\ref{bisection_result}).</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

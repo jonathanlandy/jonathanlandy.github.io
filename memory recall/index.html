@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="My friend Andrew is an advocate of the &#34;spaced repetition&#34; technique for memorization of a great many facts [1]. The ideas behind this are two-fold: When one first &#34;learns&#34; a new fact, it needs to be reviewed frequently in order to not forget it. However, with each additional review, the fact can be retained longer before a refresher is needed …" />
+<meta name="keywords" content="misc, popular">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Spaced repetition can allow for infinite recall"/>
+  <meta property="og:description" content="My friend Andrew is an advocate of the &#34;spaced repetition&#34; technique for memorization of a great many facts [1]. The ideas behind this are two-fold: When one first &#34;learns&#34; a new fact, it needs to be reviewed frequently in order to not forget it. However, with each additional review, the fact can be retained longer before a refresher is needed …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/memory recall"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2022-08-07 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="misc"/>
+  <meta property="article:tag" content="popular"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Spaced repetition can allow for infinite recall</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="memory recall">Spaced repetition can allow for infinite recall</h1>
+    <p>
+      Published on Sun 07 August 2022
+
+    </p>
+  </header>
+
+
+  <div class="discussion-links">
+    Discussed on:
+        <a href="https://news.ycombinator.com/item?id=32381206" target="_blank">Hacker News 1</a>
+,         <a href="https://news.ycombinator.com/item?id=42908041" target="_blank">Hacker News 2</a>
+  </div>
+
+  <div>
+    <p align="center">
+         <img src="images/jeopardy.jpg">
+
+</p>
+
+<p>My friend Andrew is an advocate of the "spaced repetition" technique for
+memorization of a great many facts [1].  The ideas behind this are two-fold:</p>
+<ul>
+<li>
+<p>When one first "learns" a new fact, it needs to be reviewed frequently in
+  order to not forget it.  However, with each additional review, the fact can
+be retained longer before a refresher is needed to maintain it in recall.</p>
+</li>
+<li>
+<p>Because of this, one can maintain a large, growing body of facts in recall
+  through daily review:  Each day, one need only review for ten minutes or so,
+covering a small number of facts. The facts included should be sampled from the
+full library in a way that prefers newer entries, but that also sprinkles in
+older facts often enough so that none are ever forgotten.  Apps have been
+written to intelligently take care of the sampling process for us.</p>
+</li>
+</ul>
+<p>Taking this framework as correct motivates questioning exactly how far it can
+be pushed:  <em>Would an infinitely-long-lived, but forgetful person be able to
+recall an infinite number of facts using this method? </em>  <span class="math">\(\ldots\)</span> Below, we
+show that the answer is: <em>YES!</em></p>
+<h5>Proof:</h5>
+<p>We first posit that the number of days <span class="math">\(T\)</span> that a fact can be retained before
+it needs to be reviewed grows as a power-law in <span class="math">\(s\)</span>, the number of times it's
+been reviewed so far,</p>
+<div class="math">\begin{eqnarray} \tag{1}\label{1}
+T(s) \sim s^{\gamma},
+\end{eqnarray}</div>
+<p>
+with <span class="math">\(\gamma &gt; 0\)</span>. With this assumption, if <span class="math">\(N(t)\)</span> facts are to be recalled
+from <span class="math">\(t\)</span> days ago, one can show that the amount of work needed today to retain
+these will go like (see appendix for a proof of this line)</p>
+<div class="math">\begin{eqnarray}\tag{2}\label{2}
+w(t) \sim \frac{N(t)}{t^{\gamma / (\gamma + 1)}}.
+\end{eqnarray}</div>
+<p>
+The total work needed today is then the sum of work needed for each past day's
+facts,</p>
+<div class="math">\begin{eqnarray} \tag{3} \label{3}
+W(total) = \int_1^{\infty} \frac{N(t)}{t^{\gamma / (\gamma + 1)}} dt.
+\end{eqnarray}</div>
+<p>
+Now, each day we only have a finite amount of time to study.  However, the
+above total work integral will diverge at large <span class="math">\(t\)</span> unless it decays faster
+than <span class="math">\(1/t\)</span>.  To ensure this, we can limit the number of facts retained from
+from <span class="math">\(t\)</span> days ago to go as</p>
+<div class="math">\begin{eqnarray} \tag{4} \label{4}
+N(t) \sim \frac{1}{t^{\epsilon}} \times \frac{1}{t^{1 / (\gamma + 1)}},
+\end{eqnarray}</div>
+<p>
+where <span class="math">\(\epsilon\)</span> is some small, positive constant.  Plugging (\ref{4}) into
+(\ref{3}) shows that we are guaranteed a finite required study time each day.
+However, after <span class="math">\(t\)</span> days of study, the total number of facts retained scales 
+as</p>
+<div class="math">\begin{eqnarray}
+N_{total}(t) &amp;\sim &amp; \int_1^{t} N(t) dt \\
+&amp;\sim &amp; \int_0^{t} \frac{1}{t^{1 / (\gamma + 1)}} \\
+&amp;\sim &amp; t^{ \gamma / (\gamma + 1)}. \tag{5} \label{5}
+\end{eqnarray}</div>
+<p>
+Because we assume that <span class="math">\(\gamma &gt; 0\)</span>, this grows without bound over time,
+eventually allowing for an infinitely large library.</p>
+<p>We conclude that -- though we can't remember a fixed number of facts from each
+day in the past using spaced repetition -- we can ultimately recall an infinite
+number of facts using this method.  To do this only requires that we gradually
+curate our previously-introduced facts so that the scaling (\ref{4}) holds at
+all times.</p>
+<h3>Appendix: Proof of (2)</h3>
+<p>Recall that we assume <span class="math">\(N(s)\)</span> facts have been reviewed exactly <span class="math">\(s\)</span> times.  On a
+given day, the number of these that need to be reviewed then goes like</p>
+<div class="math">\begin{eqnarray} \tag{A1}\label{A1}
+W(s) \sim \frac{N(s)}{T(s)}.
+\end{eqnarray}</div>
+<p>
+where <span class="math">\(T(s)\)</span> is given in (\ref{1}).  This holds because each of the <span class="math">\(N(s)\)</span>
+facts that have been studied <span class="math">\(s\)</span> times so far must be reviewed within <span class="math">\(T(s)\)</span>
+days, or one will be forgotten.  During these <span class="math">\(T(s)\)</span> days, each will move to
+having been reviewed <span class="math">\(s+1\)</span> times.  Therefore,</p>
+<div class="math">\begin{eqnarray} \tag{A2} \label{A2}
+\frac{ds}{dt} &amp;\sim &amp; \frac{1}{T(s)}
+\end{eqnarray}</div>
+<p>
+Integrating this gives <span class="math">\(s\)</span> as a function of <span class="math">\(t\)</span>,</p>
+<div class="math">\begin{eqnarray} \tag{A3} \label{A3}
+s \sim t^{1 / (\gamma + 1)}
+\end{eqnarray}</div>
+<p>Plugging this last line and (1) into (A1), we get (2).</p>
+<h2>References</h2>
+<p>[1] See Andrew's blog post on spaced repetition <a
+href="https://andrewjudson.com/spaced-repitition/2022/06/03/spaced-repitition.html">
+here</a>.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/misc.html">misc</a>
+      <a href="https://jslandy.com/tag/popular.html">popular</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We review the math and code needed to fit a Gaussian Process (GP) regressor to data. We conclude with a demo of a popular application, fast function minimization through GP-guided search. The gif below illustrates this approach in action -- the red points are samples from the hidden red curve. Using these samples, we attempt to leverage GPs to find the …" />
+<meta name="keywords" content="methods, math/stats">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Gaussian Processes"/>
+  <meta property="og:description" content="We review the math and code needed to fit a Gaussian Process (GP) regressor to data. We conclude with a demo of a popular application, fast function minimization through GP-guided search. The gif below illustrates this approach in action -- the red points are samples from the hidden red curve. Using these samples, we attempt to leverage GPs to find the …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/gaussian-processes"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2017-11-25 09:53:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Gaussian Processes</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="gaussian-processes">Gaussian Processes</h1>
+    <p>
+      Published on Sat 25 November 2017
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We review the math and code needed to fit a Gaussian Process (GP) regressor to data. We conclude with a demo of a popular application, fast function minimization through GP-guided search. The gif below illustrates this approach in action -- the red points are samples from the hidden red curve. Using these samples, we attempt to leverage GPs to find the curve's minimum as fast as possible.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/11/full_search.gif"></p>
+
+<p>Appendices contain quick reviews on (i) the GP regressor posterior derivation, (ii) SKLearn's GP implementation, and (iii) GP classifiers.</p>
+<h3>Introduction</h3>
+<p>Gaussian Processes (GPs) provide a tool for treating the following general problem: A function <span class="math">\(f(x)\)</span> is sampled at <span class="math">\(n\)</span> points, resulting in a set of noisy<span class="math">\(^1\)</span> function measurements, <span class="math">\(\{f(x_i) = y_i \pm \sigma_i, i = 1, \ldots, n\}\)</span>. Given these available samples, can we estimate the probability that <span class="math">\(f = \widehat{f}\)</span>, where <span class="math">\(\widehat{f}\)</span> is some candidate function?</p>
+<p>To decompose and isolate the ambiguity associated with the above challenge, we begin by applying Bayes's rule,
+</p>
+<div class="math">\begin{eqnarray} \label{Bayes} \tag{1}
+p(\widehat{f} \vert \{y\}) = \frac{p(\{y\} \vert \widehat{f} ) p(\widehat{f})}{p(\{y\}) }.
+\end{eqnarray}</div>
+<p>
+The quantity at left above is shorthand for the probability we seek -- the probability that <span class="math">\(f = \widehat{f}\)</span>, given our knowledge of the sampled function values <span class="math">\(\{y\}\)</span>. To evaluate this, one can define and then evaluate the quantities at right. Defining the first in the numerator requires some assumption about the source of error in our measurement process. The second function in the numerator is the prior -- it is here where the greatest assumptions must be taken. For example, we'll see below that the prior effectively dictates the probability of a given smoothness for the <span class="math">\(f\)</span> function in question.</p>
+<p>In the GP approach, both quantities in the numerator at right above are taken to be multivariate Normals / Gaussians. The specific parameters of this Gaussian can be selected to ensure that the resulting fit is good -- but the Normality requirement is essential for the mathematics to work out. Taking this approach, we can write down the posterior analytically, which then allows for some useful applications. For example, we used this approach to obtain the curves shown in the top figure of this post -- these were obtained through random sampling from the posterior of a fitted GP, pinned to equal measured values at the two pinched points shown. Posterior samples are useful for visualization and also for taking Monte Carlo averages.</p>
+<p>In this post, we (i) review the math needed to calculate the posterior above, (ii) discuss numerical evaluations and fit some example data using GPs, and (iii) review how a fitted GP can help to quickly minimize a cost function -- eg a machine learning cross-validation score. Appendices cover the derivation of the GP regressor posterior, SKLearn's GP implementation, and GP Classifiers.</p>
+<p>Our minimal python class SimpleGP used below is available on our GitHub, <a href="https://github.com/EFavDB/gaussian_processes">here</a>.</p>
+<p>Note: To understand the mathematical details covered in this post, one should be familiar with multivariate normal distributions -- these are reviewed in our prior post, <a href="/normal-distributions">here</a>. These details can be skipped by those primarily interested in applications.</p>
+<h3>Analytic evaluation of the posterior</h3>
+<p>To evaluate the left side of (\ref{Bayes}), we will evaluate the right. Only the terms in the numerator need to be considered, because the denominator does not depend on <span class="math">\(\widehat{f}\)</span>. This means that the denominator must equate to a normalization factor, common to all candidate functions. In this section, we will first write down the assumed forms for the two terms in the numerator and then consider the posterior that results.</p>
+<p>The first assumption that we will make is that if the true function is <span class="math">\(\widehat{f}\)</span>, then our <span class="math">\(y\)</span>-measurements are independent and Gaussian-distributed about <span class="math">\(\widehat{f}(x)\)</span>. This assumption implies that the first term on the right of (\ref{Bayes}) is
+</p>
+<div class="math">\begin{eqnarray} \tag{2} \label{prob}
+p(\{y\} \vert \widehat{f} ) \equiv \prod_{i=1}^n \frac{1}{\sqrt{2 \pi \sigma_i^2}} \exp \left ( - \frac{(y_i - \widehat{f}(x_i) )^2}{2 \sigma_i^2} \right).
+\end{eqnarray}</div>
+<p>
+The <span class="math">\(y_i\)</span> above are the actual measurements made at our sample points, and the <span class="math">\(\sigma_i^2\)</span> are their variance uncertainties.</p>
+<p>The second thing we must do is assume a form for <span class="math">\(p(\widehat{f})\)</span>, our prior. We restrict attention to a set of points <span class="math">\(\{x_i: i = 1, \ldots, N\}\)</span>, where the first <span class="math">\(n\)</span> points are the points that have been sampled, and the remaining <span class="math">\((N-n)\)</span> are test points at other locations -- points where we would like to estimate the joint statistics<span class="math">\(^2\)</span> of <span class="math">\(f\)</span>. To progress, we simply assume a multi-variate Normal distribution for <span class="math">\(f\)</span> at these points, governed by a covariance matrix <span class="math">\(\Sigma\)</span>. This gives
+</p>
+<div class="math">\begin{eqnarray} \label{prior} \tag{3}
+&amp;&amp;p(f(x_1), \ldots, f(x_N) ) \sim \
+&amp;&amp; \frac{1}{\sqrt{ (2 \pi)^{N} \vert \Sigma \vert }} \exp \left ( - \frac{1}{2} \sum_{ij=1}^N f_i \Sigma^{-1}_{ij} f_j \right).
+\end{eqnarray}</div>
+<p>
+Here, we have introduced the shorthand, <span class="math">\(f_i \equiv f(x_i)\)</span>. Notice that we have implicitly assumed that the mean of our normal distribution is zero above. This is done for simplicity: If a non-zero mean is appropriate, this can be added in to the analysis, or subtracted from the underlying <span class="math">\(f\)</span> to obtain a new one with zero mean.</p>
+<p>The particular form of <span class="math">\(\Sigma\)</span> is where all of the modeler's insight and ingenuity must be placed when working with GPs. Researchers who know their topic very well can assert well-motivated, complex priors -- often taking the form of a sum of terms, each capturing some physically-relevant contribution to the statistics of their problem at hand. In this post, we'll assume the simple form
+</p>
+<div class="math">\begin{eqnarray} \tag{4} \label{covariance}
+\Sigma_{ij} \equiv \sigma^2 \exp \left( - \frac{(x_i - x_j)^2}{2 l^2}\right).
+\end{eqnarray}</div>
+<p>
+Notice that with this assumed form, if <span class="math">\(x_i\)</span> and <span class="math">\(x_j\)</span> are close together, the exponential will be nearly equal to one. This ensures that nearby points are highly correlated, forcing all high-probability functions to be smooth. The rate at which (\ref{covariance}) dies down as two test points move away from each another is controlled by the length-scale parameter <span class="math">\(l.\)</span> If this is large (small), the curve will be smooth over a long (short) distance. We illustrate these points in the next section, and also explain how an appropriate length scale can be inferred from the sample data at hand in the section after that.</p>
+<p>Now, if we combine (\ref{prob}) and (\ref{prior}) and plug this into (\ref{Bayes}), we obtain an expression for the posterior, <span class="math">\(p(f \vert \{y\})\)</span>. This function is an exponential whose argument is a quadratic in the <span class="math">\(f_i\)</span>. In other words, like the prior, the posterior is a multi-variate normal. With a little work, one can derive explicit expressions for the mean and covariance of this distribution: Using block notation, with <span class="math">\(0\)</span> corresponding to the sample points and <span class="math">\(1\)</span> to the test points, the marginal distribution at the test points is
+</p>
+<div class="math">\begin{eqnarray} \tag{5} \label{posterior}
+&amp;&amp; p(\textbf{f}_1 \vert \{y\}) =\
+&amp;&amp; N\left ( \Sigma_{10} \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \cdot \textbf{y}, \Sigma_{11} - \Sigma_{10} \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \Sigma_{01} \right).
+\end{eqnarray}</div>
+<p>
+Here,
+</p>
+<div class="math">\begin{eqnarray} \tag{6} \label{sigma_mat}
+\sigma^2 I_{00} \equiv
+\left( \begin{array}{cccc}
+\sigma_1^2 &amp; 0 &amp; \ldots &amp;0 \\
+0 &amp; \sigma_2^2 &amp; \ldots &amp;0 \\
+\ldots &amp; &amp; &amp; \\
+0 &amp; 0 &amp; \ldots &amp; \sigma_n^2
+\end{array} \right),
+\end{eqnarray}</div>
+<p>
+and <span class="math">\(\textbf{y}\)</span> is the length-<span class="math">\(n\)</span> vector of measurements,
+</p>
+<div class="math">\begin{eqnarray}\tag{7} \label{y_vec}
+\textbf{y}^T \equiv (y_1, \ldots, y_n).
+\end{eqnarray}</div>
+<p>Equation (\ref{posterior}) is one of the main results for Gaussian Process regressors -- this result is all one needs to evaluate the posterior. Notice that the mean at all points is linear in the sampled values <span class="math">\(\textbf{y}\)</span> and that the variance at each point is reduced near the measured values. Those interested in a careful derivation of this result can consult our appendix -- we actually provide two derivations there. However, in the remainder of the body of the post, we will simply explore applications of this formula.</p>
+<h3>Numerical evaluations of the posterior</h3>
+<p>In this section, we will demonstrate how two typical applications of (\ref{posterior}) can be carried out: (i) Evaluation of the mean and standard deviation of the posterior distribution at a test point <span class="math">\(x\)</span>, and (ii) Sampling functions <span class="math">\(\widehat{f}\)</span> directly from the posterior. The former is useful in that it can be used to obtain confidence intervals for <span class="math">\(f\)</span> at all locations, and the latter is useful both for visualization and also for obtaining general Monte Carlo averages over the posterior. Both concepts are illustrated in the header image for this post: In this picture, we fit a GP to a one-d function that had been measured at two locations. The blue shaded region represents a one-sigma confidence interval for the function value at each location, and the colored curves are posterior samples.</p>
+<p>The code for our <code>SimpleGP</code> fitter class is available on our <a href="https://github.com/EFavDB/gaussian_processes">GitHub</a>. We'll explain a bit how this works below, but those interested in the details should examine the code -- it's a short script and should be largely self-explanatory.</p>
+<h4>Intervals</h4>
+<p>The code snippet below initializes our <code>SimpleGP</code> class, defines some sample locations, values, and uncertainties, then evaluates the mean and standard deviation of the posterior at a set of test points. Briefly, this carried out as follows: The <code>fit</code> method evaluates the inverse matrix <span class="math">\(\left [ \sigma^2 I_{00} + \Sigma_{00} \right]^{-1}\)</span> that appears in (\ref{posterior}) and saves the result for later use -- this allows us to avoid reevaluation of this inverse at each test point. Next, (\ref{posterior}) is evaluated once for each test point through the call to the <code>interval</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Initialize fitter -- set covariance parameters</span>
+<span class="n">WIDTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">LENGTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleGP</span><span class="p">(</span><span class="n">WIDTH_SCALE</span><span class="p">,</span> <span class="n">LENGTH_SCALE</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Insert observed sample data here, fit</span>
+<span class="n">sample_x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">]</span>
+<span class="n">sample_y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">sample_s</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sample_x</span><span class="p">,</span> <span class="n">sample_y</span><span class="p">,</span> <span class="n">sample_s</span><span class="p">)</span>
+
+<span class="c1"># Get the mean and std at each point in x_test</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">.05</span><span class="p">)</span>
+<span class="n">means</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
+</code></pre></div>
+
+<p>In the above, <code>WIDTH_SCALE</code> and <code>LENGTH_SCALE</code> are needed to specify the covariance matrix (\ref{covariance}). The former corresponds to <span class="math">\(\sigma\)</span> and the latter to <span class="math">\(l\)</span> in that equation. Increasing <code>WIDTH_SCALE</code> corresponds to asserting less certainty as to the magnitude of unknown function and increasing <code>LENGTH_SCALE</code> corresponds to increasing how smooth we expect the function to be. The figure below illustrates these points: Here, the blue intervals were obtained by setting <code>WIDTH_SCALE = LENGTH_SCALE  = 1</code> and the orange intervals were obtained by setting <code>WIDTH_SCALE = 0.5</code> and <code>LENGTH_SCALE  = 2</code>. The result is that the orange posterior estimate is tighter and smoother than the blue posterior. In both plots, the solid curve is a plot of the mean of the posterior distribution, and the vertical bars are one sigma confidence intervals.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/11/intervals.jpg"></p>
+
+<h4>Posterior samples</h4>
+<p>To sample actual functions from the posterior, we will simply evaluate the mean and covariance matrix in (\ref{posterior}) again, this time passing in the multiple test point locations at which we would like to know the resulting sampled functions. Once we have the mean and covariance matrix of the posterior at these test points, we can pull samples from (\ref{posterior}) using an external library for multivariate normal sampling -- for this purpose, we used the python package numpy. The last step in the code snippet below carries out these steps.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Insert observed sample data here.</span>
+<span class="n">sample_x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+<span class="n">sample_y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="n">sample_s</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span>
+
+<span class="c1"># Initialize fitter -- set covariance parameters</span>
+<span class="n">WIDTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">LENGTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleGP</span><span class="p">(</span><span class="n">WIDTH_SCALE</span><span class="p">,</span> <span class="n">LENGTH_SCALE</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sample_x</span><span class="p">,</span> <span class="n">sample_y</span><span class="p">,</span> <span class="n">sample_s</span><span class="p">)</span>
+
+<span class="c1"># Get the mean and std at each point in test_x</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">.05</span><span class="p">)</span>
+<span class="n">means</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
+
+<span class="c1"># Sample here</span>
+<span class="n">SAMPLES</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">SAMPLES</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Notice that in lines 2-4 here, we've added in a few additional function sample locations (for fun). The resulting intervals and posterior samples are shown in the figure below. Notice that near the sampled points, the posterior is fairly well localized. However, on the left side of the plot, the posterior approaches the prior once we have moved a distance <span class="math">\(\geq 1\)</span>, the length scale chosen for the covariance matrix (\ref{covariance}).</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/11/samples.jpg"></p>
+
+<h3>Selecting the covariance hyper-parameters</h3>
+<p>In the above, we demonstrated that the length scale of our covariance form dramatically affects the posterior -- the shape of the intervals and also of the samples from the posterior. Appropriately setting these parameters is a general problem that can make working with GPs a challenge. Here, we describe two methods that can be used to intelligently set such hyper-parameters, given some sampled data.</p>
+<h4>Cross-validation</h4>
+<p>A standard method for setting hyper-parameters is to make use of a cross-validation scheme. This entails splitting the available sample data into a training set and a test set. One fits the GP to the training set using one set of hyper-parameters, then evaluates the accuracy of the model on the held out test set. One then repeats this process across many hyper-parameter choices, and selects that set which resulted in the best test set performance.</p>
+<h4>Marginal Likelihood Maximization</h4>
+<p>Often, one is interested in applying GPs in limits where evaluation of samples is expensive. This means that one often works with GPs in limits where only a small number of samples are available. In cases like this, the optimal hyper-parameters can vary quickly as the number of training points is increased. This means that the optimal selections obtained from a cross-validation schema may be far from the optimal set that applies when one trains on the full sample set<span class="math">\(^3\)</span>.</p>
+<p>An alternative general approach for setting the hyper-parameters is to maximize the marginal likelihood. That is, we try to maximize the likelihood of seeing the samples we have seen -- optimizing over the choice of available hyper-parameters. Formally, the marginal likelihood is evaluated by integrating out the unknown <span class="math">\(\widehat{f}^4\)</span>,
+</p>
+<div class="math">\begin{eqnarray} \tag{8}
+p(\{y\} \vert \Sigma) \equiv \int p(\{y\} \vert f) p(f \vert \Sigma) df.
+\end{eqnarray}</div>
+<p>
+Carrying out the integral directly can be done just as we have evaluated the posterior distribution in our appendix. However, a faster method is to note that after integrating out the <span class="math">\(f\)</span>, the <span class="math">\(y\)</span> values must be normally distributed as
+</p>
+<div class="math">\begin{eqnarray}\tag{9}
+p(\{y\} \vert \Sigma) \sim N(0, \Sigma + \sigma^2 I_{00}),
+\end{eqnarray}</div>
+<p>
+where <span class="math">\(\sigma^2 I_{00}\)</span> is defined as in (\ref{sigma_mat}). This gives
+</p>
+<div class="math">\begin{eqnarray} \tag{10} \label{marginallikelihood}
+\log p(\{y\}) \sim - \log \vert \Sigma + \sigma^2 I_{00} \vert - \textbf{y} \cdot ( \Sigma + \sigma^2 I_{00} )^{-1} \cdot \textbf{y}.
+\end{eqnarray}</div>
+<p>
+The two terms above compete: The second term is reduced by finding the covariance matrix that maximizes the exponent. Maximizing this alone would tend to result in an overfitting of the data. However, this term is counteracted by the first, which is the normalization for a Gaussian integral. This term becomes larger given short decay lengths and low diagonal variances. It acts as regularization term that suppresses overly complex fits.</p>
+<p>In practice, to maximize (\ref{marginallikelihood}), one typically makes use of gradient descent, using analytical expressions for the gradient. This is the approach taken by SKLearn. Being able to optimize the hyper-parameters of a GP is one of this model's virtures. Unfortunately, (\ref{marginallikelihood}) is not guaranteed to be convex and multiple local minima often exist. To obtain a good minimum, one can attempt to initialize at some well-motivated point. Alternatively, one can reinitialize the gradient descent repeatedly at random points, finally selecting the best option at the end.</p>
+<h3>Function minimum search and machine learning</h3>
+<p>We're now ready to introduce one of the popular application of GPs: fast, guided function minimum search. In this problem, one is able to iteratively obtain noisy samples of a function, and the aim is to identify as quickly as possible the global minimum of the function. Gradient descent could be applied in cases like this, but this approach generally requires repeated sampling if the function is not convex. To reduce the number of steps / samples required, one can attempt to apply a more general, explore-exploit type strategy -- one balancing the desire to optimize about the current best known minimum with the goal of seeking out new local minima that are potentially even better. GP posteriors provide a natural starting point for developing such strategies.</p>
+<p>The idea behind the GP-guided search approach is to develop a score function on top of the GP posterior. This score function should be chosen to encode some opinion of the value of searching a given point -- preferably one that takes an explore-exploit flavor. Once each point is scored, the point with the largest (or smallest, as appropriate) score is sampled. The process is then repeated iteratively until one is satisfied. Many score functions are possible. We discuss four possible choices below, then give an example.</p>
+<ul>
+<li><strong>Gaussian Lower Confidence Bound (GLCB)</strong>.
+    The GLCB scores each point <span class="math">\(x\)</span> as
+    <div class="math">\begin{eqnarray}\tag{11}
+    s_{\kappa}(x) = \mu(x) - \kappa \sigma(x).
+    \end{eqnarray}</div>
+    Here, <span class="math">\(\mu\)</span> and <span class="math">\(\sigma\)</span> are the GP posterior estimates for the mean and standard deviation for the function at <span class="math">\(x\)</span> and <span class="math">\(\kappa\)</span> is a control parameter. Notice that the first <span class="math">\(\mu(x)\)</span> term encourages exploitation around the best known local minimum. Similarly, the second <span class="math">\(\kappa \sigma\)</span> term encourages exploration -- search at points where the GP is currently most unsure of the true function value.</li>
+<li><strong>Gaussian Probability of Improvement (GPI)</strong>.
+    If the smallest value seen so far is <span class="math">\(y\)</span>, we can score each point using the probability that the true function value at that point is less than <span class="math">\(y\)</span>. That is, we can write
+    <div class="math">\begin{eqnarray}\tag{12}
+    s(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^y e^{-(v - \mu)^2 / (2 \sigma^2)} dv.
+    \end{eqnarray}</div>
+</li>
+<li><strong>Gaussian Expected Improvement (EI)</strong>.
+    A popular variant of the above is the so-called expected improvement.
+    This is defined as
+    <div class="math">\begin{eqnarray} \tag{13}
+    s(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^y e^{-(v - \mu)^2 / (2 \sigma^2)} (y - v) dv.
+    \end{eqnarray}</div>
+    This score function tends to encourage more exploration than the probability of improvement, since it values uncertainty more highly.</li>
+<li><strong>Probability is minimum</strong>.
+    A final score function of interest is simply the probability that the point in question is the minimum. One way to obtain this score is to sample from the posterior many times. For each sample, we mark its global minimum, then take a majority vote for where to sample next.</li>
+</ul>
+<p>The gif at the top of this page (copied below) illustrates an actual GP-guided search, carried out in python using the package skopt<span class="math">\(^5\)</span>. The red curve at left is the (hidden) curve <span class="math">\(f\)</span> whose global minimum is being sought. The red points are the samples that have been obtained so far, and the green shaded curve is the GP posterior confidence interval for each point -- this gradually improves as more samples are obtained. At right is the Expected Improvement (EI) score function at each point that results from analysis on top of the GP posterior -- the score function used to guide search in this example. The process is initialized with five random samples, followed by guided search. Notice that as the process evolves, the first few samples focus on exploitation of known local minima. However, after a handful of iterations, the diminishing returns of continuing to sample these locations loses out to the desire to explore the middle points -- where the actual global minimum sits and is found.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/11/full_search.gif"></p>
+
+<h3>Discussion</h3>
+<p>In this post we've overviewed much of the math of GPs: The math needed to get to the posterior, how to sample from the posterior, and finally how to make practical use of the posterior.</p>
+<p>In principle, GPs represent a powerful tool that can be used to fit any function. In practice, the challenge in wielding this tool seems to sit mainly with selection of appropriate hyper-parameters -- the search for appropriate parameters often gets stuck in local minima, causing fits to go off the rails. Nevertheless, when done correctly, application of GPs can provide some valuable performance gains -- and they are always fun to visualize.</p>
+<p>Some additional topics relating to GPs are contained in our appendices. For those interested in even more detail, we can recommend the free online text by Rasmussen and Williams<span class="math">\(^6\)</span>.</p>
+<h3>Appendix A: Derivation of posterior</h3>
+<p>In this appendix, we present two methods to derive the posterior (\ref{posterior}).</p>
+<h4>Method 1</h4>
+<p>We will begin by completing the square. Combining (\ref{prob}) and (\ref{prior}), a little algebra gives
+</p>
+<div class="math">\begin{align} \tag{A1} \label{square_complete}
+ p(f_1, \ldots, f_N \vert \{y\})  &amp;\sim \exp \left (-\sum_{i=1}^n \frac{(y_i - f_i)^2}{2 \sigma^2_i} - \frac{1}{2} \sum_{ij=1}^N f_i \Sigma^{-1}_{ij} f_j \right) \\
+&amp;\sim N\left ( \frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2} I } \cdot \frac{1}{\sigma^2} I \cdot \textbf{y}, \frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2} I } \right).
+\end{align}</div>
+<p>
+Here, <span class="math">\(\frac{1}{\sigma^2} I\)</span> is defined as in (\ref{sigma_mat}), but has zeros in all rows outside of the sample set. To obtain the expression (\ref{posterior}), we must identify the block structure of the inverse matrix that appears above.</p>
+<p>To start, we write
+</p>
+<div class="math">\begin{align} \tag{A2} \label{matrix_to_invert}
+\frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2}I } &amp;= \Sigma \frac{1}{I + \frac{1}{\sigma^2}I \Sigma} \\
+&amp;= \Sigma \left( \begin{matrix}
+I_{00} + \frac{1}{\sigma^2}I_{00} \Sigma_{00} &amp; \frac{1}{\sigma^2}I_{00} \Sigma_{01}\\
+0 &amp; I_{11}
+\end{matrix} \right)^{-1},
+\end{align}</div>
+<p>
+where we are using block notation. To evaluate the inverse that appears above, we will make use of the block matrix inversion formula,
+</p>
+<div class="math">\begin{align}
+&amp;\left( \begin{matrix}
+A &amp; B\\
+C &amp; D
+\end{matrix} \right)^{-1} = \\
+&amp;\left( \begin{matrix}
+(A - B D^{-1} C)^{-1} &amp; - (A - B D^{-1} C)^{-1} B D^{-1} \\
+-D^{-1} C (A - B D^{-1} C)^{-1} &amp; D^{-1} + D^{-1} C (A - B D^{-1} C) B D^{-1}
+\end{matrix} \right).
+\end{align}</div>
+<p>
+The matrix (\ref{matrix_to_invert}) has blocks <span class="math">\(C = 0\)</span> and <span class="math">\(D=I\)</span>, which simplifies the above significantly. Plugging in, we obtain
+</p>
+<div class="math">\begin{align} \label{shifted_cov} \tag{A3}
+\frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2}I } =
+\Sigma \left( \begin{matrix}
+\frac{1}{I_{00} + \frac{1}{\sigma^2}I \Sigma_{00}} &amp; - \frac{1}{I_{00} + \frac{1}{\sigma^2}I \Sigma_{00}} \Sigma_{01}\\
+0 &amp; I_{11}
+\end{matrix} \right)
+\end{align}</div>
+<p>
+With this result and (\ref{square_complete}), we can read off the mean of the test set as
+</p>
+<div class="math">\begin{align} \tag{A4} \label{mean_test}
+&amp; \left [ [ \Sigma^{-1} + \frac{1}{\sigma^2} I_{00} ]^{-1} \cdot \frac{1}{\sigma^2} I_{00} \cdot \textbf{y} \right ]_1 \\
+&amp;= \Sigma_{10} \frac{1}{I_{00} + \frac{1}{\sigma^2}I_{00} \Sigma_{00}} \frac{1}{\sigma^2} I_{00} \cdot \textbf{y} \\
+&amp;= \Sigma_{10} \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \cdot \textbf{y},
+\end{align}</div>
+<p>
+where we have multiplied the numerator and denominator by the inverse of <span class="math">\(\frac{1}{\sigma^2}I_{00}\)</span> in the second line. Similarly, the covariance of the test set is given by the lower right block of (\ref{shifted_cov}). This is,
+</p>
+<div class="math">\begin{align}\tag{A5} \label{covariance_test}
+\Sigma_{11} - \Sigma_{10} \cdot \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \cdot \Sigma_{01}.
+\end{align}</div>
+<p>
+The results (\ref{mean_test}) and (\ref{covariance_test}) give (\ref{posterior}).</p>
+<h4>Method 2</h4>
+<p>In this second method, we consider the joint distribution of a set of test points <span class="math">\(\textbf{f}_1\)</span> and the set of observed samples <span class="math">\(\textbf{f}_0\)</span>. Again, we assume that the function density has mean zero. The joint probability density for the two is then
+</p>
+<div class="math">\begin{align}\tag{A6}
+p(\textbf{f}_0, \textbf{f}_1) \sim N \left (
+\left ( \begin{matrix}
+0 \\
+0
+\end{matrix} \right),
+\left ( \begin{matrix}{cc}
+\Sigma_{0,0} &amp; \Sigma_{0,1} \\
+\Sigma_{1,0} &amp; \Sigma_{11}
+\end{matrix} \right )
+\right )
+\end{align}</div>
+<p>
+Now, we use the result
+</p>
+<div class="math">\begin{align} \tag{A7}
+p( \textbf{f}_1 \vert \textbf{f}_0) &amp;=&amp; \frac{p( \textbf{f}_0, \textbf{f}_1)}{p( \textbf{f}_0)}.
+\end{align}</div>
+<p>
+The last two expressions are all that are needed to derive (\ref{posterior}). The main challenge involves completing the square, and this can be done with the block matrix inversion formula, as in the previous derivation.</p>
+<h3>Appendix B: SKLearn implementation and other kernels</h3>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/11/sklearn.jpg"></p>
+
+<p>SKLearn provides contains the <code>GaussianProcessRegressor</code> class. This allows one to carry out fits and sampling in any dimension -- i.e., it is more general than our minimal class in that it can fit feature vectors in more than one dimension. In addition, the <code>fit</code> method of the SKLearn class attempts to find an optimal set of hyper-parameters for a given set of data. This is done through maximization of the marginal likelihood, as described above. Here, we provide some basic notes on this class and the built in kernels that one can use to define the covariance matrix <span class="math">\(\Sigma\)</span> in (\ref{prior}). We also include a simple code snippet illustrating calls.</p>
+<h4>Pre-defined Kernels</h4>
+<ul>
+<li>Radial-basis function (RBF): This is the default -- equivalent to our (\ref{covariance}). The RBF is characterized by a scale parameter, <span class="math">\(l\)</span>. In more than one dimension, this can be a vector, allowing for anisotropic correlation lengths.</li>
+<li>White kernel : The White Kernel is used for noise estimation -- docs suggest useful for estimating the global noise level, but not pointwise.</li>
+<li>Matern: This is a generalized exponential decay, where the exponents is a powerlaw in separation distance. Special limits include the RBF and also an absolute distance exponential decay. Some special parameter choices allow for existence of single or double derivatives.</li>
+<li>Rational quadratic: This is <span class="math">\((1 + (d / l)^2)^{\alpha}\)</span>.</li>
+<li>Exp-Sine-Squared: This allows one to model periodic functions. This is just like the RBF, but the distance that gets plugged in is the sine of the actual distance. A periodicity parameter exists, as well as a "variance"
+    -- the scale of the Gaussian suppression.</li>
+<li>Dot product kernel : This takes form <span class="math">\(1 + x_i \cdot x_j\)</span>. It's not stationary, in the sense that the result changes if a constant translation is added in. They state that you get this result from linear regression analysis if you place <span class="math">\(N(0,1)\)</span> priors on the coefficients.</li>
+<li>Kernels as objects : The kernels are objects, but support binary operations between them to create more complicated kernels, eg addition, multiplication, and exponentiation (latter simply raises initial kernel to a power). They all support analytic gradient evaluation. You can access all of the parameters in a kernel that you define via some helper functions -- eg, <code>kernel.get_params()</code>. <code>kernel.hyperparameters</code> is a list of all the hyper-parameters.</li>
+</ul>
+<h4>Parameters</h4>
+<ul>
+<li><code>n_restarts_optimizer</code>: This is the number of times to restart the fit -- useful for exploration of multiple local minima. The default is zero.</li>
+<li><code>alpha</code>: This optional argument allows one to pass in uncertainties for each measurement.</li>
+<li><code>normalize_y</code>: This is used to indicate that the mean of the <span class="math">\(y\)</span>-values we're looking for is not necessarily zero.</li>
+</ul>
+<h4>Example call</h4>
+<p>The code snippet below carries out a simple fit. The result is the plot shown at the top of this section.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.gaussian_process.kernels</span> <span class="kn">import</span> <span class="n">RBF</span><span class="p">,</span> <span class="n">ConstantKernel</span> <span class="k">as</span> <span class="n">C</span>
+<span class="kn">from</span> <span class="nn">sklearn.gaussian_process</span> <span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Build a model</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">))</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">gp</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># Some data</span>
+<span class="n">xobs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">yobs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Fit the model to the data (optimize hyper parameters)</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xobs</span><span class="p">,</span> <span class="n">yobs</span><span class="p">)</span>
+
+<span class="c1"># Plot points and predictions</span>
+<span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x_set</span><span class="p">])</span>
+<span class="n">means</span><span class="p">,</span> <span class="n">sigmas</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">sigmas</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+    <span class="n">y_set</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">sample_y</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">y_set</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div>
+
+<p>More details on the sklearn implementation can be found <a href="http://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.GaussianProcessRegressor.html">here</a>.</p>
+<h3>Appendix C: GP Classifiers</h3>
+<p>Here, we describe how GPs are often used to fit binary classification data -- data where the response variable <span class="math">\(y\)</span> can take on values of either <span class="math">\(0\)</span> or <span class="math">\(1\)</span>. The mathematics for GP Classifiers does not work out as cleanly as it does for GP Regressors. The reason is that the <span class="math">\(0 / 1\)</span> response is not Gaussian-distributed, which means that the posterior is not either. To make use of the program, one approximates the posterior as normal, via the Laplace approximation.</p>
+<p>The starting point is to write down a form for the probability of seeing a given <span class="math">\(y\)</span> value at <span class="math">\(x\)</span>. This, ones takes as the form,
+</p>
+<div class="math">\begin{align} \tag{A8} \label{classifier}
+p(y \vert f(x)) = \frac{1}{1 + \exp\left (- y \times f(x)\right)}.
+\end{align}</div>
+<p>
+This form is a natural non-linear generalization of logistic regression -- see our post on this topic, <a href="/logistic-regression">here</a>.</p>
+<p>To proceed, the prior for <span class="math">\(f\)</span> is taken to once again have form (\ref{prior}). Using this and (\ref{classifier}), we obtain the posterior for <span class="math">\(f\)</span>
+</p>
+<div class="math">\begin{align}
+p(f \vert y) &amp;\sim \frac{1}{1 + \exp\left (- y \times f(x)\right)} \exp \left ( - \frac{1}{2} \sum_{ij=1}^N f_i \Sigma^{-1}_{ij} f_j \right) \\
+&amp;\approx N(\mu, \Sigma^{\prime}) \tag{A9}
+\end{align}</div>
+<p>
+Here, the last line is the Laplace / Normal approximation to the line above it. Using this form, one can easily obtain confidence intervals and samples from the approximate posterior, as was done for regressors.</p>
+<h3>Footnotes</h3>
+<p>[1] The size of the <span class="math">\(\sigma_i\)</span> determines how precisely we know the function value at each of the <span class="math">\(x_i\)</span> points sampled -- if they are all <span class="math">\(0\)</span>, we know the function exactly at these points, but not anywhere else.</p>
+<p>[2] One might wonder whether introducing more points to the analysis would change the posterior statistics for the original <span class="math">\(N\)</span> points in question. It turns out that this is not the case for GPs: If one is interested only in the joint-statistics of these <span class="math">\(N\)</span> points, all others integrate out. For example, consider the goal of identifying the posterior distribution of <span class="math">\(f\)</span> at only a single test point <span class="math">\(x\)</span>. In this case, the posterior for the <span class="math">\(N = n+1\)</span> points follows from Bayes's rule,
+</p>
+<div class="math">\begin{align} \tag{f1}
+p(f(x_1), \ldots, f(x_n), f(x_{n+1}) \vert \{y\}) = \frac{p(\{y\} \vert f) p(f)}{p(\{y\})}.
+\end{align}</div>
+<p>
+Now, by assumption, <span class="math">\(p(\{y\} \vert f)\)</span> depends only on <span class="math">\(f(x_1),\ldots, f(x_n)\)</span> -- the values of <span class="math">\(f\)</span> where <span class="math">\(y\)</span> was sampled. Integrating over all points except the sample set and test point <span class="math">\(x\)</span> gives
+</p>
+<div class="math">\begin{align} \tag{f2}
+&amp;p(f(x_1), \ldots, f(x_{n+1}) \vert \{y\}) =\\
+&amp; \frac{p(\{y\} \vert f(x_1),\ldots,f(x_n))}{p(\{y\})} \int p(f) \prod_{i \not \in \{x_1, \ldots, x_N\}} df_i
+\end{align}</div>
+<p>
+The result of the integral above is a Normal distribution -- one with covariance given by the original covariance function evaluated only at the points <span class="math">\(\{x_1, \ldots, x_{N} \}\)</span>. This fact is proven in our post on Normal distributions -- see equation (22) of that post, <a href="/normal-distributions">here</a>. The result implies that we can get the correct sampling statistics on any set of test points, simply by analyzing these alongside the sampled points. This fact is what allows us to tractably treat the formally-infinite number of degrees of freedom associated with GPs.</p>
+<p>[3] We have a prior post illustrating this point -- see <a href="/model-selection">here</a>.</p>
+<p>[4] The marginal likelihood is equal to the denominator of (\ref{Bayes}), which we previously ignored.</p>
+<p>[5] We made this gif through adapting the skopt tutorial code, <a href="https://scikit-optimize.github.io/notebooks/bayesian-optimization.html">here</a>.</p>
+<p>[6] For the free text by Rasmussen and Williams, see <a href="http://www.gaussianprocess.org/">here</a>.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/methods.html">methods</a>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

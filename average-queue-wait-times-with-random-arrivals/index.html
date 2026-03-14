@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Queries ping a certain computer server at random times, on average \(\lambda\) arriving per second. The server can respond to one per second and those that can&#39;t be serviced immediately are queued up. What is the average wait time per query? Clearly if \(\lambda \ll 1\), the average wait time is zero. But if \(\lambda &gt; 1\), the queue grows indefinitely …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta name="keywords" content="math/stats">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Average queue wait times with random arrivals"/>
+  <meta property="og:description" content="Queries ping a certain computer server at random times, on average \(\lambda\) arriving per second. The server can respond to one per second and those that can&#39;t be serviced immediately are queued up. What is the average wait time per query? Clearly if \(\lambda \ll 1\), the average wait time is zero. But if \(\lambda &gt; 1\), the queue grows indefinitely …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/average-queue-wait-times-with-random-arrivals"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2016-04-23 09:51:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Average queue wait times with random arrivals</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="average-queue-wait-times-with-random-arrivals">Average queue wait times with random arrivals</h1>
+    <p>
+      Published on Sat 23 April 2016
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Queries ping a certain computer server at random times, on average <span class="math">\(\lambda\)</span> arriving per second. The server can respond to one per second and those that can't be serviced immediately are queued up. What is the average wait time per query? Clearly if <span class="math">\(\lambda \ll 1\)</span>, the average wait time is zero. But if <span class="math">\(\lambda &gt; 1\)</span>, the queue grows indefinitely and the answer is infinity! Here, we give a simple derivation of the general result -- (9) below.</p>
+<h3>Introduction</h3>
+<p>The mathematics of queue waiting times -- first worked out by <a href="https://en.wikipedia.org/wiki/Erlang_(unit)">Agner Krarup Erlang</a> -- is interesting for two reasons. First, as noted above, queues can exhibit phase-transition like behaviors: If the average arrival time is shorter than the average time it takes to serve a customer, the line will grow indefinitely, causing the average wait time to diverge. Second, when the average arrival time is less than the service time, waiting times are governed entirely by fluctuations -- and so can't be estimated well using mean-field arguments. For example, in the very low arrival rate limit, the only situation where anyone would ever have to wait at all is that where someone else happens to arrive just before them -- an unlucky, rare event.</p>
+<p>Besides being interesting from a theoretical perspective, an understanding of queue formation phenomena is also critical for many practical applications -- both in computer science and in wider industry settings. Optimal staffing of a queue requires a careful estimate of the expected customer arrival rate. If too many workers are staffed, the average wait time will be nicely low, but workers will largely be idle. Staff too few, and the business could enter into the divergent queue length regime -- certainly resulting in unhappy customers and lost business (or dropped queries). Staffing just the right amount requires a sensitive touch -- and in complex cases, a good understanding of the theory.</p>
+<p>In order to derive the average wait time for queues of different sorts, one often works within the framework of Markov processes. This approach is very general and elementary, but requires a bit of effort to develop the machinery needed get to the end results. Here, we demonstrate an alternative, sometimes faster approach that is based on writing down an integral equation for the wait time distribution. We consider only a simple case -- that where the queue is serviced by only one staff member, the customers arrive at random times via a Poisson process, and each customer requires the same time to service, one second.</p>
+<h3>Integral equation formulation</h3>
+<p>Suppose the <span class="math">\(N\)</span>-th customer arrives at time <span class="math">\(0\)</span>, and let <span class="math">\(P(t)\)</span> be the probability that this customer has to wait a time <span class="math">\(t\geq 0\)</span> before being served. This wait time can be written in terms of the arrival and wait times of the previous customer: If this previous customer arrived at time <span class="math">\(t^{\prime}\)</span> and has to wait a time <span class="math">\(w\)</span> before being served, his service will conclude at time <span class="math">\(t = t^{\prime} + w + 1\)</span>. If this is greater than <span class="math">\(0\)</span>, the <span class="math">\(N\)</span>-th customer will have to wait before being served. In particular, he will wait <span class="math">\(t\)</span> if the previous customer waited <span class="math">\(w = t - t^{\prime} - 1\)</span>.</p>
+<p>The above considerations allow us to write down an equation satisfied by the wait time distribution. If we let the probability that the previous customer arrived at <span class="math">\(t^{\prime}\)</span> be <span class="math">\(A(t^{\prime})\)</span>, we have (for <span class="math">\(t &gt; 0\)</span>)
+</p>
+<div class="math">\begin{eqnarray}
+\tag{1} \label{int_eqn}
+P(t) &amp;=&amp; \int_{-\infty}^{0^-} A(t^{\prime}) P(t - t^{\prime} - 1) d t^{\prime}  \\
+&amp;=&amp; \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} P(t - t^{\prime} - 1) d t^{\prime}
+\end{eqnarray}</div>
+<p>
+Here, in the first equality we're simply averaging over the possible arrival times of the previous customer (which had to occur before the <span class="math">\(N\)</span>-th, at <span class="math">\(0\)</span>), multiplying by the probability <span class="math">\(P(t - t^{\prime} - 1)\)</span> that this customer had to wait the amount of time <span class="math">\(w\)</span> needed so that the <span class="math">\(N\)</span>-th customer will wait <span class="math">\(t\)</span>. We also use the symmetry that each customer has the same wait time distribution at steady state. In the second equality, we have plugged in the arrival time distribution appropriate for our Poisson model.</p>
+<p>To proceed, we differentiate both sides of (\ref{int_eqn}) with respect to <span class="math">\(t\)</span>,
+</p>
+<div class="math">\begin{eqnarray}\tag{2} \label{int2}
+P^{\prime}(t) &amp;=&amp; \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt}P(t - t^{\prime} - 1) d t^{\prime} \\
+&amp;=&amp; - \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt^{\prime}}P(t - t^{\prime} - 1) d t^{\prime}.
+\end{eqnarray}</div>
+<p>
+The second equality follows after noticing that we can switch the parameter being differentiated in the first. Integrating by parts, we obtain
+</p>
+<div class="math">\begin{eqnarray}
+P^{\prime}(t) = \lambda \left [P(t) - P(t-1) \right], \tag{3} \label{sol}
+\end{eqnarray}</div>
+<p>
+a delay differential equation for the wait time distribution. This could be integrated numerically to get the full solution. However, our interest here is primarily the mean waiting time -- as we show next, it's easy to extract this part of the solution analytically.</p>
+<h3>Probability of no wait and the mean wait time</h3>
+<p>We can obtain a series of useful relations by multiplying (\ref{sol}) by powers of <span class="math">\(t\)</span> and integrating. The first such expression is obtained by multiplying by <span class="math">\(t^1\)</span>. Doing this and integrating its left side, we obtain
+</p>
+<div class="math">\begin{eqnarray} \tag{4} \label{int3}
+\int_{0^{+}}^{\infty} P^{\prime}(t) t dt = \left . P(t) t \right |_{0^{+}}^{\infty} - \int_{0^+}^{\infty} P(t) dt = 1 - P(0).
+\end{eqnarray}</div>
+<p>
+Similarly integrating its right side, we obtain</p>
+<div class="math">\begin{eqnarray}\tag{5} \label{int4}
+\lambda \int_{0^{+}}^{\infty} t \left [P(t) - P(t-1) \right] = \lambda [ \bar{t} - \overline{(t + 1)} ] = - \lambda.
+\end{eqnarray}</div>
+<p>
+Equating the last two lines, we obtain the probability of no wait,
+</p>
+<div class="math">\begin{eqnarray} \tag{6} \label{int5}
+P(0) = 1 - \lambda.
+\end{eqnarray}</div>
+<p>
+This shows that when the arrival rate is low, the probability of no wait goes to one -- an intuitively reasonable result. On the other hand, as <span class="math">\(\lambda \to 1\)</span>, the probability of no wait approaches zero. In between, the idle time fraction of our staffer (which is equal to the probability of no wait, given a random arrival time) grows linearly, connecting these two limits.</p>
+<p>To obtain an expression for the average wait time, we carry out a similar analysis to that above, but multiply (\ref{sol}) by <span class="math">\(t^2\)</span> instead. The integral on left is then
+</p>
+<div class="math">\begin{eqnarray} \tag{7} \label{int6}
+\int_{0^{+}}^{\infty} P^{\prime}(t) t^2 dt = \left . P(t) t^2 \right |_{0^{+}}^{\infty} - 2\int_{0^+}^{\infty} P(t) t dt = - 2 \bar{t}.
+\end{eqnarray}</div>
+<p>
+Similarly, the integral at right is
+</p>
+<div class="math">\begin{eqnarray} \tag{8} \label{fin_int}
+\lambda \int_{0^{+}}^{\infty} t^2 \left [P(t) - P(t-1) \right] &amp;=&amp; \lambda \overline{ t^2} - \overline{ (t + 1)^2} \\
+&amp;=&amp; - \lambda (2 \bar{t} +1).
+\end{eqnarray}</div>
+<p>
+Equating the last two lines and rearranging gives our solution for the average wait,
+</p>
+<div class="math">\begin{eqnarray} \tag{9} \label{fin}
+\bar{t} = \frac{\lambda}{2 (1 - \lambda)}.
+\end{eqnarray}</div>
+<p>
+As advertised, this diverges as <span class="math">\(\lambda \to 1\)</span>, see illustration in the plot below. It's very interesting that even as <span class="math">\(\lambda\)</span> approaches this extreme limit, the line is still empty a finite fraction of the time -- see (\ref{int5}). Evidently a finite idle time fraction can't be avoided, even as one approaches the divergent <span class="math">\(\lambda = 1\)</span> limit.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2016/04/Screen-Shot-2016-04-23-at-5.02.38-PM.png"></p>
+
+<h3>Conclusions and extensions</h3>
+<p>To carry this approach further, one could consider the case where the queue feeds <span class="math">\(k\)</span> staff, rather than just one. I've made progress on this effort in certain cases, but have been stumped on the general problem. One interesting thing you can intuit about this <span class="math">\(k\)</span>-staff version is that one approaches the mean-field analysis as <span class="math">\(k\to \infty\)</span> (adding more staff tends to smooth things over, resulting in a diminishing of the importance of the randomness of the arrival times). This means that as <span class="math">\(k\)</span> grows, we'll have very little average wait time for any <span class="math">\(\lambda&lt;1\)</span>, but again divergent wait times for any <span class="math">\(\lambda \geq 1\)</span> -- like an infinite step function. Another direction one could pursue is to allow the service times to follow a distribution. Both cases can also be worked out using the Markov approach -- references to such work can be found in the link provided in the introduction.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

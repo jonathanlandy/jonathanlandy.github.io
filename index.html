@@ -23,6 +23,8 @@
   <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
 
 
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
 
   <!-- Chrome, Firefox OS and Opera -->
   <meta name="theme-color" content="#333">
@@ -55,7 +57,7 @@
   <meta property="og:url" content="https://jslandy.com"/>
   <meta property="og:image" content="/images/headshot.png">
 
-  <title>Jonathan Landy</title>
+  <title>Jonathan Landy &ndash; Blog</title>
 
 
 </head>
@@ -71,138 +73,342 @@
       <a href="https://jslandy.com/"></a>
     </h1>
 
-    <p>Notes on math, data, and code</p>
+    <p>jslandy's notes on math, data, etc.</p>
 
 
     <nav>
       <ul class="list">
 
 
-            <li>
-              <a target="_self"
-                 href="https://jslandy.com/about#about">
-                About
-              </a>
-            </li>
 
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
       </ul>
     </nav>
 
-    <ul class="social">
-      <li>
-        <a class="sc-github"
-           href="https://github.com/jslandy"
-           target="_blank">
-          <i class="fa-brands fa-github"></i>
-        </a>
-      </li>
-    </ul>
   </div>
 
 </aside>
   <main>
 
 
-
-
-<article>
+<article class="single">
   <header>
-    <h2><a href="https://jslandy.com/hello-world#hello-world">Hello World</a></h2>
-    <p>
-      Posted on Thu 12 March 2026 in <a href="https://jslandy.com/category/articles.html">articles</a>
-
-          &#8226; Tagged with
-              <a href="https://jslandy.com/tag/intro.html">intro</a>
-    </p>
+    <h1 id="archives">Blog</h1>
   </header>
   <div>
-      <div><p>This is my first post. Welcome to the blog.</p>
-<h2>What this site is for</h2>
-<p>I'll be writing about math, data science, and whatever else seems interesting.</p>
-<h2>A quick formula</h2>
-<p>Just to test math rendering: the normal distribution has density</p>
-<div class="math">$$p(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</div>
-<p>More soon.</p>
-<script type="text/javascript">if (!document.getElementById …</script><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
 
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
 
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    <div id="tag-filter">
+      <button class="tag-btn active" data-tag="all">All</button>
+      <button class="tag-btn" data-tag="popular">popular</button>
+      <button class="tag-btn" data-tag="finance">finance</button>
+      <button class="tag-btn" data-tag="inventory management">inventory management</button>
+      <button class="tag-btn" data-tag="linselect">linselect</button>
+      <button class="tag-btn" data-tag="math/stats">math/stats</button>
+      <button class="tag-btn" data-tag="methods">methods</button>
+      <button class="tag-btn" data-tag="misc">misc</button>
+      <button class="tag-btn" data-tag="optimization">optimization</button>
+      <button class="tag-btn" data-tag="programming">programming</button>
+      <button class="tag-btn" data-tag="traffic">traffic</button>
+    </div>
 
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
+    <ul id="archive-list">
+        <li data-tags="inventory management">
+          <span class="archive-date">2026-01-20</span>
+          <a href="https://jslandy.com/pricing">Static Pricing Theory</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-12-19</span>
+          <a href="https://jslandy.com/misallocation">The Cost of Allocation Errors</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-11-04</span>
+          <a href="https://jslandy.com/wholesale">The Wholesale Gamble</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-08-18</span>
+          <a href="https://jslandy.com/risk-adjusted-return">Risk-Adjusted Return on Inventory Buys</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-08-04</span>
+          <a href="https://jslandy.com/allocation">Optimal Allocation</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-07-21</span>
+          <a href="https://jslandy.com/returns">How Return Rates Affect Margin in E-commerce</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-07-08</span>
+          <a href="https://jslandy.com/econ">Product Categories Supporting Option Breadth</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-06-16</span>
+          <a href="https://jslandy.com/complex">Complex, cannibalization-heavy assortments</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-06-02</span>
+          <a href="https://jslandy.com/news">The Newsvendor Model and Apparel</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-05-18</span>
+          <a href="https://jslandy.com/quantity">Three insights from order quantity theory</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-05-05</span>
+          <a href="https://jslandy.com/safetystock">Three lessons from safety stock theory</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-04-08</span>
+          <a href="https://jslandy.com/colorways">Setting colorway count in an apparel product line</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-03-24</span>
+          <a href="https://jslandy.com/color">Garment Color and Lighting</a>
+        </li>
+        <li data-tags="inventory management">
+          <span class="archive-date">2025-03-06</span>
+          <a href="https://jslandy.com/newbuy">Balancing new and bestsellers in apparel</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2023-12-13</span>
+          <a href="https://jslandy.com/math-of-parking-tickets">Mathematics of parking tickets</a>
+        </li>
+        <li data-tags="misc|popular">
+          <span class="archive-date">2022-08-07</span>
+          <a href="https://jslandy.com/memory recall">Spaced repetition can allow for infinite recall</a>
+        </li>
+        <li data-tags="misc">
+          <span class="archive-date">2021-11-22</span>
+          <a href="https://jslandy.com/change">Counting the number of ways to make change for a trillion dollars</a>
+        </li>
+        <li data-tags="finance">
+          <span class="archive-date">2021-03-20</span>
+          <a href="https://jslandy.com/generalized_dollar_cost_averaging">Generalized Dollar Cost Averaging</a>
+        </li>
+        <li data-tags="optimization">
+          <span class="archive-date">2021-02-14</span>
+          <a href="https://jslandy.com/duality">Physics-based proof of the duality theorem for linear programs</a>
+        </li>
+        <li data-tags="finance">
+          <span class="archive-date">2020-12-20</span>
+          <a href="https://jslandy.com/pricing-dividend-stocks">Pricing dividend stocks</a>
+        </li>
+        <li data-tags="misc">
+          <span class="archive-date">2020-09-13</span>
+          <a href="https://jslandy.com/utility-engines">Utility engines</a>
+        </li>
+        <li data-tags="misc|popular">
+          <span class="archive-date">2020-07-03</span>
+          <a href="https://jslandy.com/quinoa packing">2 + 1 = 4, by quinoa</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2020-03-29</span>
+          <a href="https://jslandy.com/pooling">Sample pooling to reduce needed disease screening test counts</a>
+        </li>
+        <li data-tags="finance">
+          <span class="archive-date">2019-12-09</span>
+          <a href="https://jslandy.com/universal-mean-return-formula-of-the-cppi-investment-strategy">Universal limiting mean return of CPPI investment portfolios</a>
+        </li>
+        <li data-tags="finance">
+          <span class="archive-date">2019-12-05</span>
+          <a href="https://jslandy.com/universal-drawdown-statistics-in-investing">Universal drawdown statistics in investing</a>
+        </li>
+        <li data-tags="programming">
+          <span class="archive-date">2019-09-14</span>
+          <a href="https://jslandy.com/timemarker-class-for-python">TimeMarker class for python</a>
+        </li>
+        <li data-tags="finance">
+          <span class="archive-date">2019-06-28</span>
+          <a href="https://jslandy.com/compounding-benefits-of-tax-protected-accounts">Compounding benefits of tax protected accounts</a>
+        </li>
+        <li data-tags="misc">
+          <span class="archive-date">2019-06-21</span>
+          <a href="https://jslandy.com/utility-functions-and-immigration">Utility functions and immigration</a>
+        </li>
+        <li data-tags="traffic|misc">
+          <span class="archive-date">2019-06-14</span>
+          <a href="https://jslandy.com/the-speed-of-traffic">The speed of traffic</a>
+        </li>
+        <li data-tags="linselect|methods|popular">
+          <span class="archive-date">2018-08-11</span>
+          <a href="https://jslandy.com/unsupervised-feature-selection-in-python-with-linselect">Linear compression in python: PCA vs unsupervised feature selection</a>
+        </li>
+        <li data-tags="linselect">
+          <span class="archive-date">2018-05-31</span>
+          <a href="https://jslandy.com/linselect-demo">linselect demo: a tech sector stock analysis</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2018-03-03</span>
+          <a href="https://jslandy.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data">Integration method to map model scores to conversion rates from example data</a>
+        </li>
+        <li data-tags="methods|math/stats">
+          <span class="archive-date">2017-11-25</span>
+          <a href="https://jslandy.com/gaussian-processes">Gaussian Processes</a>
+        </li>
+        <li data-tags="finance">
+          <span class="archive-date">2017-10-20</span>
+          <a href="https://jslandy.com/martingales">Martingales</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2017-07-29</span>
+          <a href="https://jslandy.com/logistic-regression">Logistic Regression</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2017-05-13</span>
+          <a href="https://jslandy.com/normal-distributions">Normal Distributions</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2017-03-18</span>
+          <a href="https://jslandy.com/model-auc-depends-on-test-set-difficulty">Model AUC depends on test set difficulty</a>
+        </li>
+        <li data-tags="programming">
+          <span class="archive-date">2016-11-18</span>
+          <a href="https://jslandy.com/simple-python-to-latex-parser">Simple python to LaTeX parser</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2016-10-15</span>
+          <a href="https://jslandy.com/battleship">Deep reinforcement learning, battleship</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2016-08-21</span>
+          <a href="https://jslandy.com/model-selection">Hyperparameter sample-size dependence</a>
+        </li>
+        <li data-tags="methods|popular">
+          <span class="archive-date">2016-08-07</span>
+          <a href="https://jslandy.com/metropolis">Bayesian Statistics: MCMC</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2016-05-29</span>
+          <a href="https://jslandy.com/linear-regression">Linear Regression</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2016-04-23</span>
+          <a href="https://jslandy.com/average-queue-wait-times-with-random-arrivals">Average queue wait times with random arrivals</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2016-04-10</span>
+          <a href="https://jslandy.com/bonferroni-correction-for-multiple-pairwise-comparison-tests">Improved Bonferroni correction factors for multiple pairwise comparisons</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2016-02-14</span>
+          <a href="https://jslandy.com/independent-component-analysis">Independent component analysis</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2015-12-30</span>
+          <a href="https://jslandy.com/maximum-likelihood-asymptotics">Maximum-likelihood asymptotics</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2015-12-05</span>
+          <a href="https://jslandy.com/principal-component-analysis">Principal component analysis</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2015-10-11</span>
+          <a href="https://jslandy.com/bayesian-linear-regression">A review of parameter regularization and Bayesian regression</a>
+        </li>
+        <li data-tags="math/stats|finance">
+          <span class="archive-date">2015-09-13</span>
+          <a href="https://jslandy.com/stochastic-geometric-series">Stochastic geometric series</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2015-08-01</span>
+          <a href="https://jslandy.com/leave-one-out-cross-validation">Leave-one-out cross-validation</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2015-07-11</span>
+          <a href="https://jslandy.com/ranking-revisited">How not to sort by average rating, revisited</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2015-06-20</span>
+          <a href="https://jslandy.com/multivariate-cramer-rao-bound">Multivariate Cramer-Rao inequality</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2015-03-13</span>
+          <a href="https://jslandy.com/notes-on-trees">Machine Learning Methods: Decision trees and forests</a>
+        </li>
+        <li data-tags="math/stats">
+          <span class="archive-date">2015-02-25</span>
+          <a href="https://jslandy.com/math-of-measles">Mathematics of measles</a>
+        </li>
+        <li data-tags="programming">
+          <span class="archive-date">2015-01-16</span>
+          <a href="https://jslandy.com/quick-tutorial-on-mysql">Quick tutorial on MySQL</a>
+        </li>
+        <li data-tags="misc">
+          <span class="archive-date">2014-12-28</span>
+          <a href="https://jslandy.com/an-nba-christmas">Quantifying the NBA Christmas week flop: one in ten thousand?</a>
+        </li>
+        <li data-tags="methods">
+          <span class="archive-date">2014-12-20</span>
+          <a href="https://jslandy.com/methods-regression-without-negative-examples">Machine Learning Methods: Classification without negative examples</a>
+        </li>
+    </ul>
 
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script></div>
-        <br>
-        <a class="btn"
-           href="https://jslandy.com/hello-world#hello-world">
-          Continue reading
-        </a>
   </div>
 </article>
 
-  <div class="pagination">
-  </div>
+<style>
+#tag-filter {
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+}
+.tag-btn {
+  padding: 0.25em 0.75em;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+.tag-btn.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+#archive-list {
+  list-style: none;
+  padding: 0;
+}
+#archive-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 1em;
+  margin: 0.4em 0;
+}
+.archive-date {
+  flex-shrink: 0;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+</style>
 
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.tag-btn');
+  var items = document.querySelectorAll('#archive-list li');
 
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      buttons.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var tag = btn.dataset.tag;
+      items.forEach(function (li) {
+        var tags = li.dataset.tags ? li.dataset.tags.split('|') : [];
+        li.style.display = (tag === 'all' || tags.indexOf(tag) !== -1) ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
 
-<footer>
-<p>&copy;  </p>
-<p>
-Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
-</p></footer>  </main>
+<footer></footer>  </main>
 
 <script type="application/ld+json">
 {

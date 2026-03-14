@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Here, we give a quick (&lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like us). Follow @efavdb Follow us on twitter for new submission …" />
+<meta name="keywords" content="programming">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Quick tutorial on MySQL"/>
+  <meta property="og:description" content="Here, we give a quick (&lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like us). Follow @efavdb Follow us on twitter for new submission …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/quick-tutorial-on-mysql"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2015-01-16 16:07:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="programming"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Quick tutorial on MySQL</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="quick-tutorial-on-mysql">Quick tutorial on MySQL</h1>
+    <p>
+      Published on Fri 16 January 2015
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Here, we give a quick (&lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like us).</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a></p>
+<p>Follow us on twitter for new submission alerts!</p>
+<h4><strong>Getting started</strong></h4>
+<p>MySQL is a database software package that allows users to quickly access subsets of data contained within tables, and also to carry out simple operations on this data. The software is quite powerful, but it can be surprisingly unintuitive for beginners. The best way to get the hang of it is to play around with it a bit. This post provides a set of commands that should help you get a feel for how it works. If you're a beginner reading this, we suggest <a href="http://dev.mysql.com/doc/refman/5.5/en/installing.html">installing</a> it on your personal computer or server, and following along by trying each of the commands we go through here. Once it's installed and you have its server running, you can often access MySQL from the command line by typing</p>
+<div class="highlight"><pre><span></span><code>mysql
+</code></pre></div>
+
+<p>On a mac, you may need to use the following though</p>
+<div class="highlight"><pre><span></span><code>/usr/local/mysql/bin/mysql<span class="w"> </span>-uroot
+</code></pre></div>
+
+<p>Once mysql is loaded, you can see what databases are available by typing</p>
+<div class="highlight"><pre><span></span><code><span class="k">SHOW</span><span class="w"> </span><span class="n">DATABASES</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Notice that a semi-colon is used to terminate commands: In general, these can extend across multiple lines and the semi-colon tells the program where the command stops. Also, MySQL is case-insensitive, but it is considered good form to have all command calls capitalized for easier reading. If no databases yet exist, you can create one as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">animalDB</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Here, <code>animalDB</code> is the name of the database. From the list of available databases,
+you can select one of interest with the <code>USE</code> command. For example,</p>
+<div class="highlight"><pre><span></span><code><span class="n">USE</span><span class="w"> </span><span class="n">animalDB</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Each database can contain many tables. To see the tables contained in a database, use the SHOW command,</p>
+<div class="highlight"><pre><span></span><code><span class="k">SHOW</span><span class="w"> </span><span class="n">tables</span><span class="p">;</span>
+</code></pre></div>
+
+<h4><strong>Table creation and alteration</strong></h4>
+<p>SQL tables have a name and a set of rows and columns. The columns have types that are defined upon table creation (<code>INT, BIGINT, FLOAT, DOUBLE, CHAR, VARCHAR</code>, etc.). The rows correspond to individual table entries. To illustrate, we’ll now create a table called “MyPets”, with a column for pet name, species, and age. This is done with the command</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">MyPets</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<span class="w">    </span><span class="n">species</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="nb">INT</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Here, we are using the <code>VARCHAR</code> type for our two string columns. The argument supplied allows us to use strings up to length <code>10</code> for these entries. We could also have used the <code>CHAR(10)</code> type here, but that would result in trailing spaces following names shorter than <code>10</code> characters. We now insert some entries using the <code>INSERT</code> command,</p>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">MyPets</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;Bottles&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Dog&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">MyPets</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">species</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;Mac&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Dog&quot;</span><span class="p">);</span>
+<span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">MyPets</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;Hector&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Cat&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Here, we’ve illustrated two different methods to do insertion. In the first and third lines, we have values for all columns. However, in the second, no age is supplied, so we have to specify which columns the values we are supplying correspond to. The age column for this entry will read <code>NULL</code>, since no value was provided for it. To view the table, we write – with <code>SELECT</code> and <code>∗</code> meaning "retrieve" and “all”, respectively –</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">MyPets</span><span class="p">;</span>
+<span class="o">&gt;&gt;</span>
+<span class="w">    </span><span class="o">+</span><span class="c1">---------+---------+------+</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">species</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">|</span>
+<span class="w">    </span><span class="o">+</span><span class="c1">---------+---------+------+</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Bottles</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Dog</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">|</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Mac</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Dog</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="o">|</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Hector</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Cat</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span>
+<span class="w">    </span><span class="o">+</span><span class="c1">---------+---------+------+</span>
+</code></pre></div>
+
+<p>Additional <code>SELECT</code> queries are given below that illustrate how one can select and operate on subsets of the columns and rows. To add an age for Mac, we use the <code>UPDATE, SET</code>, and <code>WHERE</code> commands, writing</p>
+<div class="highlight"><pre><span></span><code><span class="k">UPDATE</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">    </span><span class="k">SET</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;Mac&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<p>To see that this and the other commands that follow work as expected, try running the <code>SELECT</code> command above after each application. To delete a row from the table, we use the DELETE command,</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;Hector&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<p>It is also possible to add or subtract columns from a table. To add a column, we use
+the <code>ALTER</code> and <code>ADD COLUMN</code> commands,</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">    </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">litters</span><span class="w"> </span><span class="nb">INT</span>
+<span class="w">    </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+
+<p>The last line here is not necessary. Without it, the command would create the column and set each row’s value there to <code>NULL</code>. To delete a column, we use the <code>DROP</code> command,</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">    </span><span class="k">DROP</span><span class="w"> </span><span class="n">litters</span><span class="p">;</span>
+</code></pre></div>
+
+<p><em>Caveat:</em> While row addition and removal can always be carried out quickly, addition and removal of columns scales linearly with table size. The reason is that these operations are generally carried out by copying the original table into a second table having the desired new structure. For this reason, it is generally a good idea to plan ahead and make sure any new table has all the columns you foresee might be needed.</p>
+<h4><strong>SELECTION queries -- learn by example</strong></h4>
+<p>Example conditional commands:</p>
+<ol>
+<li>What is the name and age each of my pets?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mypets</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>How many dogs have I got?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">mypets</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;dog&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>Show me just the first two pets in my table.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">mypets</span>
+<span class="w">    </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>Show me my pets in age-descending order.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">    </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>Which of my dogs are under 4 years old?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">      </span><span class="k">AND</span><span class="w"> </span><span class="n">species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;dog&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>Which animals have names that start with the letter “M”?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">mypets</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="ss">&quot;M%&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>Which animals have the letter “E” somewhere in their name?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">mypets</span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="ss">&quot;%E%&quot;</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Example GROUP BY commands (see also <code>MIN, MAX, SUM, STD</code>, etc.):</p>
+<ol>
+<li>How many pets have I got of each species?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">mypets</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">species</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>What is the average age of my pets, grouped by species?</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">mypets</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">species</span><span class="p">;</span>
+</code></pre></div>
+
+<h4><strong>Actions on multiple tables</strong></h4>
+<ol>
+<li>To solidify what we've learned above, try to now create a second table, called <code>PetDetails</code>, like that above but with different age and species values. You can add other columns to it if you like. Once that's done, apply the <code>SHOW TABLES</code> command to see that both tables are available. Next, learn to copy specific values from this new table into the first one, using commands like</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">MyPets</span><span class="p">,</span><span class="w"> </span><span class="n">PetDetails</span>
+<span class="w">      </span><span class="k">SET</span><span class="w"> </span><span class="n">MyPets</span><span class="p">.</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetDetails</span><span class="p">.</span><span class="n">age</span>
+<span class="w">      </span><span class="k">WHERE</span><span class="w"> </span><span class="n">MyPets</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetDetails</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Note the use of the period here to specify from which table a certain column is to be selected from.
+</code></pre></div>
+
+<ol>
+<li><em>The</em> <code>JOIN/ON</code> <em>commands</em>. The <code>JOIN</code> command essentially creates something like a flattened outer product of two tables: If there are <span class="math">\(n\)</span> entries in the first table and <span class="math">\(m\)</span> in the second, the command returns a table with <span class="math">\(n \times m\)</span> rows. There is one row for each possible pairing, one entry taken from the first table and one from the second. All columns from both tables are then included in the new table. The ON command can be used to specify conditions on which pairs are to be included in the combined table. To illustrate, let’s define a new table of pet-trick pairs</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">PetTricks</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="w"> </span><span class="n">trick</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+<span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">PetTricks</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;Bottles&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Shake&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">PetTricks</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;Bottles&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Play dead&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">PetTricks</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;Mac&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Shake&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">PetTricks</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;Dogbert&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Consulting&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>With the following, we get the number of tricks each of my pets can do</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">MyPets</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">num_tricks</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="n">MyPets</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">PetTricks</span>
+<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">MyPets</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetTricks</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">MyPets</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Here, we see for the first time that it is possible to select values from a table created "on the fly" (the table in parentheses, which you can print using the <code>SELECT</code> command). We also see for the first time the concept of aliasing, applied through use of the <code>AS</code> command.</p>
+<ol>
+<li>Our last -- and most complicated -- example combines many of the ideas discussed above. If you can get to the point where you can replicate commands like this one, you'll be pretty much set to construct your own complex SQL queries: Let’s add a trick count to our first table, and then fill it in by querying the PetTricks table.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">      </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">num_tricks</span><span class="w"> </span><span class="nb">INT</span>
+<span class="w">      </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">MyPets</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">T1</span><span class="p">,</span>
+<span class="w">        </span><span class="p">(</span><span class="k">Select</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tot</span>
+<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">PetTricks</span>
+<span class="w">        </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">T2</span>
+<span class="w">        </span><span class="k">SET</span><span class="w"> </span><span class="n">T1</span><span class="p">.</span><span class="n">num_tricks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">T2</span><span class="p">.</span><span class="n">tot</span>
+<span class="w">        </span><span class="k">WHERE</span><span class="w"> </span><span class="n">T1</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">T2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">MyPets</span><span class="p">;</span>
+<span class="w">    </span><span class="o">&gt;&gt;</span>
+<span class="w">        </span><span class="o">+</span><span class="c1">---------+---------+------+------------+</span>
+<span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">species</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">num_tricks</span><span class="w"> </span><span class="o">|</span>
+<span class="w">        </span><span class="o">+</span><span class="c1">---------+---------+------+------------+</span>
+<span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">Bottles</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Dog</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">|</span>
+<span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">Mac</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Dog</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span>
+<span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">Hector</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Cat</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span>
+<span class="w">        </span><span class="o">+</span><span class="c1">---------+---------+------+------------+</span>
+</code></pre></div>
+
+<h4><strong>Other tips</strong></h4>
+<p>Lastly, a few one-off tips that can be very helpful.</p>
+<ol>
+<li><em>Creating a new table similar another.</em> The following command can come in handy when you’re dealing with tables that have many columns:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">TNew</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="n">T1</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Here, the command creates <code>TNew</code>, a new table with column names and types like those of <code>T1</code>. The entries of <code>T1</code> are not copied over. If you want to copy some of them over, you can do that with a command like</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">TNew</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">T1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="p">...);</span>
+</code></pre></div>
+
+<ol>
+<li><em>Saving to a text file.</em> Printing a table to a text file can sometimes be useful. To proceed, you first need to create a directory that MySQL can have write access to. On a mac, you can accomplish this from the terminal with the following</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nb">cd</span><span class="w"> </span>/usr/local
+<span class="w">    </span>mkdir<span class="w"> </span>MySQLOutput
+<span class="w">    </span>sudo<span class="w"> </span>chmod<span class="w"> </span>-R<span class="w"> </span><span class="m">777</span><span class="w"> </span>MySQLOutput
+</code></pre></div>
+
+<p>This creates the directory <code>/usr/local/MYSQLOutput</code> with global read, write, and execute permissions. With this setup, we can write to a file from within MySQL with a command like</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">        </span><span class="k">INTO</span><span class="w"> </span><span class="n">OUTFILE</span><span class="w"> </span><span class="ss">&quot;/usr/local/MySQLOutput/test.txt&quot;</span>
+</code></pre></div>
+
+<ol>
+<li><em>Scripts.</em> For complicated queries, or queries that you would like to be able to run multiple times, it is useful to employ scripts. These can then be executed from within mysql using the <code>SOURCE</code> command. To illustrate, suppose we have a text file called <code>/usr/local/MySQLOutput/test.txt</code> within which we have written the commands</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">CREATE</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">Bad_dogs</span><span class="w"> </span><span class="p">(</span><span class="n">DogID</span><span class="w"> </span><span class="nb">BIGINT</span><span class="p">,</span><span class="w"> </span><span class="n">Barks</span><span class="w"> </span><span class="nb">INT</span><span class="p">);</span>
+<span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">Bad_dogs</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1234567890</span><span class="p">,</span><span class="w"> </span><span class="mi">666</span><span class="p">);</span>
+</code></pre></div>
+
+<p>We can run this from within MySQL using the command</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">SOURCE</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">MySQLOutput</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">txt</span><span class="p">;</span>
+</code></pre></div>
+
+<p>This creates the table and inserts the example entry.</p>
+<ol>
+<li><em>Indexing.</em> By creating an index, one can speed up <code>SELECT</code> calls on large tables. You can think of an index heuristically as a second table having two columns: The first is a sorted version of one of the original table’s columns, and the second column is a pointer to the memory block where its corresponding entry sits (actually, an index usually sits in a B-tree, a structure similar to a binary-search tree). Entries can be quickly accessed via the index, generally in logarithmic time. To add a key to our first table, write</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">MyPets</span>
+<span class="w">        </span><span class="k">ADD</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+</code></pre></div>
+
+<p>This selects the name column as our index, which will speed up all <code>SELECT</code> calls seeking entries with <code>name</code> values satisfying some condition -- specified using <code>WHERE name = ...</code>. You can actually index as many columns of a table as you like. However, this takes up disk space, and so should be avoided when the extra indexes are not useful. It is also possible to specify that you want one or more columns to be keys upon table creation.</p>
+<ol>
+<li><em>Further study.</em> At this point, we have covered most of the basics, but only the basics. If you get stumped by any tricky queries moving forward, we suggest visiting both <a href="http://stackoverflow.com/">stackoverflow.com</a> -- which has tons of interesting discussions on the topic -- and the <a href="http://dev.mysql.com/doc/">MySQL documentation page</a>, which goes over most everything and includes a tutorial in chapter 3 similar to this one. Both are excellent resources.</li>
+</ol>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/programming.html">programming</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

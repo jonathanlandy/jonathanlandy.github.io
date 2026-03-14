@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="A person&#39;s happiness does not depend only on their current lot in life, but also on the rate of change of their lot. This is because a person&#39;s prior history informs their expectations. Here, we build a model that highlights this emotional &#34;path-dependence&#34; quality of utility. Interestingly, we find that it can be gamed: One can increase net happiness via …" />
+<meta name="keywords" content="misc">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Utility engines"/>
+  <meta property="og:description" content="A person&#39;s happiness does not depend only on their current lot in life, but also on the rate of change of their lot. This is because a person&#39;s prior history informs their expectations. Here, we build a model that highlights this emotional &#34;path-dependence&#34; quality of utility. Interestingly, we find that it can be gamed: One can increase net happiness via …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/utility-engines"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2020-09-13 09:24:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="misc"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Utility engines</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="utility-engines">Utility engines</h1>
+    <p>
+      Published on Sun 13 September 2020
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>A person's happiness does not depend only on their current lot in life, but
+also on the rate of change of their lot.  This is because a person's prior
+history informs their expectations.  Here, we build a model that highlights
+this emotional "path-dependence" quality of utility.  Interestingly, we find
+that it can be gamed: One can increase net happiness via a process of gradual
+increased deprivation, followed by sudden jolts in increased consumption, as
+shown in the cartoon below -- this is the best approach.  In particular, it
+beats the steady consumption rate strategy.</p>
+<p align="center">
+         <img src="images/engine.png">
+
+</p>
+
+<h3>The utility function model</h3>
+<p>In this post, we assume that the utility realized by a person over a time <span class="math">\(T\)</span>
+is given by
+</p>
+<div class="math">\begin{eqnarray} \tag{1} \label{1}  U(t) = \int_0^T \left (a \vert
+x^{\prime}(t) \vert + b \vert x^{\prime}(t) \vert^2 \right)
+\text{sign}(x^{\prime}(t)) dt.
+\end{eqnarray}</div>
+<p>
+Here, <span class="math">\(x(t)\)</span> is a measure of consumption (one's "lot in life") at time <span class="math">\(t\)</span>.
+Our model here is a natural Taylor expansion, relevant for small changes in
+<span class="math">\(x(t)\)</span>.  It is positive when consumption is going up and negative when
+consumption is going down. We'll be interested to learn whether varying <span class="math">\(x(t)\)</span>
+subject to a fixed average constraint can result in increased net happiness,
+relative to the steady state consumption solution.  The answer is yes, and this
+can be understood qualitatively by considering the two terms above:</p>
+<ul>
+<li>
+<p>First term,  <span class="math">\(a \vert x^{\prime}(t) \vert \text{sign}(x^{\prime}(t))\)</span>:  This
+  term is proportional to the rate of change of consumption.
+  We assume that <span class="math">\(a &gt; 0\)</span>, so that as we start to consume less, it is negative,
+as we go back up it is positive.  We will be interested in cycles that repeat
+here, so will assume that our <span class="math">\(x(t)\)</span> is periodic with period <span class="math">\(T\)</span>.   In this
+case, the linear term -- while possibly acutely felt at each moment -- will
+integrate to an average of zero over the long term.</p>
+</li>
+<li>
+<p>Second term, <span class="math">\(b \vert x^{\prime}(t) \vert^2 \text{sign}(x^{\prime}(t))\)</span>: This
+  term is non-linear.  It is very weak for small rates of change but kicks in
+strongly whenever we have an abrupt change.  We again assume that <span class="math">\(b&gt;0\)</span> so that
+big drops in consumption are very painful, etc.</p>
+</li>
+</ul>
+<p>With the above comments in place, we can now see how our figure gives a net
+gain in utility:  On average, only the quadratic term matters and this will
+effectively only contribute during sudden jumps.  The declines in our figure
+are gradual, and so contribute only weakly in this term.  However, the
+increases are sudden and each give a significant utility "fix" as a
+consequence.</p>
+<p>For those interested, we walk through the simple mathematics needed to exactly
+optimize our utility function in an appendix.  Concluding comments on the
+practical application of these ideas are covered next.</p>
+<h3>Practical considerations</h3>
+<p>A few comments:</p>
+<ul>
+<li>
+<p>Many people treat themselves on occasion -- with chocolates, vacations, etc.
+  -- perhaps empirically realizing that varying things improves their long
+  term happiness.  It is interesting to consider the possibility of optimizing
+  this effect, which we do with our toy model here:  In this model, we do not
+  want to live in a steady state salted with occasional treats:  Instead, we
+  want the saw-tooth shape of consumption shown in our figure.</p>
+</li>
+<li>
+<p>A sad fact of life is that progress tends to be gradual, while set backs tend
+  to occur suddenly -- e.g., stocks tend to move in patterns like this.  This
+  is the worst way things could go, according to our model.</p>
+</li>
+<li>
+<p>True, human utility functions are certainly more complex than what we have
+  considered here.</p>
+</li>
+<li>
+<p>It is interesting to contrast models of utility with conservative physical
+  systems, where the energy of a state is not path dependent, but depends only
+on the current state.  Path dependence means that two identical people in the
+same current situation can have very different valuations of their lot in life.</p>
+</li>
+</ul>
+<p>The appendix below discusses the mathematical optimization of (\ref{1}).</p>
+<h3>Appendix -- optimizing (\ref{1})</h3>
+<p>For simplicity, we consider a path that goes down from <span class="math">\(t=0\)</span> to <span class="math">\(t_0\)</span> -- making
+its way down by <span class="math">\(\Delta x\)</span>, then goes back up to where it started from <span class="math">\(t_0\)</span> to
+<span class="math">\(T\)</span>.  It is easy to see that the first term integrates to zero in this case,
+provided we start and end at the same value of <span class="math">\(x\)</span>.  Now, consider the second
+term.  On the way down, we have
+</p>
+<div class="math">\begin{eqnarray} 
+\int_0^{t_0} \vert x^{\prime} \vert^2 dt &amp;\equiv &amp; t_0 \langle \vert x^{\prime}
+\vert^2 \rangle_{t_0}
+\\ &amp;\geq &amp; t_0 \langle \vert x^{\prime} \vert \rangle^2_{t_0}
+\\
+&amp;=&amp; t_0 \left( \frac{\Delta x}{t_0} \right)^2
+\tag{2}
+\end{eqnarray}</div>
+<p>
+The inequality here is equivalent to the statement that the variance of the
+rate of change of our consumption is positive.  We get equality -- and minimal
+loss from the quadratic term on the way down -- if the slope is constant
+throughout.  That is, we want a linear drop in <span class="math">\(x(t)\)</span> from <span class="math">\(0\)</span> to <span class="math">\(t_0\)</span>.  With
+this choice, we get
+</p>
+<div class="math">\begin{eqnarray}
+\int_0^{t_0} \vert x^{\prime} \vert^2 dt = \frac{\Delta x^2}{t_0}.  \tag{3}
+\end{eqnarray}</div>
+<p>
+On the way back up, we'd like to max out the inequality analogous to above.
+This is achieved by having the recovery occur as quickly as possible, say over
+a window of time <span class="math">\(t_{r}\)</span> with <span class="math">\(r\)</span> standing for recovery.  We can decrease our
+loss by increasing <span class="math">\(t_0\)</span> up to <span class="math">\(t_0 \to T\)</span>.  In this case, our integral of
+the quadratic over all time goes to
+</p>
+<div class="math">\begin{eqnarray}
+\text{gain} = b \Delta x^2 \left (\frac{1}{t_r} - \frac{1}{T} \right)
+\tag{4}.
+\end{eqnarray}</div>
+<p>
+This gives the optimal lift possible -- that realized by the saw-tooth approach
+shown in our first figure above. </p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/misc.html">misc</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

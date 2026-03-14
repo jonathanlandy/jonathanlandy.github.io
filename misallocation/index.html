@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Forecast error leads to misallocation of inventory across demand channels, driving lost sales. For example, for a product with \(100\) units of demand split across two channels, we find that relying on a single prior sales cycle to guide allocation leads to a loss of roughly \(3\%\) of potential sales. In general, we find that misallocation losses scale as \begin …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="The Cost of Allocation Errors"/>
+  <meta property="og:description" content="Forecast error leads to misallocation of inventory across demand channels, driving lost sales. For example, for a product with \(100\) units of demand split across two channels, we find that relying on a single prior sales cycle to guide allocation leads to a loss of roughly \(3\%\) of potential sales. In general, we find that misallocation losses scale as \begin …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/misallocation"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-12-19 09:00:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; The Cost of Allocation Errors</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="misallocation">The Cost of Allocation Errors</h1>
+    <p>
+      Published on Fri 19 December 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/misallocation_images/allocation_header.png"></p>
+
+<p>Forecast error leads to misallocation of inventory across demand channels,
+driving lost sales.  For example, for a product with <span class="math">\(100\)</span> units of demand
+split across two channels, we find that relying on a single prior sales cycle
+to guide allocation leads to a loss of roughly <span class="math">\(3\%\)</span> of potential sales.</p>
+<p>In general, we find that misallocation losses scale as
+</p>
+<div class="math">\begin{equation}
+ \nonumber
+\text{fraction of sales lost} \propto \sqrt{\text{\# of channels / total demand}} \tag{1}
+\end{equation}</div>
+<p>
+In practice, this means misallocation matters most for lower-volume products
+and for assortments spread across many locations.</p>
+<p>Combining our worked example with this scaling law provides a quick way to
+estimate misallocation losses for general products.  While these losses can be
+meaningful, they fall sharply with improved forecasting, for example via data
+pooling across related products.</p>
+<h2>Misallocation and Avoidable Loss</h2>
+<p>The mathematics of allocation applies whenever a fixed supply must be divided
+across independent demand channels.  Two common applications include the
+distribution of units across retail locations and the setting of size breaks
+for a garment.</p>
+<p>The goal in allocation is to avoid scenarios where some channels are
+systematically over-resourced – and so unlikely to sell through their units,
+while others are systematically under-resourced – and so likely to stock out
+early, resulting in missed sales.  In a situation like this, shifting units
+around to improve balance will lift expected net sales.  In fact, we showed in
+<a href="/allocation">a prior post</a> that to
+maximize net unit sales, we must allocate units so that each channel has the
+same probability of stocking out.</p>
+<p>To implement this optimal strategy, we must first be able to accurately
+forecast the demand distribution of each channel (i.e., how likely it is that
+demand will come in at each possible value for that channel).  If our forecasts
+are inaccurate, supply will again be imbalanced.  In the appendix to this post,
+we work out the following approximation for the misallocation loss that then
+results,</p>
+<div class="math">\begin{equation}
+\text{Fraction of sales lost due to misallocation } \sim \frac{1}{2} \frac{\alpha}{\sqrt{2 \pi}} \sqrt{\frac{N_{channels}}{\mu_{total}}} \tag{2}
+\end{equation}</div>
+<p>Here,</p>
+<ul>
+<li>The parameter <span class="math">\(\alpha\)</span> characterizes the degree of error in the forecasts
+  informing our allocation. In particular, if forecasts are based on <span class="math">\(T\)</span>
+  independent prior sales cycles for the product, then <span class="math">\( \alpha \approx 1/T.\)</span>
+  Improving forecasts — e.g., by pooling data across similar products — reduces
+  <span class="math">\(\alpha\)</span> and thereby lowers misallocation losses.  Conversely, ignoring
+  available data drives <span class="math">\(\alpha\)</span> higher, increasing losses.</li>
+<li><span class="math">\(N_{channels}\)</span> is the number of channels over which the product must be
+  allocated. (For the derivation of (1), we assume the channels are of roughly
+  similar scale – see the appendix for a generalization that does not require
+  this.)</li>
+<li><span class="math">\(\mu_{total}\)</span> is the total demand for the product.  The fractional error (1)
+  goes down with this because statistical error is lower for higher volume
+  products.</li>
+</ul>
+<p>Equation (1) the main result of our post.  This provides accurate numerical
+estimates for losses that are not too large, and it also generally provides
+useful intuition for understanding how misallocation losses scale.  E.g., from
+this we can see how the fractional loss increases as we cut demand across an
+increasing number of channels.</p>
+<p>In the next section, we apply the result (1) to a concrete example.  The
+following summary section then reviews some qualitative takeaways and also
+illustrates how to use the scaling rule and our one worked example to estimate
+general losses.</p>
+<h2>Example Application</h2>
+<p>To get a feel for (1), suppose we have a product with a total demand of
+<span class="math">\(\mu_{total} = 100\)</span>units split across<span class="math">\(N_{channels}=2\)</span> retail locations.
+Assume true demand is split 50-50 across the two locations, but we only have
+one prior noisy measurement of demand at each (this implies <span class="math">\(\alpha = 1\)</span> – see
+the appendix for details).</p>
+<p>Suppose we purchase <span class="math">\(100\)</span> units for a second cycle and plan to allocate them
+across locations in proportion to the prior noisy measurements.  If the first
+cycle comes in unusually strong at Location 1, we will overestimate demand
+there and send more than 50\% of units in the next cycle.  This will result in
+an imbalance, decreasing expected net sales.  Indeed, in Figure 1, the blue
+curve shows the numerically evaluated net expected sales as a function of the
+number of units sent to the first location.  There we see that expected sales
+are maximized at the balanced 50–50 split, where we achieve about 94 units of
+expected sell-through.  We do not reach <span class="math">\(100\)</span> units because demand may come in
+soft at either location, leading to partial sell-through.  Moving away from the
+balanced allocation reduces expected sales further.</p>
+<p>Next, consider averaging over all possible outcomes from the first sales cycle.
+This will give us a sense of the typical loss that results from forecast error.
+To evaluate the average loss due to this sort of demand measurement error, we
+could average the values on the numerical blue curve, averaging over the demand
+measurement error distribution.  However, it turns out we can also approximate
+the blue curve using a convenient analytic expression – the black dashed curve
+below.  If we use this “quadratic” approximation and carry out the average, the
+result is (1) – again, see appendix for derivation.  Plugging the values for
+our example into (1) gives us the estimated expected loss from misallocation:</p>
+<div class="math">\begin{equation}
+ \frac{1}{2} \frac{1}{\sqrt{2 \pi}} \sqrt{\frac{N_{channels}}{\mu_{total}}} =
+ \frac{1}{2} \frac{1}{\sqrt{2 \pi}} \sqrt{\frac{2}{100}} \approx 0.03 \tag{3}
+\end{equation}</div>
+<p>That is, misallocation driven by measurement error reduces expected sales by
+about <span class="math">\(3\%\)</span>.  In absolute terms, we expect to sell around <span class="math">\(91\)</span> units on average
+rather than <span class="math">\(94\)</span>.</p>
+<p align="center"><img src="images/misallocation_images/allocation_example.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 1</em>: Expected sales for a product with <span class="math">\(100\)</span> units of demand
+split evenly across two channels, shown as a function of the allocation <span class="math">\(U_1\)</span>.
+The blue curve gives the exact evaluation, and the dashed curve shows the
+quadratic approximation used in (1).  Even with truly balanced demand, limited
+historical data can lead us to over-allocate to one channel – for example,
+sending more than <span class="math">\(50\)</span> units to Location 1 if it happened to run hot last time
+– reducing expected net sales.</p>
+<h2>Discussion</h2>
+<p>Our central result (1) shows that misallocation losses follow a simple scaling
+rule.  Combined with the worked example above, this gives a simple way to
+estimate losses for general products.  In particular, whenever forecasts are
+based on a single past sale period's data for the product, we have
+</p>
+<div class="math">\begin{equation}
+\text{Fraction of sales lost due to misallocation } \approx 3\% \times \sqrt{\frac{N_{channels} / 2}{\mu_{total} / 100}} \tag{4}
+\end{equation}</div>
+<p>
+For example, if we increase <span class="math">\(N_{channels}\)</span> by <span class="math">\(4\times\)</span> (i.e., go from
+<span class="math">\(N_{channels} = 2\)</span> to <span class="math">\(8\)</span>), the fractional loss will <span class="math">\(2\times\)</span>, going from
+<span class="math">\(3\%\)</span> to <span class="math">\(6\%\)</span>.  Similarly, if we can double the amount data informing our
+forecasts, our <span class="math">\(\alpha\)</span> value and expected net loss will both be cut in half.</p>
+<p>Formula (1) applies when our total unit investment is close to the expected
+total demand. The more general expression (8) in the appendix shows that
+misallocation losses diminish outside this regime. If we greatly overbuy, no
+channel is likely to stock out; if we greatly underbuy, all channels will. In
+either case, reallocation details have little effect. This suggests a practical
+planning hierarchy: get total demand right first, and focus on allocation
+accuracy only once net supply and demand are reasonably aligned.</p>
+<p>A second lever is forecast quality. If we double the amount of data informing
+our forecasts (for example, by pooling data across similar products), our
+forecast error parameter <span class="math">\(\alpha\)</span> — and the resulting misallocation loss — will
+fall by half. Improving forecasts in this way can meaningfully reduce avoidable
+losses, often without increasing operational burden or requiring additional
+unit investment.</p>
+<h2>Appendix: Mathematical Derivations</h2>
+<p>In our <a href="/allocation">first post on allocation</a>, we derived the following
+</p>
+<div class="math">\begin{equation}
+\frac{\partial E(Sales_i)}{\partial Q_i} = 1 - P(d_i \leq Q_i) \tag{5}
+\end{equation}</div>
+<p>
+This says that the lift in expected sales for a given channel on adding one
+more unit there is equal to the sell through probability.</p>
+<p>If we differentiate (4), we get
+</p>
+<div class="math">\begin{equation}
+\frac{\partial^2 E(Sales_i)}{\partial Q_i^2} = - p(d_i = Q_i) \tag{6}
+\end{equation}</div>
+<p>
+Here, <span class="math">\(p\)</span>is the pdf of the demand distribution of channel<span class="math">\(i\)</span>.</p>
+<p>Now consider what happens when we attempt to optimize units across channels.
+At the optimal point <span class="math">\(\{Q^*_i\}\)</span>, all values of (4) are equal.  Suppose we move
+away from that and set
+</p>
+<div class="math">\begin{equation}
+Q_i = Q^*_i + \delta Q_i \tag{7}
+\end{equation}</div>
+<p>
+Assuming we are not far from the optimal solution, the change in sales at
+channel <span class="math">\(i\)</span> will be
+</p>
+<div class="math">\begin{equation}
+E(Sales_i) \approx E(Sales_i \vert Q^*_i)
+ + \frac{\partial E(Sales_i)}{\partial Q_i} \delta Q_i
+ + \frac{1}{2} \frac{\partial^2 E(Sales_i)}{\partial Q_i^2} \delta Q_i^2
+ + \ldots \tag{8}
+\end{equation}</div>
+<p>
+Summing over all channels, we get
+</p>
+<div class="math">\begin{equation}
+E(Sales_{total}) \approx E(Sales_{total})^* - \frac{1}{2} \sum_i p(d_i = Q^*_i) \delta Q_i^2 + \ldots \tag{9}
+\end{equation}</div>
+<p>Here, we’ve used the fact that the first partials are all equal at the optimal
+point, and that the <span class="math">\(\delta Q_i\)</span> sum to zero.  We’ve also used (5) for the
+second partial.</p>
+<p>Equation (8) is a useful result that generalizes (1) above.  It gives us an
+expression for the expected sales loss as we move away from the optimal
+solution for general <span class="math">\(Q_i\)</span> (accurate, provided these are not too large – e.g.,
+we used this formula to get the black dashed curve in Figure 1).  Notice that
+this equation implies that the costs of misallocation are largest when the
+<span class="math">\(p(d_i=Q^*_i)\)</span> are maximized.  This will occur when net supply is close to the
+net expected demand.  As we move away from that limit, allocation concerns are
+less important.  See the Discussion section for additional commentary.</p>
+<p>To gain more intuition for typical scenarios, we now posit a Poisson-Normal
+distribution for the demand at a given site.  With this, we have</p>
+<div class="math">\begin{equation}
+\sigma_i = \sqrt{\mu_i} \tag{10}
+\end{equation}</div>
+<p>
+If we plug into the normal distribution, we get
+</p>
+<div class="math">\begin{equation}
+p(d_i = Q) = \frac{1}{\sqrt{2 \pi \mu_i}} \exp \left (- \frac{(Q - \mu_i)^2}{2 \mu_i} \right) \tag{11}
+\end{equation}</div>
+<p>
+Now suppose that we are trying to send the expected demand to each site.
+Suppose no bias but that prior demand estimates follow from samples taken from
+the distribution (10).  In this case, our estimate for <span class="math">\(i\)</span> will be noisy, and
+the expected <span class="math">\(\delta Q_i^2\)</span> of the next send will have value</p>
+<div class="math">\begin{equation}
+E(\delta Q_i^2) = \alpha \mu_i \tag{12}
+\end{equation}</div>
+<p>
+with <span class="math">\(\alpha\)</span> a common value across channels.  Notice that if we have only one
+prior sample, then <span class="math">\(\alpha\)</span> will be one here – a value we quote in the body of
+the post.</p>
+<p>With these assumptions, the average cost in (7) will then go like
+</p>
+<div class="math">\begin{equation}
+- \frac{1}{2} \sum_i p(d_i = Q^*_i) \delta Q_i^2 = - \frac{1}{2} \frac{\alpha}{\sqrt{2 \pi}} \sum_i \sqrt{\mu_i} \tag{13}
+\end{equation}</div>
+<p>
+This again is a slight generalization of (1), one where we do not assume each
+channel is equal in size.  To get to (1), we posit <span class="math">\(N_{channels}\)</span> equal in
+size.  Plugging this into (12) and dividing by the total demand, we get</p>
+<div class="math">\begin{equation}
+E(\delta E(Sales)) / \mu_{total} = - \frac{1}{2} \frac{\alpha}{\sqrt{2 \pi}}\sqrt{\frac{N_{channels}}{\mu_{total}}} \tag{14}
+\end{equation}</div>
+<p>
+which is equivalent to (1).  We take these particular assumptions in order to
+highlight the fractional loss’s dependence on the number of channels.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

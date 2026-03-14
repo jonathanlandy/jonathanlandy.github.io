@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply calculate the maximum speed that traffic could go without supporting a growing traffic jam. Jam dissipation argument To estimate the speed of traffic as a function of density, we&#39;ll calculate an upper bound …" />
+<meta name="keywords" content="traffic, misc">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="The speed of traffic"/>
+  <meta property="og:description" content="We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply calculate the maximum speed that traffic could go without supporting a growing traffic jam. Jam dissipation argument To estimate the speed of traffic as a function of density, we&#39;ll calculate an upper bound …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/the-speed-of-traffic"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2019-06-14 09:21:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="traffic"/>
+  <meta property="article:tag" content="misc"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; The speed of traffic</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="the-speed-of-traffic">The speed of traffic</h1>
+    <p>
+      Published on Fri 14 June 2019
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply calculate the maximum speed that traffic could go without supporting a growing traffic jam.</p>
+<h3>Jam dissipation argument</h3>
+<p>To estimate the speed of traffic as a function of density, we'll calculate an upper bound and argue that actual traffic speeds must be described by an equation similar to that obtained. To derive our upper bound, we'll consider what happens when a small traffic jam forms. If the speed of cars is such that the rate of exit from the jam is larger than the rate at which new cars enter the jam, then the jam will dissipate. On the other hand, if this doesn't hold, the jam will grow, causing the speed to drop until a speed is obtained that allows the jam to dissipate. This sets the bound. Although we consider a jam to make the argument simple, what we really have in mind is any other sort of modest slow-down that may occur.</p>
+<p>To begin, we introduce some definitions. (1) Let <span class="math">\(\lambda\)</span> be the density of cars in units of <span class="math">\([cars / mile]\)</span>. (2) Next we consider the rate of exit from a jam: Note that when traffic is stopped, a car cannot move until the car in front of it does. Because a human is driving the car, there is a slight delay between the time that one car moves and the car behind it moves. Let <span class="math">\(T\)</span> be this delay time in <span class="math">\([hours]\)</span>. (3) Let <span class="math">\(v\)</span> be the speed of traffic outside the jam in units of <span class="math">\([miles / hour]\)</span>.</p>
+<p>With the above definitions, we now consider the rate at which cars exit a jam. This is the number of cars that can exit the jam per hour, which is simply<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{1} \label{1}  
+r_{out} = \frac{1}{T}.  
+\end{eqnarray}</div>
+<p><br>
+Next, the rate at which cars enter the jam is given by<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{2} \label{2}  
+r_{in} = \lambda v.  
+\end{eqnarray}</div>
+<p><br>
+Requiring that <span class="math">\(r_{out} &gt; r_{in}\)</span> we get<br>
+</p>
+<div class="math">\begin{eqnarray} \label{3} \tag{3}  
+v &lt; \frac{1}{\lambda T}.  
+\end{eqnarray}</div>
+<p><br>
+This is our bound and estimate for the speed of traffic. We note that this form for <span class="math">\(v\)</span> follows from dimensional analysis, so the actual rate of traffic must have the same algebraic form as our upper bound (\ref{3}) -- it can differ by a constant factor in front, but should have the same <span class="math">\(\lambda\)</span> and <span class="math">\(T\)</span> dependence.</p>
+<h3>Plugging in numbers</h3>
+<p>I estimate <span class="math">\(T\)</span>, the delay time between car movements to be about one second, which in hours is<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{4} \label{4}  
+T \approx 0.00028\ [hour].  
+\end{eqnarray}</div>
+<p><br>
+Next for <span class="math">\(\lambda\)</span>, note that a typical car is about 10 feet long and a mile is around 5000 feet, so the maximum for <span class="math">\(\lambda\)</span> is around <span class="math">\( \lambda \lesssim 500 [cars / mile]\)</span>. Consider a case where there is a car every 10 car lengths or so. In this case, the density will go down from the maximum by a factor of 10, or<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{5} \label{5}  
+\lambda \approx 50 \ [cars / mile].  
+\end{eqnarray}</div>
+<p><br>
+Plugging (\ref{4}) and (\ref{5}) into (\ref{3}), we obtain<br>
+</p>
+<div class="math">\begin{eqnarray}  \tag{6}
+v \lesssim \frac{1}{0.00028 * 50} \approx 70\ [mile / hour],  
+\end{eqnarray}</div>
+<p><br>
+quite close to our typical highway traffic speeds (and speed limits).</p>
+<h3>Final comments</h3>
+<p>The above bound clearly depends on what values you plug in -- I picked numbers that seemed reasonable, but admit I adjusted them a bit till I got the final number I wanted for <span class="math">\(v\)</span>. Anecdotally, I've found the result to work well at other densities: For example, when traffic is slow on the highway near my house, if I see that there is a car every 5 car lengths, the speed tends to be about <span class="math">\(30 [miles / hour]\)</span> -- so scaling rule seems to work. The last thing I should note is that wikipedia has an article outlining some of the extensive research literature that's been done on traffic flows -- you can see that <a href="https://en.wikipedia.org/wiki/Traffic_flow">here</a>.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/traffic.html">traffic</a>
+      <a href="https://jslandy.com/tag/misc.html">misc</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

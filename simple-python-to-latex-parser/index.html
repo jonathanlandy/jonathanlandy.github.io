@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the result. Introduction Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output follows: s = &#39;f(x_123, 2) / (2 + 3/(1 …" />
+<meta name="keywords" content="programming">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Simple python to LaTeX parser"/>
+  <meta property="og:description" content="We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the result. Introduction Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output follows: s = &#39;f(x_123, 2) / (2 + 3/(1 …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/simple-python-to-latex-parser"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2016-11-18 12:59:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="programming"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Simple python to LaTeX parser</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="simple-python-to-latex-parser">Simple python to LaTeX parser</h1>
+    <p>
+      Published on Fri 18 November 2016
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the result.</p>
+<h3>Introduction</h3>
+<p>Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output follows:</p>
+<div class="highlight"><pre><span></span><code><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&#39;</span>  
+<span class="nb">print</span> <span class="n">command_to_latex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1">## output:  </span>
+\<span class="n">frac</span><span class="p">{</span><span class="n">f</span> \<span class="n">left</span> <span class="p">({</span><span class="n">x</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="mi">123</span><span class="p">}</span> <span class="p">,</span> <span class="mi">2</span> \<span class="n">right</span> <span class="p">)}{</span><span class="mi">2</span> <span class="o">+</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">3</span><span class="p">}{</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span> \<span class="n">left</span> <span class="p">(</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">frac</span><span class="p">{</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">}{</span><span class="mi">3</span><span class="p">}}</span> \<span class="n">right</span> <span class="p">)}}</span> <span class="o">+</span> \<span class="n">sqrt</span><span class="p">{{</span><span class="mi">2</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">w</span><span class="p">}}</span> \<span class="n">cdot</span> \<span class="n">tanh</span> \<span class="n">left</span> <span class="p">(</span><span class="mi">2</span> \<span class="n">cdot</span> \<span class="n">pi</span> \<span class="n">cdot</span> <span class="n">x</span> \<span class="n">right</span> <span class="p">)</span>  
+</code></pre></div>
+
+<p>If the output shown here is plugged into a LaTeX editor, we get the following result:</p>
+<div class="math">\begin{eqnarray}\tag{1}  
+\frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt{{2}^{w}} \cdot \tanh \left (2 \cdot \pi \cdot x \right )  
+\end{eqnarray}</div>
+<p>
+Our Jupyter <a href="https://github.com/EFavDB/python_command_to_latex">notebook</a> automatically pretty prints to this form.</p>
+<p>We provide the script here as it may be useful for two sorts of applications: 1) facilitating write-ups of completed projects, and 2) visualizing typed-up formulas to aid checks of their accuracy. The latter is particularly helpful for lengthy commands, which are often hard to read in python format.</p>
+<p>We note that the python package sympy also provides a simple command-to-latex parser. However, I have had trouble getting it to output results if any functions appear that have not been defined -- we illustrate this issue in the notebook.</p>
+<p>As usual, our code can be downloaded from our github page <a href="https://github.com/EFavDB/python_command_to_latex">here</a>.</p>
+<h3>Code</h3>
+<p>The main code segment follows. The method command_to_latex recursively computes the LaTeX for any combinations of variables grouped together via parentheses. The base case occurs when there are no parentheses left, at which point the method parse_simple_eqn is called, which converts simple commands to LaTeX. The results are then recombined within the recursive method. Additional replacements can be easily added in the appropriate lines below.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_simple_eqn</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>  
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Return TeX equivalent of a command without parentheses. &quot;&quot;&quot;</span>  
+    <span class="c1"># Define replacement rules.  </span>
+    <span class="n">simple_replacements</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;**&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39; \cdot &#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;math.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;np.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">,</span> <span class="s1">&#39;\pi&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;tan&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">an&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;cos&#39;</span><span class="p">,</span> <span class="s1">&#39;\cos&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;sin&#39;</span><span class="p">,</span> <span class="s1">&#39;\sin&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;sec&#39;</span><span class="p">,</span> <span class="s1">&#39;\sec&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;csc&#39;</span><span class="p">,</span> <span class="s1">&#39;\csc&#39;</span><span class="p">],</span>
+    <span class="p">]</span>  
+    <span class="n">complex_replacements</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;{{</span><span class="si">{i1}</span><span class="s1">}}^{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;{{</span><span class="si">{i1}</span><span class="s1">}}_{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\f</span><span class="s1">rac{{</span><span class="si">{i1}</span><span class="s1">}}{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span><span class="s1">&#39;\sqrt{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>
+    <span class="p">]</span>  
+
+    <span class="c1"># Carry out simple replacements  </span>
+    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">simple_replacements</span><span class="p">:</span>  
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  
+
+    <span class="c1"># Now complex replacements  </span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">]:</span>  
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">item</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>  
+        <span class="n">q_split</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>  
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">q_split</span><span class="p">):</span>  
+            <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">complex_replacements</span><span class="p">:</span>  
+                <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  
+                    <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>  
+                        <span class="n">match_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">index</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span>  
+                    <span class="k">else</span><span class="p">:</span>  
+                        <span class="n">match_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">index</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span>  
+                    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">match_str</span><span class="p">,</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>  
+                        <span class="n">i1</span><span class="o">=</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">i2</span><span class="o">=</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>  
+        <span class="k">return</span> <span class="n">q</span>
+
+
+
+<span class="k">def</span> <span class="nf">command_to_latex</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>  
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Recursively eliminate parentheses, then apply parse_simple_eqn.&quot;&quot;&quot;</span>  
+    <span class="n">open_index</span><span class="p">,</span> <span class="n">close_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">q_index</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span><span class="p">:</span>
+            <span class="n">open_index</span> <span class="o">=</span> <span class="n">q_index</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
+            <span class="n">close_index</span> <span class="o">=</span> <span class="n">q_index</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">open_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">q</span><span class="p">[:</span><span class="n">open_index</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">close_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="n">open_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">close_index</span><span class="p">]</span>
+        <span class="n">o_tex</span>  <span class="o">=</span> <span class="n">command_to_latex</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">m_tex</span>  <span class="o">=</span> <span class="n">command_to_latex</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Clean up redundant parentheses at recombination</span>
+        <span class="n">r_index</span> <span class="o">=</span> <span class="n">o_tex</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">o_tex</span><span class="p">[</span><span class="n">r_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">o_tex</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> <span class="n">m_tex</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">o_tex</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> 
+                                 <span class="s1">&#39; </span><span class="se">\\</span><span class="s1">left (&#39;</span> <span class="o">+</span> <span class="n">m_tex</span> <span class="o">+</span> <span class="s1">&#39; </span><span class="se">\\</span><span class="s1">right )&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">parse_simple_eqn</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</code></pre></div>
+
+<p>That's it!</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/programming.html">programming</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

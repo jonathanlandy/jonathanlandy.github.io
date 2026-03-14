@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We consider the equilibrium drawdown distribution for a biased random walk -- in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential. Further, when mean drift is small, this has an exponent …" />
+<meta name="keywords" content="finance">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Universal drawdown statistics in investing"/>
+  <meta property="og:description" content="We consider the equilibrium drawdown distribution for a biased random walk -- in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential. Further, when mean drift is small, this has an exponent …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/universal-drawdown-statistics-in-investing"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2019-12-05 15:46:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="finance"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Universal drawdown statistics in investing</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="universal-drawdown-statistics-in-investing">Universal drawdown statistics in investing</h1>
+    <p>
+      Published on Thu 05 December 2019
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We consider the equilibrium drawdown distribution for a biased random walk -- in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential. Further, when mean drift is small, this has an exponent that is universal in form, depending only on the mean and standard deviation of the step distribution. We give simulation examples in python consistent with the results.</p>
+<h2>Introduction and main results</h2>
+<p>In this post, we consider a topic of high interest to investors and gamblers alike -- the statistics of drawdown. This is the amount of money the investor has lost relative to their maximum held capital to date. <p align="center"><img src="https://jslandy.com/wp-content/uploads/2019/12/dd.png"></p></p>
+<p>For example, if an investor once held $100, but now holds only $90, his drawdown is currently $10. We will provide some results that characterize how unlikely it is for the investor to have a large drawdown of $\(k\), given knowledge of the statistics of his bets.</p>
+<p>We will take as our model system a biased random walk. The probability that at step <span class="math">\(t\)</span> the investment goes from <span class="math">\(k^{\prime}\)</span> to <span class="math">\(k\)</span> will be taken to be independent of time and given by
+</p>
+<div class="math">\begin{eqnarray}\tag{1} \label{step_distribution}
+p(k^{\prime} \to k) = \tau(k - k^{\prime}).
+\end{eqnarray}</div>
+<p>
+We will assume that this has a positive bias <span class="math">\(\mu\)</span>, so that on average the investor makes money. With this assumption, we show below that for <span class="math">\(\vert k \vert\)</span> more than a few step sizes, the drawdown distribution has an exponential form,
+</p>
+<div class="math">\begin{eqnarray}\tag{2} \label{exponential}
+p(k) \propto \exp\left( - \alpha \vert k \vert \right)
+\end{eqnarray}</div>
+<p>
+where the decay constant <span class="math">\(\alpha\)</span> satisfies
+</p>
+<div class="math">\begin{eqnarray}\tag{3} \label{dd_decay_eqn}
+1 = \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj.
+\end{eqnarray}</div>
+<p>
+The form (\ref{exponential}) holds for general distributions and (\ref{dd_decay_eqn}) provides the formula for obtaining <span class="math">\(\alpha\)</span> in this case. However, in the limit where the mean drift <span class="math">\(\mu\)</span> in <span class="math">\(\tau\)</span> is small relative to its standard deviation, <span class="math">\(\sigma\)</span>, we show that the solution to (\ref{dd_decay_eqn}) has a universal form, giving
+</p>
+<div class="math">\begin{eqnarray}\tag{4} \label{exponential_universal}
+p(k) \propto \exp\left( - 2 \frac{\mu}{\sigma^2} \vert k \vert \right).
+\end{eqnarray}</div>
+<p>
+Because it is difficult to find very high drift investments, this simple form should hold for most real world investments (under the assumption of a Markov process). It can be used to give one a sense of how much time they can expect to sit at a particular drawdown, given estimates for <span class="math">\(\mu\)</span> and <span class="math">\(\sigma\)</span>.</p>
+<p>The results (\ref{exponential} - \ref{exponential_universal}) are the main results of this post. These may be new, but could also be well-known to finance theorists -- we are not sure. We illustrate their accuracy in the following section using a numerical example, and provide derivations in an appendix.</p>
+<h2>Numerical examples in python</h2>
+<p>Here, we will consider two different kinds of random walk -- one where the steps are always the same size, but there is bias in the forward direction, and the other where the steps are taken from a Gaussian or normal distribution. The code below carries out a simulated investing scenario over one million steps.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">binary</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return either mu - 1 or mu + 1 with equal probability.</span>
+<span class="sd">    Note unit std.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">mu</span>
+
+<span class="k">def</span> <span class="nf">normal_random_step</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a random unit normal with unit std.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">()</span> <span class="o">+</span> <span class="n">mu</span>
+
+<span class="c1"># CONSTANTS</span>
+<span class="n">TIME_STEPS</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span>
+<span class="n">MU</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="c1"># BINARY WALK</span>
+<span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">max_position_to_date</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">drawdowns_binary</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TIME_STEPS</span><span class="p">):</span>
+    <span class="n">position</span> <span class="o">+=</span> <span class="n">STEP_FUNC</span><span class="p">(</span><span class="n">MU</span><span class="p">)</span>
+    <span class="n">max_position_to_date</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_position_to_date</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="n">drawdowns_binary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_position_to_date</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span>
+
+<span class="c1"># GAUSSIAN / NORMAL WALK</span>
+<span class="n">STEP_FUNC</span> <span class="o">=</span> <span class="n">normal_random_step</span>
+<span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">max_position_to_date</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">drawdowns_normal</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TIME_STEPS</span><span class="p">):</span>
+    <span class="n">position</span> <span class="o">+=</span> <span class="n">STEP_FUNC</span><span class="p">(</span><span class="n">MU</span><span class="p">)</span>
+    <span class="n">max_position_to_date</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_position_to_date</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="n">drawdowns_normal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_position_to_date</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span>
+</code></pre></div>
+
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2019/12/dd_normal.png"></p>
+
+<p>You can see in the code that we have a loop over steps. At each step, we append to a list of observed drawdown values. A plot of the histogram of these values for the Normal case at <span class="math">\(\mu = 0.1\)</span> is shown at right.</p>
+<p>To check whether our theoretical forms are accurate, it is useful to plot the cumulative distribution functions vs the theoretical forms -- the latter will again be exponential with the same <span class="math">\(\alpha\)</span> values as the probability distribution functions. It turns out that the exponent <span class="math">\(\alpha\)</span> that solves (\ref{dd_decay_eqn}) is always given by the universal form for a Gaussian. However, for the binary walker, we need to solve for this numerically in general. The following code snippet does this.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
+
+<span class="c1"># Solving numerically for binary case.</span>
+<span class="n">binary_alpha_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">MU</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">alpha_initial_guess</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+<span class="n">alpha_solution</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">binary_alpha_func</span><span class="p">,</span> <span class="n">alpha_initial_guess</span><span class="p">)</span>
+</code></pre></div>
+
+<p>A plot of the function above and the solution when <span class="math">\(\mu = 0.85\)</span> is shown below. Note that there is always an unphysical solution at <span class="math">\(\alpha =0\)</span> -- this should be ignored.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2019/12/binary_sol.png"></p>
+
+<p>Using the above results, I have plotted the empirical cdfs versus <span class="math">\(k\)</span> for both walk distributions. The values are shown below for <span class="math">\(\mu = 0.1\)</span> (left) and <span class="math">\(\mu = 0.85\)</span> (right). The slopes of the theoretical and numerical results are what should be compared as these give the value of <span class="math">\(\alpha\)</span>. Note that <span class="math">\(\mu = 0.1\)</span> is a small drift relative to the standard deviation (<span class="math">\(\sigma = 1\)</span>, here), but <span class="math">\(\mu = 0.85\)</span> is not. This is why at left the universal form gives us a good fit to the decay rates for both systems, but at right we need our numerical solution to (\ref{dd_decay_eqn}) to get the binary decay rate.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2019/12/results.png"></p>
+
+<p>In conclusion, we have found that the exponential form of drawdown works quite well in these examples, with the theoretical results (\ref{exponential} - \ref{exponential_universal}) providing methods for identifying the exponents. In particular, the plot at left above illustrates the universality of form (\ref{exponential_universal}) -- it holds for all walks, provided we are in the small bias limit.</p>
+<h2>Appendix: Derivations</h2>
+<p>To derive the exponential form, we consider an integral equation for the drawdown probability <span class="math">\(p\)</span>. At equilibrium, we have
+</p>
+<div class="math">\begin{eqnarray}\tag{A1}
+p(k) = \int_{-\infty}^{0} p(k^{\prime}) T(k^{\prime}, k) dk^{\prime}.
+\end{eqnarray}</div>
+<p>
+where <span class="math">\(T\)</span> is the transition function for the drawdown process. In the tail, we can ignore the boundary at zero and this goes to
+</p>
+<div class="math">\begin{eqnarray}\tag{A2}
+p(k) = \int_{-\infty}^{\infty} p(k^{\prime}) \tau(k - k^{\prime}) dk^{\prime},
+\end{eqnarray}</div>
+<p>
+where we have taken the upper limit to infinity, assuming that the transition function has a finite length so that this is acceptable. We can solve this by positing an exponential solution of form
+</p>
+<div class="math">\begin{eqnarray}\tag{A3}
+p(k) \equiv A \exp\left(\alpha k \right).
+\end{eqnarray}</div>
+<p>
+Plugging this into the above gives
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+A \exp\left(\alpha k \right) &amp;=&amp; \int_{-\infty}^{\infty} A \exp\left(\alpha k^{\prime} \right) \tau(k - k^{\prime}) dk^{\prime}\ \tag{A4}
+&amp;=&amp; A \exp\left(\alpha k \right) \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj
+\end{eqnarray}</div>
+<p>
+Simplifying this gives (\ref{exponential}).</p>
+<p>Now, to get the universal form, we make use of the cumulant expansion, writing
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+1 &amp;=&amp; \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj \
+&amp;\equiv &amp; \exp \left ( - \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots \right) \tag{A5}
+\end{eqnarray}</div>
+<p>
+Provided the expansion converges quickly, we obtain
+</p>
+<div class="math">\begin{eqnarray}
+- \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots = 0 \tag{A6}
+\end{eqnarray}</div>
+<p>
+giving
+</p>
+<div class="math">\begin{eqnarray} \label{cppi_alpha_asymptotic} \tag{A7}
+\alpha \sim 2 \frac{\mu}{\sigma^2}
+\end{eqnarray}</div>
+<p>
+With this solution, the <span class="math">\(k\)</span>-th term in the cumulant expansion goes like
+</p>
+<div class="math">\begin{eqnarray} \tag{A8}
+\frac{2^k}{k!} \left( \frac{\mu}{\sigma^2} \right)^k O(\overline{x^k}) \sim \frac{2^k}{k!} \left( \frac{\mu}{\sigma} \right)^k
+\end{eqnarray}</div>
+<p>
+assuming the the jumps are constrained over some length scale proportional to <span class="math">\(\sigma\)</span>. We see that provided the drift to standard deviation is small, the series converges quickly and our approximation is universally good. Unless you're cursed with an unusually large drift ratio for a given move, this form should work well.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/finance.html">finance</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

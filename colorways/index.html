@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Merchandisers often carry a single garment in multiple prints or colorways. This can lift net sales by appealing to different preferences, but beyond a certain point, new variants might simply compete with the others — lifting expense but not sales. To understand where that tipping point lies, we’ll explore here two limiting cases. The results: For products where customers usually …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Setting colorway count in an apparel product line"/>
+  <meta property="og:description" content="Merchandisers often carry a single garment in multiple prints or colorways. This can lift net sales by appealing to different preferences, but beyond a certain point, new variants might simply compete with the others — lifting expense but not sales. To understand where that tipping point lies, we’ll explore here two limiting cases. The results: For products where customers usually …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/colorways"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-04-08 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Setting colorway count in an apparel product line</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="colorways">Setting colorway count in an apparel product line</h1>
+    <p>
+      Published on Tue 08 April 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/colorway_images/5_abstract_wall_no_logo_v2.png"></p>
+
+<p>Merchandisers often carry a single garment in multiple prints or colorways.
+This can lift net sales by appealing to different preferences, but beyond a
+certain point, new variants might simply compete with the others — lifting
+expense but not sales.</p>
+<p>To understand where that tipping point lies, we’ll explore here two limiting
+cases.  The results:</p>
+<ul>
+<li>
+<p>For products where customers usually buy just one version — like a dress with
+  a distinct cut — best results are obtained when the individual prints do not
+  compete, but instead appeal to complementary sets of customers.  In this
+  case, the ideal number of colorways can be  guided by analyzing individual
+  customer preferences. We give an example below.</p>
+</li>
+<li>
+<p>For products where customers often buy multiple versions — like a men’s dress
+  shirt — repeat business is often very important.   In this case, the product
+  line can be modeled as its own mini-business within a business, subject to
+  both acquisition and retention goals.  Having multiple products aimed at a
+  given customer segment — often through new, seasonal styles — is then
+  essential for retaining loyal customers.</p>
+</li>
+</ul>
+<p>TL;DR:  There are two regimes — and very different advice applies in these two
+cases on when to add another variant.</p>
+<p><b>Curious to see how this might apply to your product line?  Reach out to
+discuss!</b></p>
+<h2>Case 1: Single purchase products</h2>
+<p>To jump in, we'll first consider the situation of a product that customers are
+unlikely to purchase more than one variant of.  This could be because
+one is simply enough (e.g., a special occasion dress), or because owning
+multiple versions might be socially awkward if noticed.</p>
+<p>To illustrate the main ideas, we'll look at a case where we're considering
+multiple prints of a particular dress, as shown in the figure below.
+There, we see four prints along with purchase probabilities
+across these for a set of representative customers (Customers 1 through 4).
+These scores might come from customer surveys or from machine
+learning models trained to predict individual preferences.</p>
+<p>A careful review of the table allows us to make the following observations:</p>
+<ul>
+<li>Since each customer will purchase at most one dress, we can treat the
+  collection of dresses as a single "super product." The chance a
+  customer makes a purchase is determined by her highest score across the
+  prints — shown in the rightmost column.  Expected net sales is the sum
+  over rows in this column — we should strive to increase this.</li>
+<li>In this example, each print happens to be a top choice for at least one
+  customer.  If these customers are representative of the full set, this means
+  that we can expect to see plenty of sales flow through each variant.</li>
+<li>However, the third and fourth prints (both florals) appeal to similar
+  customers — Customers 1 and 2. If one of these prints were dropped, the other
+  would still likely be chosen by both customers with little loss to overall
+  sales (an expected drop of just 0.05 in either case).  In other words, the
+  two florals compete strongly with each other.</li>
+<li>In contrast, the solid blue and solid red variants are seen to
+  appeal to separate customers (blue appeals to Customer 3, red to Customer 4).
+  The customers who prefer these would be much less likely to purchase anything
+  if their favored variant weren't available.  For this reason, each of these
+  is a good addition to the assortment.</li>
+</ul>
+<h3>The takeaway:</h3>
+<p>When dealing with a product that customers are unlikely to buy in
+multiples, each print should aim to serve a distinct audience.
+Otherwise, new colorways will fail to lift net sales meaningfully. To
+determine the optimal number of colorways, evaluate the expected lift in
+net sales from the next best addition and weigh this against the operational
+cost of introducing it. As long as the net benefit is positive, the
+addition will drive value.</p>
+<h3>Required methodology:</h3>
+<p>To estimate the lift in net sales from a new print, we must either (1) use our
+intuition, (2) run A/B tests to measure it directly, or (3) understand demand
+at the customer level — this last approach allows for quantitative accuracy
+without running a great many tests.  In contrast, the more common product-level
+demand modeling methods fall short here — these can't capture cannibalization
+effects between similar variants, and so cannot identify the optimal colorway
+count.</p>
+<p align="center"><img src="images/colorway_images/score_table.png" alt="individual customer preferences across dresses" title="dress preferences"></p>
+
+<p><em>Fig 1.</em> Customer affinity scores (purchase probabilities) are shown
+across four print variants for a given dress.  The top score for each client is
+bolded and shown in the right-most column. Because customers will purchase at
+most one option, these max scores set their purchase probabilities.</p>
+<h2>Case 2: Multiple-purchase products</h2>
+<p>Next, we consider the case of a product line where customers are willing to
+purchase more than one variant. These are typically staple items with a
+consistent cut — think slacks, dress shirts, or tee shirts. To be specific,
+we’ll focus on men’s dress shirts, as shown in the figure below.</p>
+<p>Interestingly, for products like this, we've found that repeat customers
+often drive a large fraction of demand. For a given seasonal print, upwards
+of 75% of sales may come from repeat purchasers. These are customers who
+already know they like the fit and feel of the product, and so are happy to
+return for repeat purchases — provided they can find a novel print to add to
+their wardrobe.</p>
+<p>In this case, as noted above, it’s helpful to think of the product line as a
+mini-business within a business. The greatest-hit prints for the product
+should be carried as evergreen variants — not to retain existing
+customers (who have likely already seen them), but to attract new
+customers to the line. Alongside these, a portion of the assortment should
+be reserved for rotating seasonal prints. Unlike in the single-purchase
+case, these don’t need to each target different segments.  In fact, we will
+likely want to carry multiple prints aimed at each relevant core demand segment
+in this case. Our customer-level demand modeling approach can identify which
+variants will continue to drive value within a segment.  If a seasonal print
+performs particularly well, it can be promoted to evergreen status. But its
+primary role is to deliver novelty and reduce churn among returning buyers —
+many of whom may engage with your brand only through this product line.</p>
+<p>So how do we set the right number of product variants in this case? And how
+should we divide the line between greatest hits and new options?</p>
+<p>For the first question, we recommend applying standard merchandising
+logic — based on minimum order quantities, inventory cost, and expected
+demand. Ideally, each product program of the sort we're discussing here
+will not compete too strongly with other product categories, so external
+cannibalization can be ignored to first order.</p>
+<p>As for the balance between new and evergreen variants, this is a very
+interesting topic in its own right!  We refer you to our detailed post on this
+topic <a href="/newbuy">here</a>, where we show that
+the answer depends on two key effects: the rate of style drift (how quickly
+customer tastes change), and the fraction of demand driven by repeat business.
+In general, one effect dominates and will determine the right fraction for a
+given product line.</p>
+<h3>The takeaway, methodology:</h3>
+<p>When dealing with a product that customers are happy to buy in
+multiples, it’s not only fine to offer multiple prints that appeal to the
+same segment — it’s strategic (however, it is important to always ensure an
+appropriate balance across segments). This kind of product line should be
+treated as its own mini-business, complete with its own customer acquisition
+and retention strategy. Each season, carry a mix of evergreen hits to draw in
+new buyers and fresh prints to keep loyal customers engaged.  Again, the
+optimal mix can be determined by applying our analysis <a
+href="/newbuy">here</a>.</p>
+<p align="center"><img src="images/colorway_images/oxfords.jpg" alt="dress shirts" title="dress_shirts"></p>
+
+<p><em>Fig 2.</em> When customers are willing to buy more than one variant of a
+product (e.g., for dress shirts, as shown here), the assortment should have
+multiple options available for each segment.  It should also contain a mix of
+evergreen bestsellers as well as seasonal new styles.</p>
+<h2>Summary</h2>
+<p>Determining the right number of variants for an apparel product line is a very
+common challenge — how many colorways are too many, and when does adding more
+actually drive value?  The answer depends on whether customers tend to buy just
+one version or come back for more. For single-purchase products, each print
+should appeal to a different audience to avoid cannibalization. For products
+with high repeat purchase rates, like dress shirts or tees, this is not the
+case.  However, we do still need to ensure we have the right balance of
+products aimed at each segment — both across styles and the mix of new vs
+evergreen bestsellers.  By combining customer-level data with a structured
+framework, merchandisers can make more confident decisions — and build leaner,
+more effective product lines.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

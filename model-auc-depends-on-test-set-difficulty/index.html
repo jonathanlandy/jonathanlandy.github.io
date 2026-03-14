@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="The AUC score is a popular summary statistic that is often used to communicate the performance of a classifier. However, we illustrate here that this score depends not only on the quality of the model in question, but also on the difficulty of the test set considered: If samples are added to a test set that are easily classified, the …" />
+<meta name="keywords" content="methods">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Model AUC depends on test set difficulty"/>
+  <meta property="og:description" content="The AUC score is a popular summary statistic that is often used to communicate the performance of a classifier. However, we illustrate here that this score depends not only on the quality of the model in question, but also on the difficulty of the test set considered: If samples are added to a test set that are easily classified, the …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/model-auc-depends-on-test-set-difficulty"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2017-03-18 22:36:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Model AUC depends on test set difficulty</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="model-auc-depends-on-test-set-difficulty">Model AUC depends on test set difficulty</h1>
+    <p>
+      Published on Sat 18 March 2017
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>The AUC score is a popular summary statistic that is often used to communicate the performance of a classifier. However, we illustrate here that this score depends not only on the quality of the model in question, but also on the difficulty of the test set considered: If samples are added to a test set that are easily classified, the AUC will go up -- even if the model studied has not improved. In general, this behavior implies that isolated, single AUC scores cannot be used to meaningfully qualify a model's performance. Instead, the AUC should be considered a score that is primarily useful for comparing and ranking multiple models -- each at a common test set difficulty.</p>
+<h3>Introduction</h3>
+<p>An important challenge associated with building good classification algorithms centers around their optimization: If an adjustment is made to an algorithm, we need a score that will enable us to decide whether or not the change made was an improvement. Many scores are available for this purpose. A sort-of all-purpose score that is quite popular for characterizing binary classifiers is the model AUC score (defined below).</p>
+<p>The purpose of this post is to illustrate a subtlety associated with the AUC that is not always appreciated: The score depends strongly on the difficulty of the test set used to measure model performance. In particular, if any soft-balls are added to a test set that are easily classified (i.e., are far from any decision boundary), the AUC will increase. This increase does not imply a model improvement. Two key take-aways follow:</p>
+<ul>
+<li>The AUC is an inappropriate score for comparing models validated on test sets having differing sampling distributions. Therefore, comparing the AUCs of models trained on samples having differing distributions requires care: The training sets can have different distributions, but the test sets must not.</li>
+<li>A single AUC measure cannot typically be used to meaningfully communicate the quality of a single model (though single model AUC scores are often reported!)</li>
+</ul>
+<p>The primary utility of the AUC is that it allows one to compare multiple models at fixed test set difficulty: If a model change results in an increase in the AUC at fixed test set distribution, it can often be considered an improvement.</p>
+<p>We review the definition of the AUC below and then demonstrate the issues alluded to above.</p>
+<h3>The AUC score, reviewed</h3>
+<p>Here, we quickly review the definition of the AUC. This is a score that can be used to quantify the accuracy of a binary classification algorithm on a given test set <span class="math">\(\mathscr{S}\)</span>. The test set consists of a set of feature vector-label pairs of the form
+</p>
+<div class="math">\begin{eqnarray}\tag{1}
+\mathscr{S} = \{(\textbf{x}_i, y_i) \}.
+\end{eqnarray}</div>
+<p>Here, <span class="math">\(\textbf{x}_i\)</span> is the set of features, or predictor variables, for example <span class="math">\(i\)</span> and <span class="math">\(y_i \in \{0,1 \}\)</span> is the label for example <span class="math">\(i\)</span>. A classifier function <span class="math">\(\widehat{p}_1(\textbf{x})\)</span> is one that attempts to guess the value of <span class="math">\(y_i\)</span> given only the feature vector <span class="math">\(\textbf{x}_i\)</span>. In particular, the output of the function <span class="math">\(\widehat{p}_1(\textbf{x}_i)\)</span> is an estimate for the probability that the label <span class="math">\(y_i\)</span> is equal to <span class="math">\(1\)</span>. If the algorithm is confident that the class is <span class="math">\(1\)</span> (<span class="math">\(0\)</span>), the probability returned will be large (small).</p>
+<p>To characterize model performance, we can set a threshold value of <span class="math">\(p^*\)</span> and mark all examples in the test set with <span class="math">\(\widehat{p}(\textbf{x}_i) &gt; p^*\)</span> as being candidates for class one. The fraction of the truly positive examples in <span class="math">\(\mathscr{S}\)</span> marked in this way is referred to as the true-positive rate (TPR) at threshold <span class="math">\(p^*\)</span>. Similarly, the fraction of negative examples in <span class="math">\(\mathscr{S}\)</span> marked is referred to as the false-positive rate (FPR) at threshold <span class="math">\(p^*\)</span>. Plotting the TPR against the FPR across all thresholds gives the model's so-called receiver operating characteristic (ROC) curve. A hypothetical example is shown at right in blue. The dashed line is just the <span class="math">\(y=x\)</span> line, which corresponds to the ROC curve of a random classifier (one returning a uniform random <span class="math">\(p\)</span> value each time).</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/03/example.png"></p>
+
+<p>Notice that if the threshold is set to <span class="math">\(p^* = 1\)</span>, no positive or negative examples will typically be marked as candidates, as this would require one-hundred percent confidence of class <span class="math">\(1\)</span>. This means that we can expect an ROC curve to always go through the point <span class="math">\((0,0)\)</span>. Similarly, with <span class="math">\(p^*\)</span> set to <span class="math">\(0\)</span>, all examples should be marked as candidates for class <span class="math">\(1\)</span> -- and so an ROC curve should also always go through the point <span class="math">\((1,1)\)</span>. In between, we hope to see a curve that increases in the TPR direction more quickly than in the FPR direction -- since this would imply that the examples the model is most confident about tend to actually be class <span class="math">\(1\)</span> examples. In general, the larger the Area Under the (ROC) Curve -- again, blue at right -- the better. We call this area the "AUC score for the model" -- the topic of this post.</p>
+<h3>AUC sensitivity to test set difficulty</h3>
+<p>To illustrate the sensitivity of the AUC score to test set difficulty, we now consider a toy classification problem: In particular, we consider a set of unit-variance normal distributions, each having a different mean <span class="math">\(\mu_i\)</span>. From each distribution, we will take a single sample <span class="math">\(x_i\)</span>. From this, we will attempt to estimate whether or not the corresponding mean satisfies <span class="math">\(\mu_i &gt; 0\)</span>. That is, our training set will take the form <span class="math">\(\mathscr{S} = \{(x_i, \mu_i)\}\)</span>, where <span class="math">\(x_i \sim N(\mu_i, 1)\)</span>. For different <span class="math">\(\mathscr{S}\)</span>, we will study the AUC of the classifier function,</p>
+<div class="math">\begin{eqnarray} \label{classifier} \tag{2}
+\widehat{p}(x) = \frac{1}{2} (1 + \text{tanh}(x))
+\end{eqnarray}</div>
+<p>
+A plot of this function is shown below. You can see that if any test sample <span class="math">\(x_i\)</span> is far to the right (left) of <span class="math">\(x=0\)</span>, the model will classify the sample as positive (negative) with high certainty. At intermediate values near the boundary, the estimated probability of being in the positive class lifts in a reasonable way.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/03/classifier-2.png"></p>
+
+<p>Notice that if a test example has a mean very close to zero, it will be difficult to classify that example as positive or negative. This is because both positive and negative <span class="math">\(x\)</span> samples are equally likely in this case. This means that the model cannot do much better than a random guess for such <span class="math">\(\mu\)</span>. On the other hand, if an example <span class="math">\(\mu\)</span> is selected that is very far from the origin, a single sample <span class="math">\(x\)</span> from <span class="math">\(N(\mu, 1)\)</span> will be sufficient to make a very good guess as to whether <span class="math">\(\mu &gt; 0\)</span>. Such examples are hard to get wrong, soft-balls.</p>
+<p>The impact of adding soft-balls to the test set on the AUC for model (\ref{classifier}) can be studied by changing the sampling distribution of <span class="math">\(\mathscr{S}\)</span>. The following python snippet takes samples <span class="math">\(\mu_i\)</span> from three distributions -- one tight about <span class="math">\(0\)</span> (resulting in a very difficult test set), one that is very wide containing many soft-balls that are easily classified, and one that is intermediate. The ROC curves that result from these three cases are shown following the code. The three curves are very different, with the AUC of the soft-ball set very large and that of the tight set close to that of the random classifier. Yet, in each case the model considered was the same -- (\ref{classifier}). How could the AUC have improved?!</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
+
+<span class="n">SAMPLES</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">means_std</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="k">for</span> <span class="n">means_std</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">.001</span><span class="p">]:</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">means_std</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">SAMPLES</span><span class="p">)</span>
+    <span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">means</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[</span><span class="n">classifier</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">x_set</span><span class="p">]</span>
+    <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">roc_curve</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">means</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span> <span class="n">predictions</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">means_std</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">fpr</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">means</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">means_std</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;TPR versus FPR -- The ROC curve&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Means sampled for each case&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2017/03/Examples.png"></p>
+
+<p>The explanation for the differing AUC values above is clear: Consider, for example, the effect of adding soft-ball negatives to <span class="math">\(\mathscr{S}\)</span>. In this case, the model (\ref{classifier}) will be able to correctly identify almost all true positive examples at a much higher threshold than that where it begins to mis-classify the introduced negative softballs. This means that the ROC curve will now hit a TPR value of <span class="math">\(1\)</span> well-before the FPR does (which requires all negatives -- including the soft-balls to be mis-classified). Similarly, if many soft-ball positives are added in, these will be easily identified as such well-before any negative examples are mis-classified. This again results in a raising of the ROC curve, and an increase in AUC -- all without any improvement in the actual model quality, which we have held fixed.</p>
+<h3>Discussion</h3>
+<p>The toy example considered above illustrates the general point the AUC of a model is really a function of both the model and the test set it is being applied to. Keeping this in mind will help to prevent incorrect interpretations of the AUC. A special case to watch out for in practice is the situation where the AUC changes upon adjustment of the training and testing protocol applied (which can result, for example, from changes to how training examples are collected for the model). If you see such a change occur in your work, be careful to consider whether or not it is possible that the difficulty of the test set has changed in the process. If so, the change in the AUC may not indicate a change in model quality.</p>
+<p>Because the AUC score of a model can depend highly on the difficulty of the test set, reporting this score alone will generally not provide much insight into the accuracy of the model -- which really depends only on performance near the true decision boundary and not on soft-ball performance. Because of this, it may be a good practice to always report AUC scores for optimized models next to those of some fixed baseline model. Comparing the differences of the two AUC scores provides an approximate method for removing the effect of test set difficulty. If you come across an isolated, high AUC score in the wild, remember that this does not imply a good model!</p>
+<p>A special situation exists where reporting an isolated AUC score for a single model can provide value: The case where the test set employed shares the same distribution as that of the application set (the space where the model will be employed). In this case, performance within the test set directly relates to expected performance during application. However, applying the AUC to situations such as this is not always useful. For example, if the positive class sits within only a small subset of feature space, samples taken from much of the rest of the space will be "soft-balls" -- examples easily classified as not being in the positive class. Measuring the AUC on test sets over the full feature space in this context will always result in AUC values near one -- leaving it difficult to register improvements in the model near the decision boundary through measurement of the AUC.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/methods.html">methods</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

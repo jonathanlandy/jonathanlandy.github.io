@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our following post on measles and vaccination rates. Our generalized SIR model differs from the original SIR model of Kermack and McKendrick in that we allow for two susceptible sub-populations, one vaccinated against disease and one not. We conclude by presenting …" />
+<meta name="keywords" content="math/stats">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Mathematics of measles"/>
+  <meta property="og:description" content="Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our following post on measles and vaccination rates. Our generalized SIR model differs from the original SIR model of Kermack and McKendrick in that we allow for two susceptible sub-populations, one vaccinated against disease and one not. We conclude by presenting …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/math-of-measles"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2015-02-25 13:37:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Mathematics of measles</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="math-of-measles">Mathematics of measles</h1>
+    <p>
+      Published on Wed 25 February 2015
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our <a href="http://efavdb.github.io/vaccination-rates">following post</a> on measles and vaccination rates. Our generalized SIR model differs from the <a href="http://en.wikipedia.org/wiki/Epidemic_model#The_SIR_model">original SIR model</a> of Kermack and McKendrick in that we allow for two susceptible sub-populations, one vaccinated against disease and one not. We conclude by presenting some python code that integrates the equations numerically. An example solution obtained using this code is given below.</p>
+<iframe width="600" height="533" frameborder="0" scrolling="no" src="//plot.ly/~jslandy/58.embed"></iframe>
+
+<h4><strong>The model</strong></h4>
+<p>The equations describing our generalized SIR model are
+</p>
+<div class="math">\begin{eqnarray}\tag{1} \label{eq1}
+\dot{S}_{U} &amp;=&amp; - b_{U} S_{U} I \\
+\tag{2} \label{eq2}
+\dot{S}_{U} &amp;=&amp; - b_{U} S_{U} I \\
+\tag{3} \label{eq3}
+\dot{R} &amp;=&amp; k I \\
+\tag{4} \label{eq4}
+1 &amp;=&amp; I + R + S_U + S_V
+\end{eqnarray}</div>
+<p>Here, <span class="math">\(S_{U}\)</span>, <span class="math">\(S_{V}\)</span>, <span class="math">\(I\)</span>, and <span class="math">\(R\)</span> are population fractions corresponding to those unvaccinated and as yet uninfected, vaccinated and as yet uninfected, currently infected and contagious, and once contagious but no longer (recovered, perhaps), respectively. The first two equations above are instances of the <a href="http://en.wikipedia.org/wiki/Law_of_mass_action">law of mass action</a>. They approximate the infection rates as being proportional to the rates of susceptible-infected individual encounters. We refer to <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> here as the <em>infection rate parameters</em> of the two subpopulations. The third equation above approximates the dynamics of recovery: The form chosen supposes that an infected individual has a fixed probability of returning to health each day. We will refer to <span class="math">\(k\)</span> as the <em>recovery rate parameter</em>. The final equation above simply states that the subpopulation fractions have to always sum to one.</p>
+<h4><strong>Parameter estimation</strong></h4>
+<p>We can estimate the values <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> by introducing a close contact number (<span class="math">\(ccn\)</span>) variable, which is the average number of close contacts that individual infected, contagious people make per day. As a rough ball park, let us suppose that <span class="math">\(ccn \approx 3\)</span>. According to the CDC, an un-vaccinated person making close contact with someone with measles has a 90<span class="math">\(%\)</span> chance of contracting the illness. On the other hand, those who have been vaccinated a single time have a 95<span class="math">\(%\)</span> chance of being immune to the disease. Let's estimate that the combined population of individuals who have been vaccinated have a 1<span class="math">\(%\)</span> chance of contracting the illness upon close contact. These considerations suggest
+</p>
+<div class="math">\begin{align}
+b_{U} \approx 3 \times 0.9 &amp;= 0.27, \\
+b_{V} \approx 3 \times 0.01 &amp;= 0.03
+\end{align}</div>
+<p>
+The value of <span class="math">\(k\)</span> can be simply estimated using the fact that infected individuals are only contagious for about <span class="math">\(8\)</span> days, only four of which occur before rash appears. Assuming those who are showing symptoms quickly stop circulating, this suggests about five "effectively contagious" days, or
+</p>
+<div class="math">\begin{align}
+k \approx 1/5 = 0.2.
+\end{align}</div>
+<p>
+Note that here and elsewhere, we measure time in units of days.</p>
+<p>It's important to note that, although the qualitative properties of the solutions to our model are insensitive to parameter value variations, this is not true for the numerical values that it predicts. We have chosen parameter values that seem reasonable to us. Further, with these choices, many of the model's key quantitative values line up with corresponding CDC estimates. Those interested can experiment to see what sort of flexibility is allowed through modest parameter variation.</p>
+<h4><strong>Solution by quadrature</strong></h4>
+<p>Equations (\ref{eq1}-\ref{eq3}) give
+</p>
+<div class="math">\begin{align} \tag{5} \label{Svals}
+S_{U} = S_{U0} e^{ - \frac{b_{U} R}{k}}, \\
+S_{V} = S_{V0} e^{- \frac{b_{V} R}{k}}.
+\end{align}</div>
+<p>
+Combining with (\ref{eq4}) and integrating gives
+</p>
+<div class="math">\begin{align}
+\frac{\dot{R}}{k} =I_0 -S_{U0} \left [ e^{ - \frac{b_{U} R}{k}}- 1 \right ] - S_{20} \left [e^{ - \frac{b_{V} R}{k}}- 1 \right ] - R
+\end{align}</div>
+<p>
+Integrating again,
+</p>
+<div class="math">\begin{align} \tag{6} \label{solution}
+kt = \int_{0}^R \frac{d R^{\prime}}{I_0 -S_{U0} \left [ e^{ - \frac{b_{U} R^{\prime}}{k}}- 1 \right ] - S_{V0} \left [e^{ - \frac{b_{V} R^{\prime}}{k}}- 1 \right ] - R^{\prime}} .
+\end{align}</div>
+<p>
+This implicitly defines <span class="math">\(R\)</span> as function of time.</p>
+<h4><strong>Small time behavior</strong></h4>
+<p>At small <span class="math">\(t\)</span>, <span class="math">\(R\)</span> is also small, so (\ref{solution}) can be approximated as
+</p>
+<div class="math">\begin{align}
+k t = \int_{0}^R \frac{d R^{\prime}}{I_0 + \left [ \frac{ b_{U} S_{U0}}{k} +\frac{ b_{V} S_{V0}}{k} - 1 \right ]R^{\prime}}.
+\end{align}</div>
+<p>
+This form can be integrated analytically. Doing so, and solving for <span class="math">\(R\)</span>, we obtain
+</p>
+<div class="math">\begin{align}
+R = \frac{k}{b_{U} S_{U0} + b_{V} S_{V0} - k} \left \{e^{ (b_{U} S_{U0} + b_{V} S_{V0} - k )t } -1 \right \}, \ \ \
+I = I_0 e^{ (b_{U} S_{U0} + b_{V} S_{V0} - k )t}.
+\end{align}</div>
+<p>
+Early disease spread is characterized by either exponential growth or decay, governed by the sign of the parameter combination <span class="math">\(b_{U} S_{U0} + b_{V} S_{V0} - k\)</span>: a phase transition!</p>
+<h4><strong>Total contractions</strong></h4>
+<p>The total number of people infected in an outbreak can be obtained by evaluating <span class="math">\(R\)</span> at long times, where <span class="math">\(I = 0\)</span>. In this limit, using (\ref{eq4}) and (\ref{Svals}), we have
+</p>
+<div class="math">\begin{align}
+S_{U0} e^{- \frac{b_{U} R}{k}}+ S_{V0} e^{ - \frac{b_{V} R}{k}}+ R = 1.
+\end{align}</div>
+<p>
+This equation can be solved numerically to obtain the total contraction count as a function of the model parameters and initial conditions. A plot against <span class="math">\(S_{U0}\)</span> of such a solution for our measles-appropriate parameter estimates is given in our <a href="http://efavdb.github.io/vaccination-rates">next post</a>.</p>
+<h4><strong>Numerical integration in python</strong></h4>
+<p>Below, we provide code that can be used to integrate (\ref{eq1}-\ref{eq4}). The plot shown in our introduction provides one example solution. It's quite interesting to see how the solutions vary with parameter values, and we suggest that those interested try it out.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#Solving the SIR model for infectious disease. JSL 2/18/2015</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">ccn</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># &quot;close contact number&quot; = people per day</span>
+<span class="c1">#interacting closely with typical infected person</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mi">5</span>       <span class="c1"># Rate of &#39;recovery&#39; [1].</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">ccn</span><span class="o">*</span><span class="mf">0.9</span>   <span class="c1"># Approximate infection rate un-vaccinated [3].</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">ccn</span><span class="o">*</span><span class="mf">0.01</span>  <span class="c1"># Approximate infection rate un-vaccinated [4].</span>
+
+<span class="c1">#Initial conditions (fraction of people in each category)</span>
+<span class="n">I0</span> <span class="o">=</span> <span class="mf">0.001</span>          <span class="c1"># initial population fraction infected.</span>
+<span class="n">S10</span> <span class="o">=</span> <span class="mf">0.2</span>           <span class="c1"># population fraction unvaccinated.</span>
+<span class="n">S20</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">I0</span> <span class="o">-</span> <span class="n">S10</span>  <span class="c1"># population fraction vacccinated.</span>
+<span class="n">R0</span> <span class="o">=</span> <span class="mf">0.0</span>            <span class="c1"># intial recovered fraction.</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>           <span class="c1"># integration time step</span>
+<span class="n">days</span> <span class="o">=</span> <span class="mi">100</span>          <span class="c1"># total days considered</span>
+
+<span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="n">I0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
+<span class="n">S1</span> <span class="o">=</span> <span class="p">[</span><span class="n">S10</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
+<span class="n">S2</span> <span class="o">=</span> <span class="p">[</span><span class="n">S20</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="n">R0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">)):</span>
+    <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b1</span> <span class="o">*</span> <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">S2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">S2</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b2</span> <span class="o">*</span> <span class="n">S2</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">b1</span> <span class="o">*</span> <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+    <span class="n">b2</span> <span class="o">*</span> <span class="n">S2</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">k</span><span class="o">*</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span>
+
+<span class="n">time</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span> <span class="o">*</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
+
+<span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">S2</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">time</span><span class="p">[:</span><span class="mi">1400</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">I0</span><span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">b1</span> <span class="o">*</span><span class="n">S10</span> <span class="o">+</span> <span class="n">b2</span><span class="o">*</span> <span class="n">S20</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time</span><span class="p">[:</span><span class="mi">1400</span><span class="p">]],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time [days]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;population %</span><span class="se">\&#39;</span><span class="s1">s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># [1] Measles patients are contagious for eight days</span>
+<span class="c1"># four of which are before symptoms appear. [2]</span>
+<span class="c1"># [2] http://www.cdc.gov/measles/about/transmission.html</span>
+<span class="c1"># [3] Assume infected have close contact with five people/day.</span>
+<span class="c1"># 90% of the un-vaccinated get sick in such situations.</span>
+<span class="c1"># [4] Single vaccination gives ~95% immunity rate [5]. Many</span>
+<span class="c1"># have two doses, which drops rate to very low.</span>
+<span class="c1"># [5] http://www.cdc.gov/mmwr/preview/mmwrhtml/00053391.htm</span>
+</code></pre></div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

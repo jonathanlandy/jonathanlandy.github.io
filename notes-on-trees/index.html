@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="This post contains our crib notes on the basics of decision trees and forests. We first discuss the construction of individual trees, and then introduce random and boosted forests. We also discuss efficient implementations of greedy tree construction algorithms, showing that a single tree can be constructed in \(O(k \times n \log n)\) time, given \(n\) training examples having …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta name="keywords" content="methods">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Machine Learning Methods: Decision trees and forests"/>
+  <meta property="og:description" content="This post contains our crib notes on the basics of decision trees and forests. We first discuss the construction of individual trees, and then introduce random and boosted forests. We also discuss efficient implementations of greedy tree construction algorithms, showing that a single tree can be constructed in \(O(k \times n \log n)\) time, given \(n\) training examples having …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/notes-on-trees"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2015-03-13 09:40:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Machine Learning Methods: Decision trees and forests</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="notes-on-trees">Machine Learning Methods: Decision trees and forests</h1>
+    <p>
+      Published on Fri 13 March 2015
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>This post contains our crib notes on the basics of decision trees and forests. We first discuss the construction of individual trees, and then introduce random and boosted forests. We also discuss efficient implementations of greedy tree construction algorithms, showing that a single tree can be constructed in <span class="math">\(O(k \times n \log n)\)</span> time, given <span class="math">\(n\)</span> training examples having <span class="math">\(k\)</span> features each. We provide exercises on interesting related points and an appendix containing relevant python/sk-learn function calls.  </p>
+<h2><strong>Introduction</strong></h2>
+<p>Decision trees constitute a class of simple functions that are frequently used for carrying out regression and classification. They are constructed by hierarchically splitting a feature space into disjoint regions, where each split divides into two one of the already existing regions. In most common implementations, the splits are always taken along one of the feature axes, which causes the regions to be rectangular in shape. An example is shown in Fig. 1 below. In this example, a two-dimensional feature space is first split by a tree on <span class="math">\(f_1\)</span> -- one of the two features characterizing the space -- at value <span class="math">\(s_a\)</span>. This separates the space into two sets, that where <span class="math">\(f_1 &lt; s_a\)</span> and that where <span class="math">\(f_1 \geq s_a\)</span>. Next, the tree further splits the first of these sets on feature <span class="math">\(f_2\)</span> at value <span class="math">\(s_b\)</span>. With these combined splits, the tree partitions the space into three disjoint regions, labeled <span class="math">\(R_1, R_2,\)</span> and <span class="math">\(R_3\)</span>, where, e.g., <span class="math">\(R_1 = \{ \textbf{f} \vert f_1 &lt; s_a, f_2 &lt; s_b \}\)</span>.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2015/03/tree1.jpg"></p>
+
+<p>Once a decision tree is constructed, it can be used for making predictions on unlabeled feature vectors -- i.e., points in feature space not included in our training set. This is done by first deciding which of the regions a new feature vector belongs to, and then returning as its hypothesis label an average over the training example labels within that region: The mean of the region's training labels is returned for regression problems and the mode for classification problems. For instance, the tree in Fig. 1 would return an average of the five training examples in <span class="math">\(R_1\)</span> (represented by red dots) when asked to make a hypothesis for any and all other points in that region.</p>
+<p>The art and science of tree construction is in deciding how many splits should be taken and where those splits should take place. The goal is to find a tree that provides a reasonable, piece-wise constant approximation to the underlying distribution or function that has generated the training data provided. This can be attempted through choosing a tree that breaks space up into regions such that the examples in any given region have identical -- or at least similar -- labels. We discuss some common approaches to finding such trees in the next section.</p>
+<p>Individual trees have the important benefit of being easy to interpret and visualize, but they are often not as accurate as other common machine learning algorithms. However, individual trees can be used as simple building blocks with which to construct more complex, competitive models. In the third section of this note, we discuss three very popular constructions of this sort: bagging, random forests (a variant on bagging), and boosting. We then discuss the runtime complexity of tree/forest construction and conclude with a summary, exercises, and an appendix containing example python code.</p>
+<h2><strong>Constructing individual decision trees</strong></h2>
+<h4><strong>Regression</strong></h4>
+<p>Regression tree construction typically proceeds by attempting to minimize a squared error cost function: Given a training set <span class="math">\(T \equiv \{t_j = (\textbf{f}_j, y_j) \}\)</span> of feature vectors and corresponding real-valued labels, this is given by<br>
+</p>
+<div class="math">\begin{eqnarray}\label{treecost} \tag{1} 
+J = \sum_{R_i} \sum_{t_j \in R_i } \left ( \bar{y}_{R_i} - y_j \right)^2,  
+\end{eqnarray}</div>
+<p><br>
+where <span class="math">\(\bar{y}_{R_i}\)</span> is the mean training label in region <span class="math">\(R_i\)</span>. This mean training label is the hypothesis returned by the tree for all points in <span class="math">\(R_i\)</span>, including its training examples. Therefore, (\ref{treecost}) is a measure of the accuracy of the tree as applied to the training set.</p>
+<p>Unfortunately, actually minimizing (\ref{treecost}) over any large subset of trees can be a numerically challenging task. This is true whenever you have a large number of features or training examples. Consequently, different approximate methods are generally taken to find good candidate trees. Two typical methods follow:</p>
+<ul>
+<li><em>Greedy algorithm</em>: The tree is constructed recursively, one branching step at a time. At each step, one takes the split that will most significantly reduce the cost function <span class="math">\(J\)</span>, relative to its current value. In this way, after <span class="math">\(k-1\)</span> splits, a tree with <span class="math">\(k\)</span> regions (leaves) is obtained -- Fig. 2 provides an illustration of this process. The algorithm terminates whenever some specified stopping criterion is satisfied, examples of which are given below.</li>
+<li><em>Randomized algorithm</em>: Randomized tree-search protocols can sometimes find global minima inaccessible to the gradient-descent-like greedy algorithm. These randomized protocols also proceed recursively. However, at each step, some randomization is introduced by hand. For example, one common approach is to select <span class="math">\(r\)</span> candidate splits through random sampling at each branching point. The candidate split that most significantly reduces <span class="math">\(J\)</span> is selected, and the process repeats. The benefit of this approach is that it can sometimes find paths that appear suboptimal in their first few steps, but are ultimately favorable.</li>
+</ul>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2015/03/treebuild.jpg"></p>
+
+<h4><strong>Classification</strong></h4>
+<p>In classification problems, the training labels take on a discrete set of values, often having no numerical significance. This means that a squared-error cost function, like that in (\ref{treecost}) -- cannot be directly applied as a useful accuracy score for guiding classification tree construction. Instead, three other cost functions are often considered, each providing a different measure of the class purity of the different regions -- that is, they attempt to measure whether or not a given region consists of training examples that are mostly of the same class. These three measures are the error rate (<span class="math">\(E\)</span>), the Gini index (<span class="math">\(G\)</span>), and the cross-entropy (<span class="math">\(CE\)</span>): If we write <span class="math">\(N_i\)</span> for the number of training examples in region <span class="math">\(R_i\)</span>, and <span class="math">\(p_{i,j}\)</span> for the fraction of these that have class label <span class="math">\(j\)</span>, then these three cost functions are given by<br>
+</p>
+<div class="math">\begin{eqnarray}\label{errorrate}  \tag{2} 
+E &amp;=&amp; \sum_{R_i} N_i \times \left ( 1 - \max_{j} p_{i,j}\right) \\ \label{gini} \tag{3} 
+G &amp;=&amp; \sum_{R_i, j}N_i \times p_{i,j}\left ( 1 - p_{i,j} \right) \\ \label{crossentropy} \tag{4} 
+CE &amp;=&amp; - \sum_{R_i, j} N_i \times p_{i,j} \log p_{i,j}.  
+\end{eqnarray}</div>
+<p><br>
+Each of the summands here are plotted in Fig. 3 for the special case of binary classification (two labels only). Each is unfavorably maximized at the most mixed state, where <span class="math">\(p_1 = 0.5\)</span>, and minimized in the pure states, where <span class="math">\(p_1 = 0,1\)</span>.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2015/03/tree_errors.jpg"></p>
+
+<p>Although <span class="math">\(E\)</span> is perhaps the most intuitive of the three measures above (it's simply the number of training examples misclassified by the tree -- this follows from the fact that the tree returns as hypothesis the mode in each region) the latter two have the benefit of being characterized by negative curvature as a function of the <span class="math">\(p_{i,j}\)</span>. This property tends to enhance the favorability of splits that generate region pairs where at least one is highly pure. At times, this can simultaneously result in the other region of the pair ending up relatively impure -- see Exercise 1 for details. Such moves are often ultimately beneficial, since any highly impure node that results can always be broken up in later splits anyways. The plot in Fig. 3 shows that the cross-entropy has the larger curvature of the two, and so should more highly favor such splits, at least in the binary classification case. Another nice feature of the Gini and cross-entropy functions is that -- in contrast to the error rate -- they are both smooth functions of the <span class="math">\(p_{i,j}\)</span>, which facilitates numerical optimization. For these reasons, one of these two functions is typically used to guide tree construction, even if <span class="math">\(E\)</span> is the quantity one would actually like to minimize. Tree construction proceeds as in the regression case, typically by a greedy or randomized construction, each step taken so as to minimize (\ref{gini}) or (\ref{crossentropy}), whichever is chosen.</p>
+<h4><strong>Bias-variance trade-off and stopping conditions</strong></h4>
+<p>Decision trees that are allowed to split indefinitely will have low bias but will over-fit their training data. Placing different stopping criteria on a tree's growth can ameliorate this latter effect. Two typical conditions often used for this purpose are given by a) placing an upper bound on the number of levels permitted in the tree, or b) requiring that each region (tree leaf) retains at least some minimum number of training examples. To optimize over such constraints, one can apply cross-validation.</p>
+<h2><strong>Bagging, random forests, and boosting</strong></h2>
+<p>Another approach to alleviating the high-variance, over-fitting issue associated with decision trees is to average over many of them. This approach is motivated by the observation that the sum of <span class="math">\(N\)</span> independent random variables -- each with variance <span class="math">\(\sigma^2\)</span> -- has a relatively reduced variance, <span class="math">\(\sigma^2/N\)</span>. Two common methods for carrying out summations of this sort are discussed below.</p>
+<h4><strong>Bagging and random forests</strong></h4>
+<p><em>Bootstrap aggregation</em>, or "bagging", provides one common method for constructing ensemble tree models. In this approach, one samples with replacement to obtain <span class="math">\(k\)</span> separate bootstrapped training sets from the original training data. To obtain a bootstrapped subsample of a data set of size <span class="math">\(N\)</span>, one draws randomly from the set <span class="math">\(N\)</span> times with replacement. Because one samples with replacement, each bootstrapped set can contain multiple copies of some examples. The average number of unique examples in a given bootstrap is simply <span class="math">\(N\)</span> times the probability that any individual example makes it into the training set. This is<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{5} 
+N \left [ 1 - \left(\frac{N-1}{N} \right)^N \right ] \approx N (1 - e^{-1}) \approx 0.63N,  
+\end{eqnarray}</div>
+<p><br>
+where the latter forms are accurate in the large <span class="math">\(N\)</span> limit. Once the bootstrapped data sets are constructed, an individual decision tree is fit to each, and an average or majority rule vote over the full set is used to provide the final prediction.</p>
+<p>One nice thing about bagging methods, in general, is that one can train on the entire set of available labeled training data and still obtain an estimate of the generalization error. Such estimates are obtained by considering the error on each point in the training set, in each case averaging only over those trees that did not train on the point in question. The resulting estimate, called the out-of-bag error, typically provides a slight overestimate to the generalization error. This is because accuracy generally improves with growing ensemble size, and the full ensemble is usually about three times larger than the sub-ensemble used to vote on any particular training example in the out-of-bag error analysis.</p>
+<p><em>Random forests</em> provide a popular variation on the bagging method. The individual decision trees making up a random forest are, again, each fit to an independent, bootstrapped subsample of the training data. However, at each step in their recursive construction process, these trees are restricted in that they are only allowed to split on <span class="math">\(r\)</span> randomly selected candidate feature directions; a new set of <span class="math">\(r\)</span> directions is chosen at random for each step in the tree construction. These restrictions serve to effect a greater degree of independence in the set of trees averaged over in a random forest, which in turn serves to reduce the ensemble's variance -- see Exercise 5 for related analysis. In general, the value of <span class="math">\(r\)</span> should be optimized through cross-validation.</p>
+<h4><strong>Boosting</strong></h4>
+<p>The final method we'll discuss is <em>boosting</em>, which again consists of a set of individual trees that collectively determine the ultimate prediction returned by the model. However, in the boosting scenario, one fits each of the trees to the full data set, rather than to a small sample. Because they are fit to the full data set, these trees are usually restricted to being only two or three levels deep, so as to avoid over-fitting. Further, the individual trees in a boosted forest are constructed sequentially. For instance, in regression, the process typically works as follows: In the first step, a tree is fit to the full, original training set <span class="math">\(T = \{t_i = (\textbf{f}_i, y_i)\}\)</span>. Next, a second tree is constructed on the same training feature vectors, but with the original labels replaced by residuals. These residuals are obtained by subtracting out a scaled version of the predictions <span class="math">\(\widehat{y}^1\)</span> returned by the first tree,<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{6} 
+y_i^{(1)} \equiv y_i - \alpha \widehat{y}_i^1.  
+\end{eqnarray}</div>
+<p><br>
+Here, <span class="math">\(\alpha\)</span> is the scaling factor, or learning rate -- choosing its value small results in a gradual learning process, which often leads to very good predictions. Once the second tree is constructed, a third tree is fit to the new residuals, obtained by subtracting out the scaled hypothesis of the second tree, <span class="math">\(y_i^{(2)} \equiv y_i^{(1)} - \alpha \widehat{y}_i^2\)</span>. The process repeats until <span class="math">\(m\)</span> trees are constructed, with their <span class="math">\(\alpha\)</span>-scaled hypotheses summing to a good estimate to the underlying function.</p>
+<p>Boosted classification tree ensembles are constructed in a fashion similar to that above. However, in contrast to the regression scenario, the same, original training labels are used to fit each new tree in the ensemble (as opposed to an evolving residual). To bring about a similar, gradual learning process, boosted classification ensembles instead sample from the training set with weights that are sample-dependent and that change over time: When constructing a new tree for the ensemble, one more heavily weights those examples that have been poorly fit in prior iterations. AdaBoost is a popular algorithm for carrying out boosted classification. This and other generalizations are covered in the text <a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">Elements of Statistical Learning</a>.</p>
+<h2><strong>Implementation runtime complexity</strong></h2>
+<p>Before concluding, we take here a moment to consider the runtime complexity of tree construction. This exercise gives one a sense of how tree algorithms are constructed in practice. We begin by considering the greedy construction of a single classification tree. The extension to regression trees is straightforward.</p>
+<h4><strong>Individual decision trees</strong></h4>
+<p>Consider the problem of greedily training a single classification tree on a set of <span class="math">\(n\)</span> training examples having <span class="math">\(k\)</span> features. In order to construct our tree, we take as a first step the sorting of the <span class="math">\(n\)</span> training vectors along each of the <span class="math">\(k\)</span> directions, which will facilitate later optimal split searches. Recall that optimized algorithms, e.g. <a href="http://en.wikipedia.org/wiki/Merge_sort">merge-sort</a>, require <span class="math">\(O(n \log n)\)</span> time to sort along any one feature direction, so sorting along all <span class="math">\(k\)</span> will require <span class="math">\(O(k \times n \log n)\)</span> time. After this pre-sort step is complete, we must seek the currently optimal split, carry it out, and then iterate. We will show that -- with care -- the full iterative process can also be carried out in <span class="math">\(O(k \times n \log n)\)</span> time.</p>
+<p>Focus on an intermediate moment in the construction process where one particular node has just been split, resulting in two new regions, <span class="math">\(R_1\)</span> and <span class="math">\(R_2\)</span> containing <span class="math">\(n_{R_1}\)</span> and <span class="math">\(n_{R_2}\)</span> training examples, respectively. We can assume that we have already calculated and stored the optimal split for every other region in the tree during prior iterations. Therefore, to determine which region contains the next optimal split, the only new searches we need to carry out are within regions <span class="math">\(R_1\)</span> and <span class="math">\(R_2\)</span>. Focus on <span class="math">\(R_1\)</span> and suppose that we have been passed down the following information characterizing it: the number of training examples of each class that it contains, its total number of training examples <span class="math">\(n_{R_1}\)</span>, its cost function value <span class="math">\(J\)</span> (cross entropy, say), and for each of the <span class="math">\(k\)</span> feature directions, a separate list of the region's examples, sorted along that direction. To find the optimal split, we must consider all <span class="math">\(k \times (n_{R_1}-1)\)</span> possible cuts of this region [<em>Aside</em>: We must check all possible cuts because the cost function can have many local minima. The precludes the use of gradient-descent-like algorithms to find the optimal split.], evaluating the cost function reduction for each.</p>
+<p>The left side of Fig. 4 illustrates one method for efficiently carrying out these test cuts: For each feature direction, we proceed sequentially through that direction's ordered list, considering one cut at a time. In the first cut, we take only one example in the left sub-region induced, and all others on the right. In the second cut, we have the first two examples in the left sub-region, etc. Proceeding in this way, it turns out that the cost function of each new candidate split considered can always be evaluated in <span class="math">\(O(1)\)</span> time. This is because we start with knowledge of the cost function <span class="math">\(J\)</span> before any cut is taken, and the cost functions we consider here can each be updated in <span class="math">\(O(1)\)</span> time whenever only a single example is either added to or removed from a given region -- see exercises 3 and 4 for details. Using this approach, we can therefore try all possible cuts of region <span class="math">\(R_1\)</span> in <span class="math">\(O(k \times n_{R_1})\)</span> time.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2015/03/tree_complexity.jpg"></p>
+
+<p>The above analysis gives the time needed to search for the optimal split within <span class="math">\(R_1\)</span>, and a similar form holds for <span class="math">\(R_2\)</span>. Once these are determined, we can quickly select the current, globally-optimal split [<em>Aside</em>: Using a heap data structure, the global minimum can be obtained in at most <span class="math">\(O(\log n)\)</span> time. Summing this effort over all nodes of the tree will lead to roughly <span class="math">\(O(n \log n)\)</span> evaluations.]. Carrying out this split entails partitioning the region selected into two and passing the necessary information down to each. We leave as an exercise the fact that the passing of needed information -- ordered lists, etc. -- can be carried out in <span class="math">\(O(k \times n_s)\)</span> time, with <span class="math">\(n_s\)</span> the size of the parent region being split. The total tree construction time can now be obtained by summing up each node's search and split work, which both require <span class="math">\(O(k \times n_s\)</span>) computations. Assuming a roughly balanced tree having about <span class="math">\(\log n\)</span> layers -- see right side of Fig. 4 -- we obtain <span class="math">\(O(k \times n \log n)\)</span>, the runtime scaling advertised.</p>
+<p>In summary, we see that achieving <span class="math">\(O(k \times n \log n)\)</span> scaling requires a) a pre-sort, b) a data structure for storing certain important facts about each region, including its optimal split, once determined, and also pointers to its parent and children, c) an efficient method for passing relevant information down to daughter regions during a split instance, d) a heap to enable quick selection of the currently optimal split, and e) a cost function that can be updated efficiently under single training example insertions or removals.</p>
+<h4><strong>Forests, parallelization</strong></h4>
+<p>If a forest of <span class="math">\(N\)</span> trees is to be constructed, each will require <span class="math">\(O(k \times n \log n)\)</span> time to construct. Recall, however, that the trees of a bagged forest can be constructed independently of one another. This allows for bagged forest constructions to take advantage of parallelization, facilitating their application in the large <span class="math">\(N\)</span> limit. In contrast, the trees of a boosted forest are constructed in sequence and so cannot be parallelized in a similar manner. However, note that optimal split searches along different feature directions can always be run in parallel. This can speed up individual tree construction times in either case.</p>
+<h2><strong>Discussion</strong></h2>
+<p>In this note, we've quickly reviewed the basics of tree-based models and their constructions. Looking back over what we have learned, we can now consider some of the reasons why tree-based methods are so popular among practitioners. First -- and very importantly -- individual trees are often useful for gaining insight into the geometry of datasets in high dimensions. This is because tree structures can be visualized using simple diagrams, like that in Fig. 1. In contrast, most other machine learning algorithm outputs cannot be easily visualized -- consider, e.g., support-vector machines, which return hyper-plane decision boundaries. A related point is that tree-based approaches are able to automatically fit non-linear decision boundaries. In contrast, linear algorithms can only fit such boundaries if appropriate non-linear feature combinations are constructed. This requires that one first identify these appropriate feature combinations, which can be a challenging task for feature spaces that cannot be directly visualized. Three additional positive qualities of decision trees are given by a) the fact that they are insensitive to feature scale, which reduces the need for related data preprocessing, b) the fact that they can make use of data missing certain feature values, and c) that they are relatively robust against outliers and noisy-labeling issues.</p>
+<p>Although boosted and random forests are not as easily visualized as individual decision trees, these ensemble methods are popular because they are often quite competitive. Boosted forests typically have a slightly lower generalization error than their random forest counterparts. For this reason, they are often used when accuracy is highly-valued -- see last figure for an example learning curve consistent with this rule of thumb: Generalization error rate versus training set size for a hand-written digits learning problem. However, the individual trees in a bagged forest can be constructed in parallel. This benefit -- not shared by boosted forests -- can favor random forests as a go-to, out-of-box approach for treating large-scale machine learning problems.</p>
+<p>Exercises follow that detail some further points of interest relating to decision trees and their construction.</p>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2015/03/tree_learning.jpg"></p>
+
+<h4><strong>References</strong></h4>
+<p>[1] <a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">Elements of Statistical Learning</a>, by Hastie, Tibshirani, Friedman<br>
+[2] <a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning</a>, by James, Witten, Hastie, and Tibshirani<br>
+[3] <a href="http://link.springer.com/article/10.1023%2FA%3A1010933404324">Random Forests</a>, by Breiman (Machine Learning, 45, 2001).<br>
+[4] <a href="http://scikit-learn.org/stable/modules/tree.html">Sk-learn documentation</a> on runtime complexity, see section 1.8.4.</p>
+<h2><strong>Exercises</strong></h2>
+<h4>1) Jensen's inequality and classification tree cost functions</h4>
+<p>​a) Consider a real function <span class="math">\(y(x)\)</span> with non-positive curvature. Consider sampling <span class="math">\(y\)</span> at values <span class="math">\(\{x_1, x_2, \ldots, x_m\}\)</span>. By considering graphically the centroid of the points <span class="math">\(\{(x_i, y(x_i))\}\)</span>, prove Jensen's inequality,<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{7}
+y\left ( \frac{1}{m} \sum_i x_i \right) \geq \frac{1}{m}\sum_i y(x_i).  
+\end{eqnarray}</div>
+<p><br>
+When does equality hold?</p>
+<p>​b) Consider binary tree classification guided by the minimization of the error rate (\ref{errorrate}). If all possible cuts of a particular region always leave class <span class="math">\(0\)</span> in the minority in both resulting sub-regions, will a cut here ever be made?</p>
+<p>​c) How about if (\ref{gini}) or (\ref{crossentropy}) is used as the cost function?</p>
+<h4>2) Decision tree prediction runtime complexity</h4>
+<p>Suppose one has constructed an approximately balanced decision tree, where each node contains one of the <span class="math">\(n\)</span> training examples used for its construction. In general, approximately how long will it take to determine the region <span class="math">\(R_i\)</span> to which a supplied feature vector belongs? How about for ensemble models? Any difference between typical bagged and boosted forests?</p>
+<h4>3) Classification tree construction runtime complexity</h4>
+<p>​a) Consider a region <span class="math">\(R\)</span> within a classification tree containing <span class="math">\(n_i\)</span> training examples of class <span class="math">\(i\)</span>, with <span class="math">\(\sum_i n_i = N\)</span>. Now, suppose a cut is considered in which a single training example of class <span class="math">\(1\)</span> is removed from the region. If the region's cross-entropy before the cut is given by <span class="math">\(CE_0\)</span>, show that its entropy after the cut will be given by<br>
+</p>
+<div class="math">\begin{eqnarray}\label{DEntropy} \tag{8}
+CE_f = CE_0 - N \log\left (\frac{N}{N-1} \right) + \log \left (\frac{n_1}{N-1} \right) - (n_1 -1) \log \left (\frac{n_1 - 1}{n_1} \right).  
+\end{eqnarray}</div>
+<p><br>
+If <span class="math">\(CE_0\)</span>, <span class="math">\(N\)</span>, and the <span class="math">\(\{n_i\}\)</span> values are each stored in memory for a given region, this equation can be used to evaluate in <span class="math">\(O(1)\)</span> time the change in its entropy with any single example removal. Similarly, the change in entropy of a region upon addition of a single training example can also be evaluated in <span class="math">\(O(1)\)</span> time. Taking advantage of this is essential for obtaining an efficient tree construction algorithm.</p>
+<p>​b) Show that a region's Gini coefficient (\ref{gini}) can also be updated in <span class="math">\(O(1)\)</span> time with any single training example removal.</p>
+<h4>4)Regression tree construction runtime complexity.</h4>
+<p>Consider a region <span class="math">\(R\)</span> within a regression tree containing <span class="math">\(N\)</span> training examples, characterized by mean label value <span class="math">\(\bar{y}\)</span> and cost value (\ref{treecost}) given by <span class="math">\(J\)</span> (<span class="math">\( N\)</span> times the region's label variance). Suppose a cut is considered in which a single training example having label <span class="math">\(y\)</span> is removed from the region. Show that after the cut is taken the new mean training label and cost function values within the region are given by<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{9}
+\bar{y}_f &amp;=&amp; \frac{1}{N-1} \left ( N \bar{y} - y \right) \ \label{regression_cost_change}  
+J_f &amp;=&amp; J - \frac{N}{N-1} \left ( \bar{y} - y\right)^2.  
+\end{eqnarray}</div>
+<p><br>
+These results allow for the cost function of a region to be updated in <span class="math">\(O(1)\)</span> time as single examples are either inserted or removed from it. Their simplicity is a special virtue of the squared error cost function. Other cost function choices will generally require significant increases in tree construction runtime complexity, as most require a fresh evaluation with each new subset of examples considered.</p>
+<h4>5) Chebychev's inequality and random forest classifier accuracy</h4>
+<p>Adapted from [3].</p>
+<p>​a) Let <span class="math">\(x\)</span> be a random variable with well-defined mean <span class="math">\(\mu\)</span> and variance <span class="math">\(\sigma^2\)</span>. Prove Chebychev's inequality,<br>
+</p>
+<div class="math">\begin{eqnarray}\label{Cheby} \tag{10}
+P(x \geq \mu + t) \leq \frac{\sigma^2}{t^2}.  
+\end{eqnarray}</div>
+<p>​b) Consider a binary classification problem aimed at fitting a sampled function <span class="math">\(y(\textbf{f})\)</span> that takes values in <span class="math">\(\{ 0,1\}\)</span>. Suppose a decision tree <span class="math">\(h_{\theta}(\textbf{f})\)</span> is constructed on the samples using a greedy, randomized approach, where the randomization is characterized by the parameter <span class="math">\(\theta\)</span>. Define the classifier's <em>margin</em> <span class="math">\(m\)</span> at <span class="math">\(\textbf{f}\)</span> by<br>
+</p>
+<div class="math">\begin{eqnarray}\label{tree_margin_def} \tag{11}
+m(\theta, \textbf{f}) =-1 + 2 \left [ y * h_{\theta}+ (1- y) * (1 - h_{\theta}) \right ]  
+\end{eqnarray}</div>
+<p><br>
+This is equal to <span class="math">\(1\)</span> if <span class="math">\(h_{\theta}\)</span> and <span class="math">\(y\)</span> agree at <span class="math">\(\textbf{f}\)</span>, and <span class="math">\(-1\)</span> otherwise. Now, consider a random forest, consisting of many such trees, each obtained by sampling from the same <span class="math">\(\theta\)</span> distribution. Argue using (\ref{Cheby}), (\ref{tree_margin_def}), and the law of large numbers that the generalization error <span class="math">\(GE\)</span> of the forest is bounded by<br>
+</p>
+<div class="math">\begin{eqnarray}\label{rf_bound} \tag{12}
+GE \leq \frac{var_{\textbf{f}}\left( \langle m(\theta, \textbf{f}) \rangle_{\theta} \right)}{\langle m(\theta, \textbf{f}) \rangle_{\theta, \textbf{f}}^2 }  
+\end{eqnarray}</div>
+<p>​c) Show that<br>
+</p>
+<div class="math">\begin{eqnarray}\label{margin_var} \tag{13} 
+var_{\textbf{f}}\left( \langle m(\theta, \textbf{f}) \rangle_{\theta} \right) = \langle cov_{\textbf{f}}(m(\theta, \textbf{f}), m(\theta^{\prime},\textbf{f})) \rangle_{\theta, \theta^{\prime}}  
+\end{eqnarray}</div>
+<p>​d) Writing,<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{14} 
+\rho \equiv \frac{\langle cov_{\textbf{f}}(m(\theta, \textbf{f}), m(\theta^{\prime},\textbf{f})) \rangle_{\theta, \theta^{\prime}}}  
+{\langle \sqrt{var_{\textbf{f}}(m(\theta, \textbf{f}))} \rangle_{\theta}^2},  
+\end{eqnarray}</div>
+<p><br>
+for the <span class="math">\(\theta\)</span>, <span class="math">\(\theta^{\prime}\)</span>-averaged margin-margin correlation coefficient, show that<br>
+</p>
+<div class="math">\begin{eqnarray}  
+var_{\textbf{f}}\left( \langle m(\theta, \textbf{f}) \rangle_{\theta} \right) \leq \rho \langle var_{\textbf{f}}(m(\theta, \textbf{f})) \rangle_{\theta} \leq \rho \left ( 1 - \langle m(\theta, \textbf{f}) \rangle_{\theta, \textbf{f}}^2\right).  
+\end{eqnarray}</div>
+<p><br>
+Combining with (\ref{rf_bound}), this gives<br>
+</p>
+<div class="math">\begin{eqnarray}\label{tree_bound_final} \tag{15} 
+GE \leq \rho \times \frac{ 1 - \langle m(\theta, \textbf{f}) \rangle_{\theta, \textbf{f}}^2 }{ \langle m(\theta, \textbf{f}) \rangle_{\theta, \textbf{f}}^2 }.  
+\end{eqnarray}</div>
+<p><br>
+The bound (\ref{tree_bound_final}) implies that a random forest's generalization error is reduced if the individual trees making up the forest have a large average margin, and also if the trees are relatively-uncorrelated with each other.</p>
+<p>Cover image by <a href="https://www.flickr.com/photos/roberts87/2798303714">roberts87</a>, <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">creative commons license</a>.</p>
+<h2><strong>Appendix: python/sk-learn implementations</strong></h2>
+<p>Here, we provide the python/sk-learn code used to construct the final figure in the body of this note: Learning curves on sk-learn's "digits" dataset for a single tree, a random forest, and a boosted forest.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>  
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>  
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>  
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>  
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># load data: digits.data and digits.target,  </span>
+<span class="c1"># array of features and labels, resp.  </span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">(</span><span class="n">n_class</span> <span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">n_train</span> <span class="o">=</span> <span class="p">[]</span>  
+<span class="n">t1_accuracy</span> <span class="o">=</span> <span class="p">[]</span>  
+<span class="n">t2_accuracy</span> <span class="o">=</span> <span class="p">[]</span>  
+<span class="n">t3_accuracy</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># below, we average over &quot;trials&quot; num of fits for each sample  </span>
+<span class="c1"># size in order to estimate the average generalization error.  </span>
+<span class="n">trials</span> <span class="o">=</span> <span class="mi">25</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>  
+<span class="n">clf2</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  
+<span class="n">clf3</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+
+<span class="n">num_test</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="c1"># loop over different training set sizes  </span>
+<span class="k">for</span> <span class="n">num_train</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="o">-</span><span class="n">num_test</span><span class="p">,</span><span class="mi">25</span><span class="p">):</span>
+
+<span class="n">acc1</span><span class="p">,</span> <span class="n">acc2</span><span class="p">,</span> <span class="n">acc3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>  
+    <span class="n">perm</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]]))</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">:</span>  
+        <span class="n">perm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
+    <span class="n">acc1</span> <span class="o">+=</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
+
+    <span class="n">clf2</span> <span class="o">=</span> <span class="n">clf2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
+    <span class="n">acc2</span> <span class="o">+=</span> <span class="n">clf2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
+
+    <span class="n">clf3</span> <span class="o">=</span> <span class="n">clf3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
+    <span class="n">acc3</span> <span class="o">+=</span> <span class="n">clf3</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
+
+    <span class="n">n_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span>  
+    <span class="n">t1_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc1</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>  
+    <span class="n">t2_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc2</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>  
+    <span class="n">t3_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc3</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>
+
+<span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_train</span><span class="p">,</span><span class="n">t1_accuracy</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_train</span><span class="p">,</span><span class="n">t2_accuracy</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_train</span><span class="p">,</span><span class="n">t3_accuracy</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>  
+</code></pre></div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/methods.html">methods</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

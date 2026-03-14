@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We review the classical framework for profit-maximizing pricing under steady demand. Here, demand elasticity is the key quantity governing price sensitivity, and we show how it can be estimated from historical data. Once elasticity is known, retailers can plug it directly into the profit-maximizing pricing formulas: one for setting prices before a selling period, and another for adjusting prices in-season …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Static Pricing Theory"/>
+  <meta property="og:description" content="We review the classical framework for profit-maximizing pricing under steady demand. Here, demand elasticity is the key quantity governing price sensitivity, and we show how it can be estimated from historical data. Once elasticity is known, retailers can plug it directly into the profit-maximizing pricing formulas: one for setting prices before a selling period, and another for adjusting prices in-season …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/pricing"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-01-20 09:00:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Static Pricing Theory</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="pricing">Static Pricing Theory</h1>
+    <p>
+      Published on Tue 20 January 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/pricing_images/price_header.png"></p>
+
+<p>We review the classical framework for profit-maximizing pricing under steady
+demand.  Here, demand elasticity is the key quantity governing price
+sensitivity, and we show how it can be estimated from historical data. Once
+elasticity is known, retailers can plug it directly into the profit-maximizing
+pricing formulas: one for setting prices before a selling period, and another
+for adjusting prices in-season to clear inventory.</p>
+<h2>Demand Elasticity</h2>
+<p>A key measure in pricing theory is the so-called elasticity of demand, defined
+as follows</p>
+<div class="math">\begin{equation}
+\text{demand elasticity} = -\frac{dQ}{Q} / \frac{dp}{p} \tag{1}
+\end{equation}</div>
+<p>
+Here, <span class="math">\(Q\)</span>is the unit demand at price<span class="math">\(p\)</span>, and <span class="math">\(dQ\)</span> is the change in demand as
+the price changes by a small amount <span class="math">\(dp\)</span>.  The elasticity for a product tells
+us whether an <span class="math">\(x\%\)</span>change in its price results in more or less than an<span class="math">\(x\%\)</span>
+change in demand.</p>
+<p>E.g., if we decrease the price by <span class="math">\(10\%\)</span> and demand increases proportionally by
+<span class="math">\(10\%\)</span>, we get elasticity
+</p>
+<div class="math">\begin{equation}
+0.1 / 0.1 = 1.0 \tag{2}
+\end{equation}</div>
+<p>
+But if demand only goes up by <span class="math">\(5\%\)</span>, then the
+elasticity is
+</p>
+<div class="math">\begin{equation}
+0.05 / 0.1 = 0.5 \tag{3}
+\end{equation}</div>
+<p>
+Similarly, if we decrease the price by <span class="math">\(10\%\)</span> and demand goes up by even more,
+say <span class="math">\(20\%\)</span>, then we get
+</p>
+<div class="math">\begin{equation}
+0.2 / 0.1 = 2.0 \tag{4}
+\end{equation}</div>
+<p>
+We can say that when the elasticity is larger than <span class="math">\(1\)</span>, the demand responds
+"super-linearly" to changes in price.  Empirical evidence suggests this is what
+happens in most scenarios.  We’ll see that’s important in our price
+optimization analysis below.</p>
+<h2>Constant elasticity model</h2>
+<p>A simple model that is convenient for both theoretical and practical
+applications is the so-called "constant elasticity" model.  This asserts</p>
+<div class="math">\begin{equation}
+Q(p) = A p^{-\epsilon} \tag{5}
+\end{equation}</div>
+<p>
+where <span class="math">\(A\)</span>and<span class="math">\(\epsilon\)</span> are parameters.  The former controls the scale of
+demand and <span class="math">\(\epsilon\)</span> the elasticity.  Figure 1 below plots this for a few
+different values of <span class="math">\(\epsilon\)</span>.</p>
+<p>To see that <span class="math">\(\epsilon\)</span> controls the elasticity of model (5), we differentiate
+<span class="math">\(Q(p)\)</span>:
+</p>
+<div class="math">\begin{equation}
+\partial_p Q(p) = - A \epsilon p^{-\epsilon - 1} \tag{6}
+\end{equation}</div>
+<p>
+To get the elasticity, we now divide by
+</p>
+<div class="math">\begin{equation}
+-Q / p = - A p^{-\epsilon - 1} \tag{7}
+\end{equation}</div>
+<p>
+This gives
+</p>
+<div class="math">\begin{equation}
+\text{demand elasticity} = - \frac{\partial_p Q(p)}{Q / p} = \epsilon \tag{8}
+\end{equation}</div>
+<p>
+This shows that <span class="math">\(\epsilon\)</span> is in fact exactly equal to the demand elasticity in
+this model.  It's a constant, independent of price.</p>
+<p>In practice, elasticity is rarely constant over all possible price ranges.
+However, when considering only modest changes in price, elasticity can often be
+treated as locally constant. For that reason, using (5) to model practical
+situations will frequently work well, much as a Taylor series expansion can
+provide a good local approximation to a general curve. Indeed, (5) can be
+viewed as arising from a low-order expansion: Taking the log of that equation
+gives
+</p>
+<div class="math">\begin{equation}
+\log Q = \log A - \epsilon \log p \tag{9}
+\end{equation}</div>
+<p>
+This form allows us to interpret the constant elasticity model as a linear
+approximation to whatever the true relationship is between <span class="math">\(\log Q\)</span>and<span class="math">\(\log
+p\)</span>.  One way to fit the model to historical data then is via a simple linear
+regression in log space. We will stick to this level of approximation here, but
+note that higher-order expansions can be used to capture changes in elasticity
+over wider price ranges.</p>
+<p align="center"><img src="images/pricing_images/constant_elasticity.png" alt="Alt text" title="constant elasticity models"></p>
+
+<p><em>Figure 1</em>: The constant elasticity model (5) is plotted at various
+values of <span class="math">\(\epsilon\)</span>(here, with<span class="math">\(A=1\)</span> in each case).  We can see that the high
+elasticity models show strong price sensitivity — rising quickly at low prices
+and dropping more quickly at higher prices.  Empirics suggest elasticity is
+typically larger than <span class="math">\(1\)</span>.</p>
+<h2>Pre-Period: Maximizing Profit Analysis</h2>
+<p>Let’s now consider the situation where we intend to purchase some inventory <span class="math">\(Q\)</span>
+at an average unit cost <span class="math">\(c,\)</span>and want to find the price<span class="math">\(p\)</span> that will maximize
+our net profit over the period.  We assume we know the demand curve parameters
+<span class="math">\(A\)</span>and<span class="math">\(\epsilon\)</span>ahead of time.  At a given<span class="math">\(p\)</span>, the net profit we expect to
+enjoy is then
+</p>
+<div class="math">\begin{equation}
+\text{net profit} = Q(p) \times (p - c) = A p^{-\epsilon} (p -c) \tag{10}
+\end{equation}</div>
+<p>
+To maximize this, we differentiate with respect to <span class="math">\(p\)</span> and set this to zero.
+This gives the equation
+</p>
+<div class="math">\begin{equation}
+- A \epsilon p^{-\epsilon - 1} (p-c) + A p^{-\epsilon} = 0 \tag{11}
+\end{equation}</div>
+<p>
+Solving for <span class="math">\(p\)</span> gives
+</p>
+<div class="math">\begin{equation}
+p = \frac{\epsilon}{\epsilon - 1} c \tag{12}
+\end{equation}</div>
+<p>
+This is the classical “markup rule”: The factor <span class="math">\(\frac{\epsilon}{\epsilon - 1}\)</span>
+sets the optimal retail price markup over unit cost. Notice that this depends
+only on <span class="math">\(\epsilon\)</span>, and that as <span class="math">\(\epsilon\)</span>approaches<span class="math">\(1\)</span> from above the markup
+diverges. Intuitively, as elasticity decreases — meaning demand becomes less
+sensitive to price — it becomes increasingly favorable to raise prices, trading
+unit volume for higher revenue per unit.  Fortunately for consumers, we
+typically find <span class="math">\(\epsilon &gt; 1\)</span> (see above), and this divergence is avoided in
+practice.</p>
+<p>Plugging price (12) into (5) gives the quantity that should be ordered ahead of
+the period in order to meet demand at the optimal price point.</p>
+<h2>In-Period: Clearance vs. Margin Analysis</h2>
+<p>Now, let’s consider the situation where you’ve already purchased some inventory
+and have <span class="math">\(Q_{max}\)</span> units remaining.  You’ve already spent some time selling the
+product and now realize that your pre-period assumptions for demand are not
+quite right.  Given available data, you now want to adjust the price so as to
+maximize the revenue you can capture from this inventory before the period is
+over.  Finally, assume that all units that don’t sell can be cleared, allowing
+you to recoup a salvage value <span class="math">\(s\)</span> per unit not sold.</p>
+<p>To optimize your outcome, you now want to maximize
+</p>
+<div class="math">\begin{equation}
+(p - s) \min \left (Q(p), Q_{max} \right) \tag{13}
+\end{equation}</div>
+<p>
+What this means is that we should first check the price that maximizes net
+revenue over salvage, ignoring inventory constraints.  If this results in fewer
+units selling than is available, great.  However, if this requires selling more
+than is available, we instead pin the price at the value that just clears the
+available inventory.</p>
+<p>In the first scenario above, the optimization is analogous to that in the prior
+section and we get
+</p>
+<div class="math">\begin{equation}
+p = \frac{\epsilon}{\epsilon - 1} s \tag{14}
+\end{equation}</div>
+<p>
+On the other hand, if we need to clear the inventory, the required price
+satisfies
+</p>
+<div class="math">\begin{equation}
+Q_{max} = A p^{-\epsilon} \tag{15}
+\end{equation}</div>
+<p>
+Solving gives
+</p>
+<div class="math">\begin{equation}
+p = \left ( \frac{A}{Q_{max}}\right)^{\frac{1}{\epsilon}} \tag{16}
+\end{equation}</div>
+<p>
+Note that (16) is the first "optimal" price we've seen that depends on the
+product's demand scale parameter <span class="math">\(A\)</span>.</p>
+<p>We need to choose the larger of the two prices (14) and (16).  If this is the
+former, we can maximize revenue over salvage in an unconstrained way.  If the
+latter, we are inventory constrained and so must pin the price at that value
+that will just allow us to clear the available remaining inventory.  In this
+case, the price increases with the scale of demand, set by <span class="math">\(A\)</span>, and decreases
+with available inventory <span class="math">\(Q_{max}\)</span>:  We need to decrease the price more as we
+become more overstocked relative to demand.</p>
+<p>Equating (14) and (16) provides an equation setting the decision boundary.  We
+see that it depends on all the parameters present — <span class="math">\(\epsilon\)</span>, <span class="math">\(A\)</span>, <span class="math">\(Q_{max}\)</span>
+and <span class="math">\(s\)</span>.</p>
+<h2>Summary and Practical Applications</h2>
+<p>In practice, pricing data for individual products is often limited. In these
+cases, retailers typically assume a common demand elasticity across all
+products within a category. Once this elasticity is estimated, both the markup
+and the initial price can be set using (12). Notably, this price does not
+depend on each product’s individual demand scale, but only on the shared
+elasticity parameter.  If the products in the category have the same unit
+costs, they should then each be priced identically, but with order quantities
+determined by their individual demand scale parameters <span class="math">\(A\)</span> via (5).</p>
+<p>Once in season and realized sales can be recorded, the scale of demand for each
+product will be more exactly determined.  After a month of sales, say, those
+products determined to be at risk of not selling through at the initial price
+can be discounted.  The discount price can be set using (14) or (16) above,
+whichever is larger.  A complicating factor here is that customers often have a
+different sensitivity to the "full retail price" vs prices that are marked as
+discounts.  In practice then, we may need to fit the dependence for both
+separately.  A further complicating concern is that many retailers wish to
+maintain a premium image, and so are unwilling to set very steep discounts.  In
+this case, if the clearing price is below allowable values, salvage may be the
+best option.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

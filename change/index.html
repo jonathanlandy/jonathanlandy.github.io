@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="There are four ways to make change for \(N=10\) cents: \(\{\)10 pennies; 1 nickel and 5 pennies; 2 nickels; 1 dime\(\}\). How many ways are there to make change for one trillion dollars -- using just pennies, nickels, dimes, and quarters? To answer this, we present here a hybrid dynamic programming / analytic strategy that allows us to count the number …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta name="keywords" content="misc">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Counting the number of ways to make change for a trillion dollars"/>
+  <meta property="og:description" content="There are four ways to make change for \(N=10\) cents: \(\{\)10 pennies; 1 nickel and 5 pennies; 2 nickels; 1 dime\(\}\). How many ways are there to make change for one trillion dollars -- using just pennies, nickels, dimes, and quarters? To answer this, we present here a hybrid dynamic programming / analytic strategy that allows us to count the number …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/change"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2021-11-22 09:24:00-08:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="misc"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Counting the number of ways to make change for a trillion dollars</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="change">Counting the number of ways to make change for a trillion dollars</h1>
+    <p>
+      Published on Mon 22 November 2021
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>There are four ways to make change for <span class="math">\(N=10\)</span> cents: <span class="math">\(\{\)</span>10 pennies; 1 nickel
+and 5 pennies; 2 nickels; 1 dime<span class="math">\(\}\)</span>.  How many ways are there to make change
+for one trillion dollars -- using just pennies, nickels, dimes, and quarters?
+To answer this, we present here a hybrid dynamic programming / analytic
+strategy that allows us to count the number of ways <span class="math">\(\mathbb{Q}(N)\)</span> to make
+change for any <span class="math">\(N\)</span>.</p>
+<p>The result for one trillion dollars?</p>
+<p><span class="math">\(\mathbb{Q}(10^{14}) = 133333333333423333333333351000000000001\)</span>.</p>
+<h4>Dynamic programming solution</h4>
+<p>We begin by introducing a set of recursion relations that will directly allow
+for a "pure" dynamic programming strategy for counting the number of ways to
+make change:</p>
+<p>Let, <span class="math">\(\mathbb{Q}(N), \mathbb{D}(N), \mathbb{N}(N)\)</span> and <span class="math">\(\mathbb{P}(N)\)</span> be the
+number of ways to make change for <span class="math">\(N\)</span> cents allowing all four denominations,
+allowing only up to dimes (i.e., excluding quarters), only up to nickels, and
+finally only pennies, respectively.  Next, we note that
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+\mathbb{Q}(N) &amp;=&amp; \mathbb{D}(N) + \mathbb{D}(N-25) + \mathbb{D}(N - 50) +
+\ldots \\
+&amp;\equiv &amp; \mathbb{D}(N) + \mathbb{Q}(N-25). \tag{1} \label{q_iter}
+\end{eqnarray}</div>
+<p>
+Here, we have decomposed the number of ways to make change in terms of the
+number of quarters included.  For example, the second term in the first line
+above is the number of ways to make change when we have exactly <span class="math">\(1\)</span> quarter:
+The count in this case is simply the number of ways we can make change for
+<span class="math">\(N-25\)</span> cents, using only dimes, nickels, and pennies -- i.e.,
+<span class="math">\(\mathbb{D}(N-25)\)</span>.  Similarly,
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+\mathbb{D}(N) &amp;=&amp; \mathbb{N}(N) +\mathbb{N}(N-10) + \mathbb{N}(N-20) + \ldots
+\\
+&amp;\equiv &amp; \mathbb{N}(N) + \mathbb{D}(N-10) \tag{2} \label{d_iter}
+\end{eqnarray}</div>
+<p>
+and
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+\mathbb{N}(N) &amp;=&amp; \mathbb{P}(N) + \mathbb{P}(N-5) + \mathbb{P}(N-10) + \ldots
+\\
+&amp;\equiv &amp; \mathbb{P}(N) + \mathbb{N}(N-5).  \tag{3}  \label{n_iter} 
+\end{eqnarray}</div>
+<p>
+Finally, <span class="math">\(\mathbb{P}(N) \equiv 1\)</span> for all natural <span class="math">\(N\)</span>.</p>
+<p>It is straightforward to sum the above equations in reverse using dynamic
+programming: We start by using the fact that <span class="math">\(\mathbb{P}(N) = 1\)</span> all natural
+<span class="math">\(N\)</span>, then evaluate <span class="math">\([\mathbb{N}(1), \ldots, \mathbb{N}(N)]\)</span> on a computer using
+the iterative equation (\ref{n_iter}).  Storing these values in memory, we can
+then evaluate <span class="math">\([\mathbb{D}(1), \ldots, \mathbb{D}(N)]\)</span> using (\ref{d_iter}),
+and then finally evaluate <span class="math">\([\mathbb{Q}(1), \ldots, \mathbb{Q}(N)]\)</span> using
+(\ref{q_iter}).  A python program that carries out this strategy is given
+below.  Using this we are able to evaluate that, e.g., the number of ways to
+make change for one dollar is <span class="math">\(\mathbb{Q}(100) = 242\)</span>.</p>
+<p>The program below is sufficient for "practical" <span class="math">\(N\)</span>, but we need to do better
+to count the number of ways to make change for <em>one trillion dollars</em>:
+On my laptop, I can evaluate the result for one-hundred thousand dollars in
+about <span class="math">\(20\)</span> seconds.  The runtime of our program scales linearly with <span class="math">\(N\)</span>
+though, so it would take it about <span class="math">\(2 \cdot 10^{7}\)</span> seconds to get our target
+result -- too slow.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">ways_to_make_change</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">denominations_list</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calculates the number of ways to make change for N cents,</span>
+<span class="sd">    using only the denominations included in the passed `denominations_list`.</span>
+
+<span class="sd">    parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N: int</span>
+<span class="sd">        The target number of cents we wish to make change for.</span>
+
+<span class="sd">    denominations_list: list</span>
+<span class="sd">        A list of denominations that we can use to make change.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">denom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">denominations_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">denom</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">counts_lower_denoms</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">denom</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">counts_lower_denoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">denom</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">counts</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ways_to_make_change</span><span class="p">(</span><span class="mi">100</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  
+
+<span class="c1"># output: 242</span>
+</code></pre></div>
+
+<h5>Geometric interpretation, large <span class="math">\(N\)</span> limiting form</h5>
+<p align="center"><img src="https://jslandy.com/images/change_lattice.png"></p>
+
+<p>In this section, we briefly consider the geometry of our problem. The plot
+above is a 3d visual of all the possible ways to make change for one dollar:
+Each point here has an <span class="math">\((x,y,z)\)</span> position that encodes the number of nickels,
+dimes, and quarters, respectively, in a particular change solution.  To get the
+full solution for a particular lattice point, we calculate the sum <span class="math">\(5 x + 10 y
++ 25 z\)</span> -- subtracting this from <span class="math">\(N=100\)</span> gives the number of pennies that must
+be included in its solution.  In this way, we see that we get a valid solution
+at each non-negative lattice point whose coordinates give a sum that is not
+larger than <span class="math">\(100\)</span>.</p>
+<p>For general <span class="math">\(N\)</span>, we have
+</p>
+<div class="math">\begin{eqnarray}
+\mathbb{Q}(N) = \text{# of lattice points: } 5 x + 10 y + 25 z \leq N 
+\tag{4} \label{4}
+\end{eqnarray}</div>
+<p> 
+where we are again counting all non-negative lattice points on a lattice spaced
+along <span class="math">\(x\)</span> with distance <span class="math">\(5\)</span>, etc.</p>
+<p>We note that the inequality (\ref{4}) defines a polytope, and that there is a
+beautiful, pre-existing body of work -- based on the use of generating
+functions -- that allows one to count the number of lattice points within an
+arbitrary polytope <span class="math">\([1]\)</span>.  One can look up results from that line of work to
+directly answer the change counting problem we are considering here.  However,
+the hybrid dynamic programming / analytic approach that we present below --
+based on our recursion relations above -- is more tailored to our problem and
+consequently easier to derive.</p>
+<p>Before moving on, we point out that we can get a good approximation to the
+number of lattice points at large <span class="math">\(N\)</span> by simply considering the volume of the
+polytope:   The idea is to make use of the fact that the lattice points are
+evenly spaced. To the find an approximation to the number that sit inside the
+polytope then, we simply need to divide the polytope's volume (<span class="math">\(\frac{1}{3!}
+N^3\)</span>) by the volume of each lattice cell (<span class="math">\(5 \cdot 10 \cdot 25\)</span>).  This gives
+[2],
+</p>
+<div class="math">\begin{eqnarray}
+\mathbb{Q}(N) \sim \frac{1}{7500}N^3.
+\tag{5} \label{5}
+\end{eqnarray}</div>
+<p>
+Eq. (\ref{5}) is the correct, leading behavior at large <span class="math">\(N\)</span>.  However, it's not
+exact because of "discreteness effects" that occur at the boundary of our
+polytope -- these determine whether specific, individual lattice points lie
+inside the polytope or not.  These effects result in correction terms at
+quadratic and lower powers of <span class="math">\(N\)</span>.  Our calculation below provides one method
+for capturing the full set of terms.</p>
+<h5>Exact solution</h5>
+<p>To get the exact result for <span class="math">\(\mathbb{Q}(N)\)</span>, we will directly sum the
+recursions relations (\ref{q_iter})-(\ref{n_iter}):  Recall from above, that we
+have
+</p>
+<div class="math">\begin{eqnarray}
+\mathbb{P}(N) \equiv 1 \tag{6} \label{6}
+\end{eqnarray}</div>
+<p>
+for any natural <span class="math">\(N\)</span>.  Plugging this into (\ref{n_iter}), we obtain
+</p>
+<div class="math">\begin{eqnarray} \tag{7} \label{7}
+\mathbb{N}(N) =  \lfloor \frac{N}{5} \rfloor + 1
+\end{eqnarray}</div>
+<p>
+Notice that if we evaluate this at a series of points separated by <span class="math">\(\Delta N =
+5\)</span>, we get back  what looks like a simple linear function of <span class="math">\(N\)</span> -- it
+increases by <span class="math">\(1\)</span> with each increase of <span class="math">\(5\)</span> in <span class="math">\(N\)</span>.</p>
+<p>Now, if we plug our last line into (\ref{d_iter}) we obtain
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+\mathbb{D}(N) &amp;=&amp; \left ( \lfloor \frac{N}{5} \rfloor + 1  \right) + \left(
+\lfloor \frac{N  - 10 }{5} \rfloor  + 1\right) + \ldots \\ &amp;=&amp; \left ( \lfloor
+\frac{N}{5}\rfloor  +  1 \right) + \left ( \lfloor \frac{N}{5}\rfloor  -  1
+\right)  + \ldots \tag{8} \label{8}
+\end{eqnarray}</div>
+<p>
+This is an arithmetic sequence that depends on <span class="math">\(\lfloor \frac{N}{5} \rfloor\)</span>.
+Summing this series, we obtain
+</p>
+<div class="math">\begin{eqnarray}
+\mathbb{D}(N) =
+\begin{cases}
+\frac{1}{4}  \left (\lfloor \frac{N}{5} \rfloor + 2 \right)^2, &amp; \text{$\lfloor
+\frac{N}{5} \rfloor$ even} \\
+\frac{1}{4} \left (\lfloor \frac{N}{5}\rfloor  + 1 \right)\left (\lfloor
+\frac{N}{5}\rfloor  + 3 \right ), &amp;  \text{$\lfloor \frac{N}{5}\rfloor$ odd}
+\tag{9} \label{9}
+\end{cases}
+\end{eqnarray}</div>
+<p>
+Notice that in this case, if we evaluate the function at a series of points
+each separated by <span class="math">\(10\)</span>, the result will again look like a simple, smooth
+function -- this time a quadratic function of <span class="math">\(N\)</span>.  However, the particular
+form of the quadratic depends on whether <span class="math">\(\lfloor \frac{N}{5} \rfloor\)</span> is even
+or odd -- that is, the function skips back and forth between two different
+quadratics.</p>
+<p>We are now at the point where we can solve for the full number of ways to make
+change, <span class="math">\(\mathbb{Q}(N)\)</span>.  In principle, all we need to do is to plug
+(\ref{9}) into (\ref{q_iter}), and sum as above.  This is straightforward
+for a particular <span class="math">\(N\)</span>, but we'd like a general formula.  If we work out a few
+terms for any particular value of <span class="math">\(N\)</span>, we see that we will get alternating
+terms:  perhaps starting with a term of the upper type from (\ref{9}), followed
+by a term of the lower type, etc.  The sums of the upper form can be evaluated
+analytically (e.g., by using the pyramid summation method), as can the sum of
+the terms of the bottom form. For any starting point,  the result is a cubic in
+<span class="math">\(\lfloor \frac{N}{5} \rfloor\)</span>.  However, a small bit of work shows that the
+precise cubic form that applies depends on the value of <span class="math">\(\lfloor \frac{N}{5}
+\rfloor (\text{mod } 10)\)</span>, so we have ten separate cubics to solve for.</p>
+<p>Rather than laboriously evaluate the sums for each of the ten possible
+remainders of <span class="math">\(\lfloor \frac{N}{5} \rfloor\)</span> modulo <span class="math">\(10\)</span>, we can simply carry
+out polynomial fits to data that we get from our python implementation of the
+dynamic programming approach.  For example, plugging the first four values of
+<span class="math">\(N\)</span> that satisfy <span class="math">\(\lfloor \frac{N}{5} \rfloor \equiv 0 (\text{mod } 10)\)</span> into
+our program, we get
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+\mathbb{Q}(1) &amp;=&amp; 1 \\ \nonumber
+\mathbb{Q}(50) &amp;=&amp; 49 \\ \nonumber
+\mathbb{Q}(100) &amp;=&amp; 242 \\
+\mathbb{Q}(150) &amp;=&amp; 680
+\tag{10} \label{10}
+\end{eqnarray}</div>
+<p>
+Fitting a cubic to this data -- which involves solving a system of linear
+equations for the unknown coefficients of the polynomial -- gives
+</p>
+<div class="math">\begin{eqnarray}
+\mathbb{Q}(N) = \frac{\lfloor \frac{N}{5}\rfloor ^3}{60}+\frac{9 \lfloor
+\frac{N}{5}\rfloor ^2}{40}+\frac{53 \lfloor \frac{N}{5}\rfloor }{60}+1
+\tag{11} \label{11}
+\end{eqnarray}</div>
+<p>
+Again, this holds when <span class="math">\(\lfloor \frac{N}{5}\rfloor \equiv 0 (\text{mod } 10)\)</span>.
+This is the equation we used to get the result quoted for one trillion dollars
+at the top of our post.  Notice that the leading term here matches what's
+required by our asymptotic result, (\ref{5}).</p>
+<p>It turns out that when we plug in data for each of the other nine possible
+remainders, the cubic fits returned are all the same -- except for their
+constant terms.  Presumably, this is because the coefficients of positive
+powers of <span class="math">\(N\)</span> each correspond to some asymptotic, geometric effects that must
+all agree when <span class="math">\(N\)</span> is large -- as we discussed above. At any rate, we have
+tabulated the constant terms that apply for each possible remainder below, and
+this completes our solution.</p>
+<table>
+<thead>
+<tr>
+<th><span class="math">\(\lfloor \frac{N}{5} \rfloor \mod(10)\)</span></th>
+<th>constant term in <span class="math">\(\mathbb{Q}(N)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math">\(0\)</span></td>
+<td><span class="math">\(1\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(1\)</span></td>
+<td><span class="math">\(\frac{7}{8}\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(2\)</span></td>
+<td><span class="math">\(\frac{6}{5}\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(3\)</span></td>
+<td><span class="math">\(\frac{7}{8}\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(4\)</span></td>
+<td><span class="math">\(\frac{4}{5}\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(5\)</span></td>
+<td><span class="math">\(\frac{7}{8}\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(6\)</span></td>
+<td><span class="math">\(1\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(7\)</span></td>
+<td><span class="math">\(\frac{43}{40}\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(8\)</span></td>
+<td><span class="math">\(1\)</span></td>
+</tr>
+<tr>
+<td><span class="math">\(9\)</span></td>
+<td><span class="math">\(\frac{27}{40}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h4>Acknowledgements</h4>
+<p>This work in this post was done in collaboration with my father, Steven Landy.</p>
+<h4>References</h4>
+<p>[1] Beck, Matthias, and Sinai Robins. Computing the continuous discretely. Vol.
+61. Berlin: Springer Science+ Business Media, LLC, 2007.</p>
+<p>[2] One way to derive this volume result is to integrate the recursion
+relations (1)-(3), ignoring discreteness effects -- i.e., integrate assuming
+that each of the variables <span class="math">\(\mathbb{P}(N), \mathbb{N}(N), \mathbb{D}(N)\)</span>, and
+<span class="math">\(\mathbb{Q}(N)\)</span> are smooth functions of <span class="math">\(N\)</span>.  This will hold in the large <span class="math">\(N\)</span>
+limit to leading order, so will give us the leading order result.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/misc.html">misc</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

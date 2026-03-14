@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Slug: an-orientational-integral Status: published Original_source: efavdb.com We evaluate an integral having to do with vector averages over all orientations in an n-dimensional space. Problem definition Let \(\widehat{v}\) be a unit vector in \(n\)-dimensions and consider the orientation average of \begin{eqnarray} \tag{1} \label{1} J \equiv \langle \widehat{v} \cdot \vec{a}_1 \widehat{v} \cdot …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta name="keywords" content="">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="An orientational integral"/>
+  <meta property="og:description" content="Slug: an-orientational-integral Status: published Original_source: efavdb.com We evaluate an integral having to do with vector averages over all orientations in an n-dimensional space. Problem definition Let \(\widehat{v}\) be a unit vector in \(n\)-dimensions and consider the orientation average of \begin{eqnarray} \tag{1} \label{1} J \equiv \langle \widehat{v} \cdot \vec{a}_1 \widehat{v} \cdot …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/drafts/an-orientational-integral.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2019-07-02 07:04:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; An orientational integral</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="an-orientational-integral">An orientational integral</h1>
+    <p>
+      Published on Tue 02 July 2019
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Slug: an-orientational-integral
+Status: published
+Original_source: efavdb.com</p>
+<p>We evaluate an integral having to do with vector averages over all
+orientations in an n-dimensional space.</p>
+<h2>Problem definition</h2>
+<p>Let <span class="math">\(\widehat{v}\)</span> be a unit vector in <span class="math">\(n\)</span>-dimensions and consider the orientation average of
+</p>
+<div class="math">\begin{eqnarray} \tag{1} \label{1}
+J \equiv \langle \widehat{v} \cdot \vec{a}_1 \widehat{v} \cdot \vec{a}_2 \ldots \widehat{v} \cdot \vec{a}_k \rangle
+\end{eqnarray}</div>
+<p>
+where <span class="math">\(\vec{a}_1, \ldots, \vec{a}_k\)</span> are some given fixed vectors. For example, if all <span class="math">\(\vec{a}_i\)</span> are equal to <span class="math">\(\widehat{x}\)</span>, we want the orientation average of <span class="math">\(v_x^k\)</span>.</p>
+<h2>Solution</h2>
+<p>We'll evaluate our integral using parameter differentiation of the multivariate Gaussian integral. Let
+</p>
+<div class="math">\begin{eqnarray} \nonumber
+I &amp;=&amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2} + \sum_{i=1}^k \alpha_i \vec{v} \cdot \vec{a}_i} d^nv \\ \tag{2} \label{2}
+&amp;=&amp; \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right]
+\end{eqnarray}</div>
+<p>
+The expression in the second line follows from completing the square in the exponent in the first -- for review, see our post on the normal distribution, <a href="/normal-distributions">here</a>. Now, we consider a particular derivative of <span class="math">\(I\)</span> with respect to the <span class="math">\(\alpha\)</span> parameters. From the first line of (\ref{2}), we have
+</p>
+<div class="math">\begin{eqnarray} \tag{3} \label{3}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;=&amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2}} \prod_{i=1}^k \vec{v} \cdot \vec{a}_i d^n v \\
+&amp;\equiv &amp; \frac{1}{(2 \pi)^{n/2}} \int_0^{\infty} e^{- \frac{\vert \vec{v} \vert^2}{2}} v^{n + k -1} dv \int \prod_{i=1}^k \widehat{v} \cdot \vec{a}_i d \Omega_v \\
+&amp;=&amp; \frac{2^{k/2 - 1}}{\pi^{n/2}} \Gamma(\frac{n+k}{2}) \times \int \prod_{i=1}^k \widehat{v} \cdot \vec{a}_i d \Omega_v
+\end{eqnarray}</div>
+<p>
+The second factor above is almost our desired orientation average <span class="math">\(J\)</span> -- the only thing it's missing is the normalization, which we can get by evaluating this integral without any <span class="math">\(\vec{a}\)</span>'s.</p>
+<p>Next, we evaluate the parameter derivative considered above in a second way, using the second line of (\ref{2}). This gives,
+</p>
+<div class="math">\begin{eqnarray} \tag{4} \label{4}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;=&amp; \partial_{\alpha_1}\ldots \partial_{\alpha_k} \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right] \vert_{\vec{\alpha}=0} \\
+&amp;=&amp; \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
+\end{eqnarray}</div>
+<p>
+The sum here is over all possible, unique pairings of the indices. You can see this is correct by carrying out the differentiation one parameter at a time.</p>
+<p>To complete the calculation, we equate (\ref{3}) and (\ref{4}). This gives
+</p>
+<div class="math">\begin{eqnarray} \tag{5}\label{5}
+\int \prod_{i=1}^k \widehat{v} \cdot \vec{a}_i d \Omega_v = \frac{\pi^{n/2}} {2^{k/2 - 1}\Gamma(\frac{n+k}{2})}\sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
+\end{eqnarray}</div>
+<p>
+Again, to get the desired average, we need to divide the above by the normalization factor. This is given by the value of the integral (\ref{5}) when <span class="math">\(k = 0\)</span>. This gives,
+</p>
+<div class="math">\begin{eqnarray}\tag{6}\label{6}
+J = \frac{1}{2^{k/2}}\frac{\Gamma(n/2)}{\Gamma(\frac{n+k}{2})} \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
+\end{eqnarray}</div>
+<h2>Example</h2>
+<p>Consider the case where <span class="math">\(k=2\)</span> and <span class="math">\(\vec{a}_1 = \vec{a}_2 = \widehat{x}\)</span>. In this case, we note that the average of <span class="math">\(\widehat{v}_x^2\)</span> is equal to the average along any other orientation. This means we have
+</p>
+<div class="math">\begin{eqnarray}\nonumber \tag{7} \label{7}
+\langle \widehat{v}_x^2 \rangle &amp;=&amp; \frac{1}{n} \sum_{i=1}^n \langle \widehat{v}_x^2 + \widehat{v}_y^2 + \ldots \rangle \\
+&amp;=&amp; \frac{1}{n}
+\end{eqnarray}</div>
+<p>
+We get this same result from our more general formula: Plugging in <span class="math">\(k=2\)</span> and <span class="math">\(\vec{a}_1 = \vec{a}_2 = \widehat{x}\)</span> into (\ref{6}), we obtain
+</p>
+<div class="math">\begin{eqnarray}\nonumber \tag{8} \label{8}
+\langle \widehat{v}_x^2 \rangle &amp;=&amp; \frac{1}{2}\frac{\Gamma(n/2)}{\Gamma(\frac{n}{2} + 1)} \\
+&amp;=&amp; \frac{1}{n}
+\end{eqnarray}</div>
+<p>
+The two results agree.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

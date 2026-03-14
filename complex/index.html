@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="I&#39;m obsessed with optimizing complex assortments – catalogs in categories like apparel, wine, and beauty, where many products compete for the same customer attention. In these cases, a product should only be carried if it satisfies demand that would otherwise go unmet, lifting net sales. But that kind of uplift impact is harder to measure – and far less intuitive – than a …" />
+<meta name="keywords" content="inventory management">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Complex, cannibalization-heavy assortments"/>
+  <meta property="og:description" content="I&#39;m obsessed with optimizing complex assortments – catalogs in categories like apparel, wine, and beauty, where many products compete for the same customer attention. In these cases, a product should only be carried if it satisfies demand that would otherwise go unmet, lifting net sales. But that kind of uplift impact is harder to measure – and far less intuitive – than a …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/complex"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2025-06-16 09:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="inventory management"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Complex, cannibalization-heavy assortments</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="complex">Complex, cannibalization-heavy assortments</h1>
+    <p>
+      Published on Mon 16 June 2025
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p align="center"><img src="images/complex_images/polarized.png"></p>
+
+<p>I'm obsessed with optimizing <em>complex assortments</em> – catalogs in
+categories like apparel, wine, and beauty, where many products compete for the
+same customer attention.  In these cases, <b>a product should only be carried
+if it satisfies demand that would otherwise go unmet</b>, lifting net sales.
+But that kind of uplift impact is harder to measure – and far less intuitive –
+than a product’s quality in isolation.  As a result, even experienced
+merchandising teams can struggle to get the full assortment mix right, leading
+to redundant purchases and missed opportunities to better serve customers.</p>
+<p>This post kicks off a two-part series exploring the challenges and
+opportunities around complex assortments. Today, we’ll define what makes an
+assortment “complex,” explain why it’s difficult for humans to optimize without
+algorithmic support, and review a real-world example through this lens –
+Baskin-Robbins’ current lineup of ice cream flavors. In our next post, we’ll
+consider why some product categories support complexity while others do not.</p>
+<h2>Complex vs simple assortments</h2>
+<p>In a <em>simple assortment</em>, products target different segments of demand
+and so rarely compete for customer attention.  For example, at the hardware
+store, screwdrivers don’t compete with hammers.  Even among hammers – if more
+than one is carried – the options usually sit at different price points or
+serve distinct use cases, which limits overlap. Optimizing a simple assortment
+still takes work – you need quality products at the right prices and right time
+– but interactions between items are minimal.</p>
+<p><em>Complex assortments</em> are different.  Here, many products vie for the
+same purchase.  The wine aisle at a grocery store is a perfect example:
+hundreds of subtly different options competing side by side.  The same holds
+true in many other grocery aisles like juice, cheese, and cereal (but not all
+aisles – we’ll explore that in our next post).  In these cases, optimization
+becomes significantly more challenging – and is often poorly handled in
+practice.</p>
+<p align="center"><img src="images/complex_images/saltysnacks.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 1</em>: In categories like salty snacks, many similar products
+compete for the same customer attention. Because of this, sales often
+cannibalize each other, and a product’s individual sales don’t reflect its true
+value. To optimize assortments like this, we need to estimate how much each
+product adds to net sales by addressing otherwise unmet demand.</p>
+<h2>How to optimize a complex assortment</h2>
+<p>When you add a product to a complex assortment, it’s not enough for it to
+simply generate sales. It needs to <em>lift net sales</em>. The right product
+to add next is the product that lifts net sales the most.  This is <em>the
+challenge</em> when optimizing a complex assortment – and it’s a tough one:</p>
+<ul>
+<li>Although it’s easy to measure sales of a product, it’s generally not easy to
+  measure <b>what fraction of those sales are cannibalized from the rest of the
+  assortment – the key measure</b>.  To be additive, a product doesn’t just
+  need to be good, it must be <em>better than the existing options</em> – at
+  least for some customers.</li>
+<li><b>The products that compete vary by customer</b>.  In apparel, one shopper
+  may care about color, another about fit, another about novelty, another about
+  price.  Products don’t have to look similar to compete for attention.</li>
+<li><b>Customer segment sizes matter, too</b>.  To decide whether a product is
+  worth adding, you need to consider both the value it adds to its target
+  audience as well as the size of that audience.  This is because the segment
+  size acts as a lever arm, amplifying the revenue impact of improvements for
+  that segment.</li>
+</ul>
+<p>This means we can afford to offer more (less differentiated) variants to
+  larger customer segments.  For example, a 10% lift to sales in one segment is
+  just as good as a 50% lift to another, provided the former is at least 5x the
+  size of the latter.</p>
+<p>Similarly, after sufficient investment in support of larger segments, it pays
+  to begin investing in smaller customer segments.  These options are often
+  overlooked because they sell at lower volume than those aimed at larger
+  segments.  However, since we won't carry many products like these, the
+  products aimed at the smaller segments are less cannibalistic, and so can
+  often drive relatively large increases to net sales.</p>
+<p>To drive profitability, delight customers, and reduce waste from unsold
+inventory, we have to focus on the products that meet new demand.  Intuition
+can help, but it’s rarely enough to fully reason through all the interactions
+needed to estimate the true uplift of each product. As a result, strong
+inefficiencies persist in most real-world complex assortments (we’ll share
+examples in upcoming posts). The silver lining is that these issues are
+solvable – typically with algorithmic support – and tackling them can unlock
+meaningful gains in efficiency, customer satisfaction, and growth.</p>
+<h2>A review of the menu at Baskin Robbins</h2>
+<p>To explore how these ideas apply “in the wild”, let’s now take a look at
+Baskin-Robbins – the well-known American ice cream brand.  Their website
+currently lists <b>42 flavors</b>.  A few observations:</p>
+<ul>
+<li>A number of the current flavors cater to <b>chocolate lovers</b>:
+  <em>Non-Dairy Cookies and Cream, Oreo Cookies ‘n Cream, Chocolate, Chocolate
+  Almond, Chocolate Chip, Chocolate Chip Cookie Dough, Chocolate Fudge,
+  Chocolate Mousse Royale, Peanut Butter ‘n Chocolate, Rocky Road,</em> and
+  <em>World Class Chocolate</em>.  That’s <b>11 of 42 flavors</b> with heavy
+  chocolate presence.</li>
+</ul>
+<p>Given our concern for redundancy, is this overkill?  Including the eleventh
+  weakest chocolate flavor here hardly seems likely to drive much marginal
+  benefit over the prior ten.  E.g., if <em>World Class Chocolate</em> were to
+  be dropped, I wouldn’t be surprised if upwards of 90% of its sales simply
+  transfered elsewhere.  Taking this to be true, its inclusion would only make
+  sense if the chocolate-loving segment is very large – probably a reasonable
+  guess.  This would then offer a large lever arm, justifying a deep bench of
+  slightly varied offerings that cater to different tastes within that group.</p>
+<ul>
+<li>
+<p>In contrast, only a handful of flavors seem aimed at the <b>bright-color,
+  fun-loving segment</b>.  It’s hard to believe that any of these can match the
+  sales volume of any of the chocolates (I’d definitely take any of the
+  chocolates over <em>Wild ‘n Reckless Sherbert</em>).  Nevertheless, these
+  probably make sense to include here because they’re truly additive – helping
+  to meet the demand of an otherwise neglected segment.</p>
+</li>
+<li>
+<p>Baskin-Robbins balances <b>fixed classics with seasonal rotations</b>, as
+  noted on their site.  As we discussed in a <a
+  href="/newbuy">prior post</a>, this is smart: New
+  flavors keep things fresh for returning customers, while maintaining fan
+  favorites supports new customer conversion and repeat purchasers.</p>
+</li>
+</ul>
+<p>Baskin-Robbins has been around for 80 years (founded in 1945 in Glendale, CA).
+I’d wager they’ve done a lot of experimentation to get their lineup dialed in.
+But is it perfect?  Could they swap the weakest chocolate for a fruit-forward
+option and lift net sales?  To know for sure, we’d have to carry out a careful
+analysis of their sales data.  How about your local bakery’s pastry assortment?
+Or your favorite apparel shop’s hoodie wall? Are those assortments as carefully
+optimized?</p>
+<p align="center"><img src="images/complex_images/lineup.png" alt="Alt text" title="contraints"></p>
+
+<p><em>Figure 2</em>: Baskin-Robbins currently lists 42 flavors on their site. Of
+these, 11 are chocolate-heavy, while a few lean more playful. In the post, we
+consider whether this mix makes sense from an incrementality perspective. </p>
+<h2>Summary</h2>
+<p>Complex assortments appear everywhere: in ice cream shops, wine aisles,
+bookstores, and apparel catalogs.  The subtle interplay between customer
+segments, overlapping product attributes, and finite attention makes this a
+rich area for optimization.  Improvements here <b>boost business performance,
+lead to better customer experiences, and reduce waste </b> – removing redundant
+products that often end up unsold.  They’re also fun to think about!</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at varietyiq.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

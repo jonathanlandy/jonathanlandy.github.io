@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We review classical linear regression using vector-matrix notation. In particular, we derive a) the least-squares solution, b) the fit&#39;s coefficient covariance matrix -- showing that the coefficient estimates are most precise along directions that have been sampled over a large range of values (the high variance directions, a la PCA), and c) an unbiased estimate for the underlying sample variance (assuming …" />
+<meta name="keywords" content="methods">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Linear Regression"/>
+  <meta property="og:description" content="We review classical linear regression using vector-matrix notation. In particular, we derive a) the least-squares solution, b) the fit&#39;s coefficient covariance matrix -- showing that the coefficient estimates are most precise along directions that have been sampled over a large range of values (the high variance directions, a la PCA), and c) an unbiased estimate for the underlying sample variance (assuming …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/linear-regression"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2016-05-29 11:27:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Linear Regression</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="linear-regression">Linear Regression</h1>
+    <p>
+      Published on Sun 29 May 2016
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We review classical linear regression using vector-matrix notation. In particular, we derive a) the least-squares solution, b) the fit's coefficient covariance matrix -- showing that the coefficient estimates are most precise along directions that have been sampled over a large range of values (the high variance directions, a la PCA), and c) an unbiased estimate for the underlying sample variance (assuming normal sample variance in this last case). We then review how these last two results can be used to provide confidence intervals / hypothesis tests for the coefficient estimates. Finally, we show that similar results follow from a Bayesian approach.</p>
+<p>Last edited July 23, 2016.</p>
+<h3>Introduction</h3>
+<p>Here, we consider the problem of fitting a linear curve to <span class="math">\(N\)</span> data points of the form <span class="math">\((\vec{x}_i, y_i),\)</span> where the <span class="math">\(\{\vec{x}_i\}\)</span> are column vectors of predictors that sit in an <span class="math">\(L\)</span>-dimensional space and the <span class="math">\(\{y_i\}\)</span> are the response values we wish to predict given the <span class="math">\(\{x_i\}\)</span>. The linear approximation will be defined by a set of coefficients, <span class="math">\(\{\beta_j\}\)</span> so that
+</p>
+<div class="math">\begin{align}
+\widehat{y}_i \equiv \sum_j x_{i,j} \beta_j = \vec{x}_i^T \cdot \vec{\beta} . \tag{1} \label{1}
+\end{align}</div>
+<p>
+We seek the <span class="math">\(\vec{\beta}\)</span> that minimizes the average squared <span class="math">\(y\)</span> error,
+</p>
+<div class="math">\begin{align} \tag{2} \label{2}
+J = \sum_i \left ( y_i - \widehat{y}_i \right)^2 = \sum_i \left (y_i - \vec{x}_i^T \cdot \vec{\beta} \right)^2.
+\end{align}</div>
+<p>
+It turns out that this is a problem where one can easily derive an analytic expression for the optimal solution. It's also possible to derive an expression for the variance in the optimal solution -- that is, how much we might expect the optimal parameter estimates to change were we to start with some other <span class="math">\(N\)</span> data points instead. These estimates can then be used to generate confidence intervals for the coefficient estimates. Here, we review these results, give a simple interpretation to the theoretical variance, and finally show that the same results follow from a Bayesian approach.</p>
+<h3>Optimal solution</h3>
+<p>We seek the coefficient vector that minimizes (\ref{2}). We can find this by differentiating this cost function with respect to <span class="math">\(\vec{\beta}\)</span>, setting the result to zero. This gives,
+</p>
+<div class="math">\begin{align} \tag{3}
+\partial_{\beta_j} J = 2 \sum_i \left (y_i - \sum_k x_{i,k} \beta_k \right) x_{i,j} = 0.
+\end{align}</div>
+<p>
+We next define the matrix <span class="math">\(X\)</span> so that <span class="math">\(X_{i,j} = \vec{x}_{i,j}\)</span>. Plugging this into the above, we obtain
+</p>
+<div class="math">\begin{align}
+\partial_{\beta_j} J &amp;= 2 \sum_i X_{j,i}^T \left (y_i - \sum_k X_{i,k} \beta_k \right) = 0 \\
+&amp;= X^T \cdot \left ( \vec{y} - X \cdot \vec{\beta}\right ) = 0.\tag{4}
+\end{align}</div>
+<p>
+Rearranging gives
+</p>
+<div class="math">\begin{align}
+X^T X \cdot \vec{\beta} = X^T \cdot \vec{y} \to
+\vec{\beta} = (X^T X)^{-1} \cdot X^T \cdot \vec{y} \tag{5} \label{optimal}
+\end{align}</div>
+<p>
+This is the squared-error-minimizing solution.</p>
+<h3>Parameter covariance matrix</h3>
+<p>Now, when one carries out a linear fit to some data, the best line often does not go straight through all of the data. Here, we consider the case where the reason for the discrepancy is not that the posited linear form is incorrect, but that there are some hidden variables not measured that the <span class="math">\(y\)</span>-values also depend on. Assuming our data points represent random samples over these hidden variables, we can model their effect as adding a random noise term to the form (\ref{1}), so that
+</p>
+<div class="math">\begin{align}\tag{6} \label{noise}
+y_i = \vec{x}_i^T \cdot \vec{\beta}_{true} + \epsilon_i,
+\end{align}</div>
+<p>
+with <span class="math">\(\langle \epsilon_i \rangle =0\)</span>, <span class="math">\(\langle \epsilon_i^2 \rangle = \sigma^2\)</span>, and <span class="math">\(\vec{\beta}_{true}\)</span> the exact (but unknown) coefficient vector.</p>
+<p>Plugging (\ref{noise}) into (\ref{optimal}), we see that <span class="math">\(\langle \vec{\beta} \rangle = \vec{\beta}_{true}\)</span>. However, the variance of the <span class="math">\(\epsilon_i\)</span> injects some uncertainty into our fit: Each realization of the noise will generate slightly different <span class="math">\(y\)</span> values, causing the <span class="math">\(\vec{\beta}\)</span> fit coefficients to vary. To estimate the magnitude of this effect, we can calculate the covariance matrix of <span class="math">\(\vec{\beta}\)</span>. At fixed (constant) <span class="math">\(X\)</span>, plugging in (\ref{optimal}) for <span class="math">\(\vec{\beta}\)</span> gives
+</p>
+<div class="math">\begin{align}
+cov(\vec{\beta}, \vec{\beta}) &amp;= cov \left( (X^T X)^{-1} \cdot X^T \cdot \vec{y} , \vec{y}^T \cdot X \cdot (X^T X)^{-1, T} \right) \\
+&amp;= (X^T X)^{-1} \cdot X^T \cdot cov(\vec{y}^T, \vec{y} ) \cdot X \cdot (X^T X)^{-1, T}
+\\
+&amp;= \sigma^2 \left( X^T X \right)^{-1} \cdot X^T X \cdot \left( X^T X \right)^{-1, T} \\
+&amp;= \sigma^2 \left( X^T X \right)^{-1}. \tag{7} \label{cov}
+\end{align}</div>
+<p>
+In the third line here, note that we have assumed that the <span class="math">\(\epsilon_i\)</span> are independent, so that <span class="math">\(cov(\vec{y},\vec{y}) = \sigma^2 I.\)</span> We've also used the fact that <span class="math">\(X^T X\)</span> is symmetric.</p>
+<p>To get a feel for the significance of (\ref{cov}), it is helpful to consider the case where the average <span class="math">\(x\)</span> values are zero. In this case,
+</p>
+<div class="math">\begin{align}
+\left( X^T X \right)_{i,j} &amp;\equiv&amp; \sum_k \delta X_{k,i} \delta X_{k,j} \equiv N \times \langle x_i, x_j\rangle. \tag{8} \label{corr_mat}
+\end{align}</div>
+<p align="center"><img src="https://jslandy.com/wp-content/uploads/2016/05/scatter.jpg"></p>
+<p>That is, <span class="math">\(X^T X\)</span> is proportional to the correlation matrix of our <span class="math">\(x\)</span> values. This correlation matrix is real and symmetric, and thus has an orthonormal set of eigenvectors. The eigenvalue corresponding to the <span class="math">\(k\)</span>-th eigenvector gives the variance of our data set's <span class="math">\(k\)</span>-th component values in this basis -- details can be found in our <a href="/principal-component-analysis">article on PCA</a>. This implies a simple interpretation of (\ref{cov}): The variance in the <span class="math">\(\vec{\beta}\)</span> coefficients will be lowest for predictors parallel to the highest variance PCA components (eg <span class="math">\(x_1\)</span> in the figure shown) and highest for predictors parallel to the lowest variance PCA components (<span class="math">\(x_2\)</span> in the figure). This observation can often be exploited during an experiment's design: If a particular coefficient is desired to high accuracy, one should make sure to sample the corresponding predictor over a wide range.</p>
+<p>[Note: Cathy gives an interesting, alternative interpretation for the parameter estimate variances in a follow-up post, <a href="http://efavdb.github.io/interpret-linear-regression">here</a>.]</p>
+<h3>Unbiased estimator for <span class="math">\(\sigma^2\)</span></h3>
+<p>The result (\ref{cov}) gives an expression for the variance of the parameter coefficients in terms of the underlying sample variance <span class="math">\(\sigma^2\)</span>. In practice, <span class="math">\(\sigma^2\)</span> is often not provided and must be estimated from the observations at hand. Assuming that the <span class="math">\(\{\epsilon_i\}\)</span> in (\ref{noise}) are independent <span class="math">\(\mathscr{N}(0, \sigma^2)\)</span> random variables, we now show that the following provides an unbiased estimate for this variance:
+</p>
+<div class="math">$$
+S^2 \equiv \frac{1}{N-L} \sum_i \left ( y_i - \vec{x}_i^T \cdot \vec{\beta} \right) ^2. \tag{9} \label{S}
+$$</div>
+<p>
+Note that this is a normalized sum of squared residuals from our fit, with <span class="math">\((N-L)\)</span> as the normalization constant -- the number of samples minus the number of fit parameters. To prove that <span class="math">\(\langle S^2 \rangle = \sigma^2\)</span>, we plug in (\ref{optimal}) for <span class="math">\(\vec{\beta}\)</span>, combining with (\ref{noise}) for <span class="math">\(\vec{y}\)</span>. This gives
+</p>
+<div class="math">\begin{align} \nonumber
+S^2 &amp;= \frac{1}{N-L} \sum_i \left ( y_i - \vec{x}_i^T \cdot (X^T X)^{-1} \cdot X^T \cdot \{ X \cdot \vec{\beta}_{true} + \vec{\epsilon} \} \right) ^2 \\ \nonumber
+&amp;= \frac{1}{N-L} \sum_i \left ( \{y_i - \vec{x}_i^T \cdot\vec{\beta}_{true} \} - \vec{x}_i^T \cdot (X^T X)^{-1} \cdot X^T \cdot \vec{\epsilon} \right) ^2 \\
+&amp;= \frac{1}{N-L} \sum_i \left ( \epsilon_i - \vec{x}_i^T \cdot (X^T X)^{-1} \cdot X^T \cdot \vec{\epsilon} \right) ^2 \tag{10}. \label{S2}
+\end{align}</div>
+<p>
+The second term in the last line is the <span class="math">\(i\)</span>-th component of the vector
+</p>
+<div class="math">$$
+X \cdot (X^T X)^{-1} \cdot X^T \cdot \vec{\epsilon} \equiv \mathbb{P} \cdot \vec{\epsilon}. \tag{11} \label{projection}
+$$</div>
+<p>
+Here, <span class="math">\(\mathbb{P}\)</span> is a projection operator -- this follows from the fact that <span class="math">\(\mathbb{P}^2 = \mathbb{P}\)</span>. When it appears in (\ref{projection}), <span class="math">\(\mathbb{P}\)</span> maps <span class="math">\(\vec{\epsilon}\)</span> into the <span class="math">\(L\)</span>-dimensional coordinate space spanned by the <span class="math">\(\{\vec{x_i}\}\)</span>, scales the result using (\ref{corr_mat}), then maps it back into its original <span class="math">\(N\)</span>-dimensional space. The net effect is to project <span class="math">\(\vec{\epsilon}\)</span> into an <span class="math">\(L\)</span>-dimensional subspace of the full <span class="math">\(N\)</span>-dimensional space (more on the <span class="math">\(L\)</span>-dimensional subspace just below). Plugging (\ref{projection}) into (\ref{S2}), we obtain
+</p>
+<div class="math">$$
+S^2 = \frac{1}{N-L} \sum_i \left ( \epsilon_i - (\mathbb{P} \cdot \vec{\epsilon})_i \right)^2 \equiv \frac{1}{N-L} \left \vert \vec{\epsilon} - \mathbb{P} \cdot \vec{\epsilon} \right \vert^2. \label{S3} \tag{12}
+$$</div>
+<p>
+This final form gives the result: <span class="math">\(\vec{\epsilon}\)</span> is an <span class="math">\(N\)</span>-dimensional vector of independent, <span class="math">\(\mathscr{N}(0, \sigma^2)\)</span> variables, and (\ref{S3}) shows that <span class="math">\(S^2\)</span> is equal to <span class="math">\(1/(N-L)\)</span> times the squared length of an <span class="math">\((N-L)\)</span>-dimensional projection of it (the part along <span class="math">\(\mathbb{I} - \mathbb{P}\)</span>). The length of this projection will on average be <span class="math">\((N-L) \sigma^2\)</span>, so that <span class="math">\(\langle S^2 \rangle = \sigma^2\)</span>.</p>
+<p>We need to make two final points before moving on. First, because <span class="math">\(S^2\)</span> is a sum of <span class="math">\((N-L)\)</span> independent <span class="math">\(\mathscr{N}(0, \sigma^2)\)</span> random variables, it follows that
+</p>
+<div class="math">$$
+\frac{(N-L) S^2}{\sigma^2} \sim \chi_{N-L}^2. \tag{13} \label{chi2}
+$$</div>
+<p>
+Second, <span class="math">\(S^2\)</span> is independent of <span class="math">\(\vec{\beta}\)</span>: We can see this by rearranging (\ref{optimal}) as
+</p>
+<div class="math">$$
+\vec{\beta} = \vec{\beta}_{true} + (X^T X)^{-1} \cdot X^T \cdot \vec{\epsilon}. \tag{14} \label{beta3}
+$$</div>
+<p>
+We can left multiply this by <span class="math">\(X\)</span> without loss to obtain
+</p>
+<div class="math">$$
+X \cdot \vec{\beta} = X \cdot \vec{\beta}_{true} + \mathbb{P} \cdot \vec{\epsilon}, \tag{15} \label{beta2}
+$$</div>
+<p>
+where we have used (\ref{projection}). Comparing (\ref{beta2}) and (\ref{S3}), we see that the components of <span class="math">\(\vec{\epsilon}\)</span> that inform <span class="math">\(\vec{\beta}\)</span> are in the subspace fixed by <span class="math">\(\mathbb{P}\)</span>. This is the space complementary to that informing <span class="math">\(S^2\)</span>, implying that <span class="math">\(S^2\)</span> is independent of <span class="math">\(\vec{\beta}\)</span>.</p>
+<h3>Confidence intervals and hypothesis tests</h3>
+<p>The results above immediately provide us with a method for generating confidence intervals for the individual coefficient estimates (continuing with our Normal error assumption): From (\ref{beta3}), it follows that the coefficients are themselves Normal random variables, with variance given by (\ref{cov}). Further, <span class="math">\(S^2\)</span> provides an unbiased estimate for <span class="math">\(\sigma^2\)</span>, proportional to a <span class="math">\(\chi^2_{N-L}\)</span> random variable. Combining these results gives
+</p>
+<div class="math">$$
+\frac{\beta_{i,true} - \beta_{i}}{\sqrt{\left(X^T X\right)^{-1}_{ii} S^2}} \sim t_{(N-L)}. \tag{16}
+$$</div>
+<p>
+That is, the pivot at left follows a Student's <span class="math">\(t\)</span>-distribution with <span class="math">\((N-L)\)</span> degrees of freedom (i.e., it's proportional to the ratio of a standard Normal and the square root of a chi-squared variable with that many degrees of freedom). A rearrangement of the above gives the following level <span class="math">\(\alpha\)</span> confidence interval for the true value:
+</p>
+<div class="math">$$
+\beta_i - t_{(N-L), \alpha /2} \sqrt{\left(X^T X \right)^{-1}_{ii} S^2}\leq \beta_{i, true} \leq \beta_i + t_{(N-L), \alpha /2} \sqrt{\left(X^T X \right)^{-1}_{ii} S^2} \tag{17} \label{interval},
+$$</div>
+<p>
+where <span class="math">\(\beta_i\)</span> is obtained from the solution (\ref{optimal}). The interval above can be inverted to generate level <span class="math">\(\alpha\)</span> hypothesis tests. In particular, we note that a test of the null -- that a particular coefficient is actually zero -- would not be rejected if (\ref{interval}) contains the origin. This approach is often used to test whether some data is consistent with the assertion that a predictor is linearly related to the response.</p>
+<p>[Again, see Cathy's follow-up post <a href="http://efavdb.github.io/interpret-linear-regression">here</a> for an alternate take on these results.]</p>
+<h3>Bayesian analysis</h3>
+<p>The final thing we wish to do here is consider the problem from a Bayesian perspective, using a flat prior on the <span class="math">\(\vec{\beta}\)</span>. In this case, assuming a Gaussian form for the <span class="math">\(\epsilon_i\)</span> in (\ref{noise}) gives
+</p>
+<div class="math">\begin{align}\tag{18} \label{18}
+p(\vec{\beta} \vert \{y_i\}) \propto p(\{y_i\} \vert \vec{\beta}) p(\vec{\beta}) = \mathscr{N} \exp \left [ -\frac{1}{2 \sigma^2}\sum_i \left (y_i - \vec{\beta} \cdot \vec{x}_i \right)^2\right].
+\end{align}</div>
+<p>
+Notice that this posterior form for <span class="math">\(\vec{\beta}\)</span> is also Gaussian, and is centered about the solution (\ref{optimal}). Formally, we can write the exponent here in the form
+</p>
+<div class="math">\begin{align}
+-\frac{1}{2 \sigma^2}\sum_i \left (y_i - \vec{\beta} \cdot \vec{x}_i \right)^2 \equiv -\frac{1}{2} \vec{\beta}^T \cdot \frac{1}{\Sigma^2} \cdot \vec{\beta}, \tag{19}
+\end{align}</div>
+<p>
+where <span class="math">\(\Sigma^2\)</span> is the covariance matrix for the components of <span class="math">\(\vec{\beta}\)</span>, as implied by the posterior form (\ref{18}). We can get the components of its inverse by differentiating (\ref{18}) twice. This gives,
+</p>
+<div class="math">\begin{align}
+\left ( \frac{1}{\Sigma^2}\right)_{jk} &amp;= \frac{1}{2 \sigma^2} \partial_{\beta_j} \partial_{\beta_k} \sum_i \left (y_i - \vec{\beta} \cdot \vec{x}_i \right)^2 \\
+&amp;= -\frac{1}{\sigma^2}\partial_{\beta_j} \sum_i \left (y_i - \vec{\beta} \cdot \vec{x}_i \right) x_{i,k} \\
+&amp;= \frac{1}{\sigma^2} \sum_i x_{i,j} x_{i,k} = \frac{1}{\sigma^2} (X^T X)_{jk}. \tag{20}
+\end{align}</div>
+<p>
+In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, in agreement with the classical expression (\ref{cov}).</p>
+<h3>Summary</h3>
+<p>In summary, we've gone through one quick derivation of linear fit solution that minimizes the sum of squared <span class="math">\(y\)</span> errors for a given set of data. We've also considered the variance of this solution, showing that the resulting form is closely related to the principal components of the predictor variables sampled. The covariance solution (\ref{cov}) tells us that all parameters have standard deviations that decrease like <span class="math">\(1/\sqrt{N}\)</span>, with <span class="math">\(N\)</span> the number of samples. However, the predictors that are sampled over wider ranges always have coefficient estimates that more precise. This is due to the fact that sampling over many different values allows one to get a better read on how the underlying function being fit varies with a predictor. Following this, assuming normal errors, we showed that <span class="math">\(S^2\)</span> provides an unbiased estimate, chi-squared estimator for the sample variance -- one that is independent of parameter estimates. This allowed us to then write down a confidence interval for the <span class="math">\(i\)</span>-th coefficient. The final thing we have shown is that the Bayesian, Gaussian approximation gives similar results: In this approach, the posterior that results is centered about the classical solution, and has a covariance matrix equal to that obtained by classical approach.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/methods.html">methods</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+  <p><em>Originally posted at efavdb.com.</em></p>
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>
