@@ -34,7 +34,7 @@ seconds&lt;span class="math"&gt;\(^1\)&lt;/span&gt;, independent of &lt;span cla
 resembles waiting in a queue:  The time it takes you to reach a target
 destination is simply &lt;span class="math"&gt;\(T\)&lt;/span&gt; (which is analogous to the queue's service time)
 times the number of cars ahead of you.  Figure 1 illustrates the idea.&lt;/p&gt;
-&lt;p align="center" style="margin-top: 2em;"&gt;&lt;img src="https://jslandy.com/images/traffic_queue.jpg" width="75%"&gt;&lt;/p&gt;
+&lt;p align="center" style="margin-top: 2em;"&gt;&lt;img src="https://jslandy.com/images/traffic_queue.jpg" width="100%"&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt; Figure&lt;/em&gt; 1.  (top)  In light traffic, the marked car has two cars ahead
 of it before the finish line and travels at speed &lt;span class="math"&gt;\(2v\)&lt;/span&gt;. (bottom) The marked car
