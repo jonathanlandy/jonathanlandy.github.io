@@ -87,11 +87,11 @@ traffic.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Footnotes&lt;/h3&gt;
-&lt;p&gt;[1] We've derived (2) from our prior speed scaling argument, but we can also
-almost write it down directly.  The result is equivalent to assuming that
+&lt;p&gt;[1] We've derived (\ref{2}) from our prior speed scaling argument, but we can
+also almost write it down directly.  The result is equivalent to assuming that
 drivers attempt to stay a fixed number of seconds behind the car in front of
 them.  I was instructed to do just this when I took Driver's Ed, and was taught
-to aim for a &lt;span class="math"&gt;\(2\)&lt;/span&gt; second delay.&lt;/p&gt;
+to aim for a two second delay.&lt;/p&gt;
 &lt;p&gt;[2] Of course, in a multi-lane scenario it is sometimes possible to go faster
 by actively switching lanes.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
