@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="When steady traffic limits the speed on a road, we argue that its throughput becomes independent of traffic density. As a result, the time required to reach a destination depends only on the number of cars ahead. In this regime, a road behaves much like a standard queue. We explore several consequences of this perspective. Constant Throughput In a prior …" />
+<meta name="keywords" content="traffic, misc">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Queueing Theory of Traffic"/>
+  <meta property="og:description" content="When steady traffic limits the speed on a road, we argue that its throughput becomes independent of traffic density. As a result, the time required to reach a destination depends only on the number of cars ahead. In this regime, a road behaves much like a standard queue. We explore several consequences of this perspective. Constant Throughput In a prior …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/traffic-queue"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-03-14 09:21:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="traffic"/>
+  <meta property="article:tag" content="misc"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Queueing Theory of Traffic</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="traffic-queue">Queueing Theory of Traffic</h1>
+    <p>
+      Published on Sat 14 March 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>When steady traffic limits the speed on a road, we argue that its throughput
+becomes independent of traffic density. As a result, the time required to reach
+a destination depends only on the number of cars ahead. In this regime, a road
+behaves much like a standard queue. We explore several consequences of this
+perspective.</p>
+<h3>Constant Throughput</h3>
+<p>In a <a href="/the-speed-of-traffic">prior post</a>, I used dimensional analysis to derive
+the speed <span class="math">\(v\)</span> of steady road traffic as a function of two inputs:  <span class="math">\(\lambda\)</span>,
+the density of cars in units of <span class="math">\([cars / mile]\)</span>, and <span class="math">\(T\)</span>, the response time of
+vehicles to sudden stops or other changes (perhaps around one or two seconds).
+With these inputs, I argued that the speed of traffic must scale as</p>
+<div class="math">\begin{eqnarray} \label{1} \tag{1}
+v \sim \frac{1}{\lambda T}.
+\end{eqnarray}</div>
+<p>Plugging in reasonable values for these inputs under light traffic conditions
+yields a speed of roughly <span class="math">\(70\)</span> mph, which is what we typically observe on
+highways.</p>
+<p>Now consider the throughput of cars passing a fixed point on the road. This is
+simply the density of cars multiplied by their velocity. Substituting (\ref{1})
+for the speed gives</p>
+<div class="math">\begin{eqnarray} \label{2} \tag{2}
+\text{cars passing per sec} \sim \lambda \times \frac{1}{\lambda \cdot T} = \frac{1}{T}
+\end{eqnarray}</div>
+<p>The density has canceled out. This is the key result, and it says that the
+number of cars that can pass a given point on the road is one every <span class="math">\(T\)</span>
+seconds<span class="math">\(^1\)</span>, independent of <span class="math">\(\lambda\)</span>.  In this sense then, driving in traffic
+resembles waiting in a queue:  The time it takes you to reach a target
+destination is simply <span class="math">\(T\)</span> (which is analogous to the queue's service time)
+times the number of cars ahead of you.  Figure 1 illustrates the idea.</p>
+<p align="center" style="margin-top: 2em;"><img src="https://jslandy.com/images/traffic_queue.jpg" width="75%"></p>
+
+<p><em> Figure</em> 1.  (top)  In light traffic, the marked car has two cars ahead
+of it before the finish line and travels at speed <span class="math">\(2v\)</span>. (bottom) The marked car
+starts closer to the finish line, but traffic is twice as dense and therefore
+moves at half the speed according to (\ref{1}). It also has two cars ahead of
+it, and so it reaches the finish line at the same time as the marked car above.</p>
+<h3>Consequences</h3>
+<p>Some (perhaps) surprising consequences follow from this queueing view of
+traffic.</p>
+<ul>
+<li>
+<p>It can be tempting to try to drive faster in traffic in an attempt to arrive
+  sooner. But just as it does not help to crowd the person ahead of you in a
+  grocery queue, it also does not help to do so on the road<span class="math">\(^2\)</span>. You will reach
+  your exit at the same time either way, so back off!</p>
+</li>
+<li>
+<p>Why do things slow down when there is more traffic? When more cars enter the
+  queue than can exit (as determined by the throughput capacity of the road),
+  the queue grows. This means it takes longer to reach a destination simply
+  because more cars are ahead. The longer this input / output imbalance
+  persists the worse traffic becomes.  See my
+  <a href="/average-queue-wait-times-with-random-arrivals/">prior post</a> on queues for
+  details.</p>
+</li>
+<li>
+<p>The constant-throughput result breaks down in two limits. First, when traffic
+  is very light, speed is no longer traffic-limited but instead determined by
+  the speed limit or by what feels safe under current conditions. Second, in
+  the opposite limit of very heavy traffic, stop-and-go conditions can emerge.
+  In this regime the throughput can drop. When stuck in traffic, you can
+  estimate this effect by measuring the delay between your car and the one
+  ahead. The ratio of this observed delay to the steady value <span class="math">\(T\)</span> (again,
+  perhaps one or two seconds) indicates how much slower the flow has become due
+  to the jam.</p>
+</li>
+<li>
+<p>Some freeway on-ramps have traffic lights that limit the rate at which cars
+  can enter. A simple example is seen entering the Bay Bridge from the East Bay
+  towards San Francisco. There, a single light restricts how quickly cars can
+  enter the bridge. Often there is heavy traffic at the light while traffic on
+  the bridge itself moves relatively smoothly. The idea is likely the
+  following. If traffic on the bridge can be kept below the stop-and-go
+  threshold, the throughput will be governed by (\ref{2}). In that case, the
+  best possible wait time is achieved: the system behaves like a queue with
+  service time <span class="math">\(T\)</span>. But if cars entered too quickly, stop-and-go traffic might
+  form on the bridge, reducing throughput. In either case the number of cars
+  ahead of you is the same, but with the lights regulating entry to ensure
+  steady flow, you should reach San Francisco sooner.</p>
+</li>
+</ul>
+<h3>Footnotes</h3>
+<p>[1] We've derived (2) from our prior speed scaling argument, but we can also
+almost write it down directly.  The result is equivalent to assuming that
+drivers attempt to stay a fixed number of seconds behind the car in front of
+them.  I was instructed to do just this when I took Driver's Ed, and was taught
+to aim for a <span class="math">\(2\)</span> second delay.</p>
+<p>[2] Of course, in a multi-lane scenario it is sometimes possible to go faster
+by actively switching lanes.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/traffic.html">traffic</a>
+      <a href="https://jslandy.com/tag/misc.html">misc</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

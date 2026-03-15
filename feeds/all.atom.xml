@@ -1,5 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-01-20T09:00:00-08:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Static Pricing Theory</title><link href="https://jslandy.com/pricing" rel="alternate"></link><published>2026-01-20T09:00:00-08:00</published><updated>2026-01-20T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-01-20:/pricing</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/pricing_images/price_header.png"&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-03-14T09:21:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Queueing Theory of Traffic</title><link href="https://jslandy.com/traffic-queue" rel="alternate"></link><published>2026-03-14T09:21:00-07:00</published><updated>2026-03-14T09:21:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-03-14:/traffic-queue</id><summary type="html">&lt;p&gt;When steady traffic limits the speed on a road, we argue that its throughput
+becomes independent of traffic density. As a result, the time required to reach
+a destination depends only on the number of cars ahead. In this regime, a road
+behaves much like a standard queue. We explore several consequences of this
+perspective.&lt;/p&gt;
+&lt;h3&gt;Constant Throughput&lt;/h3&gt;
+&lt;p&gt;In a &lt;a href="/the-speed-of-traffic"&gt;prior …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;When steady traffic limits the speed on a road, we argue that its throughput
+becomes independent of traffic density. As a result, the time required to reach
+a destination depends only on the number of cars ahead. In this regime, a road
+behaves much like a standard queue. We explore several consequences of this
+perspective.&lt;/p&gt;
+&lt;h3&gt;Constant Throughput&lt;/h3&gt;
+&lt;p&gt;In a &lt;a href="/the-speed-of-traffic"&gt;prior post&lt;/a&gt;, I used dimensional analysis to derive
+the speed &lt;span class="math"&gt;\(v\)&lt;/span&gt; of steady road traffic as a function of two inputs:  &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt;,
+the density of cars in units of &lt;span class="math"&gt;\([cars / mile]\)&lt;/span&gt;, and &lt;span class="math"&gt;\(T\)&lt;/span&gt;, the response time of
+vehicles to sudden stops or other changes (perhaps around one or two seconds).
+With these inputs, I argued that the speed of traffic must scale as&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{1} \tag{1}
+v \sim \frac{1}{\lambda T}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Plugging in reasonable values for these inputs under light traffic conditions
+yields a speed of roughly &lt;span class="math"&gt;\(70\)&lt;/span&gt; mph, which is what we typically observe on
+highways.&lt;/p&gt;
+&lt;p&gt;Now consider the throughput of cars passing a fixed point on the road. This is
+simply the density of cars multiplied by their velocity. Substituting (\ref{1})
+for the speed gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{2} \tag{2}
+\text{cars passing per sec} \sim \lambda \times \frac{1}{\lambda \cdot T} = \frac{1}{T}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The density has canceled out. This is the key result, and it says that the
+number of cars that can pass a given point on the road is one every &lt;span class="math"&gt;\(T\)&lt;/span&gt;
+seconds&lt;span class="math"&gt;\(^1\)&lt;/span&gt;, independent of &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt;.  In this sense then, driving in traffic
+resembles waiting in a queue:  The time it takes you to reach a target
+destination is simply &lt;span class="math"&gt;\(T\)&lt;/span&gt; (which is analogous to the queue's service time)
+times the number of cars ahead of you.  Figure 1 illustrates the idea.&lt;/p&gt;
+&lt;p align="center" style="margin-top: 2em;"&gt;&lt;img src="https://jslandy.com/images/traffic_queue.jpg" width="75%"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt; Figure&lt;/em&gt; 1.  (top)  In light traffic, the marked car has two cars ahead
+of it before the finish line and travels at speed &lt;span class="math"&gt;\(2v\)&lt;/span&gt;. (bottom) The marked car
+starts closer to the finish line, but traffic is twice as dense and therefore
+moves at half the speed according to (\ref{1}). It also has two cars ahead of
+it, and so it reaches the finish line at the same time as the marked car above.&lt;/p&gt;
+&lt;h3&gt;Consequences&lt;/h3&gt;
+&lt;p&gt;Some (perhaps) surprising consequences follow from this queueing view of
+traffic.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;It can be tempting to try to drive faster in traffic in an attempt to arrive
+  sooner. But just as it does not help to crowd the person ahead of you in a
+  grocery queue, it also does not help to do so on the road&lt;span class="math"&gt;\(^2\)&lt;/span&gt;. You will reach
+  your exit at the same time either way, so back off!&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Why do things slow down when there is more traffic? When more cars enter the
+  queue than can exit (as determined by the throughput capacity of the road),
+  the queue grows. This means it takes longer to reach a destination simply
+  because more cars are ahead. The longer this input / output imbalance
+  persists the worse traffic becomes.  See my
+  &lt;a href="/average-queue-wait-times-with-random-arrivals/"&gt;prior post&lt;/a&gt; on queues for
+  details.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The constant-throughput result breaks down in two limits. First, when traffic
+  is very light, speed is no longer traffic-limited but instead determined by
+  the speed limit or by what feels safe under current conditions. Second, in
+  the opposite limit of very heavy traffic, stop-and-go conditions can emerge.
+  In this regime the throughput can drop. When stuck in traffic, you can
+  estimate this effect by measuring the delay between your car and the one
+  ahead. The ratio of this observed delay to the steady value &lt;span class="math"&gt;\(T\)&lt;/span&gt; (again,
+  perhaps one or two seconds) indicates how much slower the flow has become due
+  to the jam.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some freeway on-ramps have traffic lights that limit the rate at which cars
+  can enter. A simple example is seen entering the Bay Bridge from the East Bay
+  towards San Francisco. There, a single light restricts how quickly cars can
+  enter the bridge. Often there is heavy traffic at the light while traffic on
+  the bridge itself moves relatively smoothly. The idea is likely the
+  following. If traffic on the bridge can be kept below the stop-and-go
+  threshold, the throughput will be governed by (\ref{2}). In that case, the
+  best possible wait time is achieved: the system behaves like a queue with
+  service time &lt;span class="math"&gt;\(T\)&lt;/span&gt;. But if cars entered too quickly, stop-and-go traffic might
+  form on the bridge, reducing throughput. In either case the number of cars
+  ahead of you is the same, but with the lights regulating entry to ensure
+  steady flow, you should reach San Francisco sooner.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Footnotes&lt;/h3&gt;
+&lt;p&gt;[1] We've derived (2) from our prior speed scaling argument, but we can also
+almost write it down directly.  The result is equivalent to assuming that
+drivers attempt to stay a fixed number of seconds behind the car in front of
+them.  I was instructed to do just this when I took Driver's Ed, and was taught
+to aim for a &lt;span class="math"&gt;\(2\)&lt;/span&gt; second delay.&lt;/p&gt;
+&lt;p&gt;[2] Of course, in a multi-lane scenario it is sometimes possible to go faster
+by actively switching lanes.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="traffic"></category><category term="misc"></category></entry><entry><title>Static Pricing Theory</title><link href="https://jslandy.com/pricing" rel="alternate"></link><published>2026-01-20T09:00:00-08:00</published><updated>2026-01-20T09:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-01-20:/pricing</id><summary type="html">&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/pricing_images/price_header.png"&gt;&lt;/p&gt;
 
 &lt;p&gt;We review the classical framework for profit-maximizing pricing under steady
 demand.  Here, demand elasticity is the key quantity governing price
