@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We ask at which floors we should place a set of idle elevators in a building so as to minimize the expected wait time of the next caller. If there is just one elevator, we show that it should be placed at the &#34;median of the demand distribution&#34; — i.e., it should sit at the floor at which half the …" />
+<meta name="keywords" content="math/stats, optimization">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Optimal Elevator Placement"/>
+  <meta property="og:description" content="We ask at which floors we should place a set of idle elevators in a building so as to minimize the expected wait time of the next caller. If there is just one elevator, we show that it should be placed at the &#34;median of the demand distribution&#34; — i.e., it should sit at the floor at which half the …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/elevators"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-03-22 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="article:tag" content="optimization"/>
+  <meta property="og:image" content="/images/headshot.png">
+
+  <title>Jonathan Landy &ndash; Optimal Elevator Placement</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="elevators">Optimal Elevator Placement</h1>
+    <p>
+      Published on Sun 22 March 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We ask at which floors we should place a set of idle elevators in a building so
+as to minimize the expected wait time of the next caller. If there is just one
+elevator, we show that it should be placed at the "median of the demand
+distribution" — i.e., it should sit at the floor at which half the demand lies
+above that floor and half below. When there are multiple elevators available,
+they should be placed at floors such that they each individually sit at the
+demand medians of their respective "domains". We can use gradient descent to
+find the solution, but the system is not always convex and so there may
+sometimes be local minima.</p>
+<h3>Problem setup – expected wait time</h3>
+<p>Consider a building with some elevators that customers use to move between
+floors. We'll assume that demand arrives randomly with distribution</p>
+<div class="math">\begin{equation}
+p(i) = \text{probability next elevator request appears on floor } i \tag{1}\label{1}
+\end{equation}</div>
+<p>If there are <span class="math">\(N\)</span> floors total, then the full set of probabilities can be
+written as</p>
+<div class="math">\begin{equation}
+\vec{p} \equiv (p_1, p_2, \ldots, p_N) \tag{2}\label{2}
+\end{equation}</div>
+<p>with the <span class="math">\(\{p_i\}\)</span> summing to <span class="math">\(1\)</span>. If an idle elevator sits at floor <span class="math">\(j\)</span> and is
+called to floor <span class="math">\(i\)</span>, we posit the rider will have to wait a time</p>
+<div class="math">\begin{equation}
+\text{wait time}(i, j) \equiv |i - j|. \tag{3}\label{3}
+\end{equation}</div>
+<p>for the elevator to arrive.  Here, we are choosing some convenient units so
+that the time to move one floor is exactly one unit of time.  The form
+(\ref{3}) simply says that it takes twice as long for an elevator to get to a
+location twice as far away.</p>
+<p><strong>Question:</strong> Where should we place our available idle elevators so as to
+minimize the expected wait time for the next caller?</p>
+<h3>Single elevator</h3>
+<p>If there is just one elevator available, the wait time is minimized if we place
+it at the median of (\ref{2}). Proof:</p>
+<p>If the idle elevator sits at <span class="math">\(j\)</span>, the average wait time is</p>
+<div class="math">\begin{equation}
+E(\text{wait time}) = \sum_{i=1}^{N} p(i) |i - j| \tag{4}\label{4}
+\end{equation}</div>
+<p>Differentiating the above wrt <span class="math">\(j\)</span> and setting the result to zero we get</p>
+<div class="math">\begin{equation}
+\partial_j \, E(\text{wait time}) = \sum_{i:\, i \leq j} p(i) - \sum_{i:\, i &gt; j} p(i)  = 0\tag{5}\label{5}
+\end{equation}</div>
+<p>The minimum will occur at that point <span class="math">\(j\)</span> where half the weight is below <span class="math">\(j\)</span> and
+half above — the median of the distribution.</p>
+<p><strong>Example 1: simple steady state</strong></p>
+<p>Suppose the riders primarily use the elevator to go up from the ground floor to
+a single upper floor, and then on exit return back to the first floor. In this
+case, half of all rides start at the ground floor, and the others start on one
+of the remaining floors <span class="math">\((2, 3, \ldots, N)\)</span>.  Since exactly half the demand is
+at floor 1, the median of (\ref{2}) is between floors 1 and 2.  We can place
+the elevator at either location (i.e., floor 1 or 2) to minimize the expected
+wait time.</p>
+<p><strong>Example 2: simple, but up and down demand varies throughout day</strong></p>
+<p>Now instead suppose that early in the day more people enter the building, while
+at the end more people leave.  In this case, (\ref{2}) will have more than half
+its weight at floor 1 at the start of the day. During these periods we should
+definitely hold the elevator at floor 1.  Later in the day, the distribution
+will shift to having less than half its weight at floor 1 and its median will
+be on some upper floor.</p>
+<p>In a simple case, suppose all people enter at the start of the day and leave at
+the end of the day. If the upper floors are evenly populated, we then want to
+hold the elevator in the middle of floors <span class="math">\((2, 3, \ldots, N)\)</span> in the evening —
+i.e., at floor <span class="math">\(1 + \frac{N}{2}\)</span>.</p>
+<h3>Multiple elevators</h3>
+<p>To understand the optimal placement of multiple elevators, we'll next pursue a
+gradient descent type solution. To that end, consider the change in expected
+wait time when the <span class="math">\(i\)</span>-th elevator moves up a bit to <span class="math">\(x_i \to x_i + \Delta
+x_i\)</span>. As shown in Figure 1, when this occurs the points that this elevator is
+responsible for have their wait times change. To first order, the effect is</p>
+<div class="math">\begin{equation}
+\Delta E(\text{wait time}) = \Delta x_i \left[ \int_{\frac{x_{i-1}+x_i}{2}}^{x_i} p(x) \, dx - \int_{x_i}^{\frac{x_i+x_{i+1}}{2}} p(x) \, dx \right] \tag{6}\label{6}
+\end{equation}</div>
+<p>That is, the points above ("in front") of <span class="math">\(x_i\)</span> (and served by this elevator)
+have their wait times reduced by <span class="math">\(\Delta x_i\)</span>, while those behind it have their
+wait times increased by <span class="math">\(\Delta x_i\)</span>.</p>
+<p>Rearranging (\ref{6}) gives</p>
+<div class="math">\begin{equation}
+\frac{\partial E(\text{wait time})}{\partial x_i} = \int_{\frac{x_{i-1}+x_i}{2}}^{x_i} p(x) \, dx - \int_{x_i}^{\frac{x_i+x_{i+1}}{2}} p(x) \, dx, \tag{7}\label{7}
+\end{equation}</div>
+<p>analogous to (\ref{5}) above. The result (\ref{7}) allows us to apply gradient
+descent to find the minimum: We start at some convenient initial locations for
+the idle elevators, use (\ref{7}) to calculate the gradient wrt to their
+locations, nudge in that direction, and then iterate till convergence. At the
+minimum, the gradient (\ref{7}) will be zero, implying that each elevator will
+sit at the median of its "domain" (regions where it is the closest elevator).</p>
+<p>Unfortunately, this system is not necessarily convex (see appendix), suggesting
+gradient descent may sometimes result in finding local, rather than global,
+minima.</p>
+<p><a href="https://jslandy.com/images/elevator.png"><img alt="elevator figure" src="https://jslandy.com/images/elevator.png"></a></p>
+<p><strong>Figure 1</strong>: Elevators sit at the locations shown. To minimize wait time, the
+closest elevator to a demand event is assigned the ride. (top) Here, we
+illustrate the first derivative of the expected wait time wrt the <span class="math">\(i\)</span>-th
+elevator's location. At this order what happens is that the floors in front of
+<span class="math">\(x_i\)</span> have their wait time reduced by <span class="math">\(\Delta x_i\)</span>, while those behind have
+their waits increased by <span class="math">\(\Delta x_i\)</span>. (bottom) Here, we consider the second
+order effects — these are worked out in detail in the appendix: First, the
+decision boundary changes a bit on either side. At the right, the wait times
+are reduced, while at the left they are increased.  Similarly the little region
+of width <span class="math">\(\Delta x_i\)</span> right in front of <span class="math">\(x_i\)</span> contributes no net effect to the
+wait time, but the first order estimate assumes that this region has a reduced
+wait time. We must correct that, giving an additional positive second order
+effect. Depending on the demand distribution values at these three points, the
+net second order effect can be either positive or negative, implying the system
+is not necessarily convex for all problems.</p>
+<h3>Appendix: Second order effects</h3>
+<p>Here, we work out the second order effects from moving the <span class="math">\(i\)</span>-th elevator by
+<span class="math">\(\Delta x_i\)</span> — we find that this contribution need not always be positive,
+implying the system is not always convex.</p>
+<p>First, consider the "right" boundary between <span class="math">\(x_i\)</span> and <span class="math">\(x_{i+1}\)</span>. When we
+adjust <span class="math">\(x_i\)</span> by <span class="math">\(\Delta x_i\)</span>, this boundary will shift to the right by <span class="math">\(\Delta
+x_i / 2\)</span> as in the bottom of Figure 1.  The average wait time for these points
+before was the time it took the elevator at <span class="math">\(x_{i+1}\)</span> to reach them. Now these
+points are served by the elevator at <span class="math">\(x_i\)</span>. The improvement in expected wait
+time is</p>
+<div class="math">\begin{align}
+\Delta E(\text{wait time, right boundary})
+&amp;= \int_{\frac{x_i+x_{i+1}}{2}}^{\frac{x_i+x_{i+1}}{2}+\frac{\Delta x_i}{2}} \left[(x - x_i - \Delta x_i) - (x_{i+1} - x)\right] p(x) \, dx \nonumber \\
+&amp;= - p\!\left(\frac{x_i+x_{i+1}}{2}\right) \cdot \frac{\Delta x_i^2}{2} + O(\Delta x_i^3) \tag{8}\label{8}
+\end{align}</div>
+<p>
+Here, we've approximated the integral as the domain width times the average
+value of the integrand over the domain.</p>
+<p>Similarly, the points at the left domain edge have their wait times increase.
+This contributes a
+term</p>
+<div class="math">\begin{equation}
+\Delta E(\text{wait time, left boundary}) = p\!\left(\frac{x_{i-1}+x_i}{2}\right) \cdot \frac{\Delta x_i^2}{2} + O(\Delta x_i^3) \tag{9}\label{9}
+\end{equation}</div>
+<p>Finally, in the first order estimate we assumed that all points in front of
+<span class="math">\(x_i\)</span> have their wait times reduced. But the average wait time in the little
+region of width <span class="math">\(\Delta x_i\)</span> does not change (to lowest order) when we move
+<span class="math">\(x_i\)</span>. We need to remove its contribution from (\ref{6}), giving a term</p>
+<div class="math">\begin{equation}
+\Delta E(\text{wait time, central}) = p(x_i) \, \Delta x_i^2 \tag{10}\label{10}
+\end{equation}</div>
+<p>Combining these terms we see a second order contribution</p>
+<div class="math">\begin{equation}
+\Delta E(\text{wait time, second order}) = \Delta x_i^2 \cdot \left[- \frac{p\!\left(\frac{x_i+x_{i+1}}{2}\right)}{2} + \frac{p\!\left(\frac{x_{i-1}+x_i}{2}\right)}{2} + p(x_i)\right] \tag{11}\label{11}
+\end{equation}</div>
+<p>Depending on the demand distribution <span class="math">\(\vec{p}\)</span>, this need not always be
+positive. We conclude that gradient descent may sometimes result in getting
+stuck in local minima.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+      <a href="https://jslandy.com/tag/optimization.html">optimization</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

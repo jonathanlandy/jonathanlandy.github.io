@@ -1,5 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-03-14T09:21:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Queueing Theory of Traffic</title><link href="https://jslandy.com/traffic-queue" rel="alternate"></link><published>2026-03-14T09:21:00-07:00</published><updated>2026-03-14T09:21:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-03-14:/traffic-queue</id><summary type="html">&lt;p&gt;When steady traffic limits the speed on a road, we argue that its throughput
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-03-22T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Optimal Elevator Placement</title><link href="https://jslandy.com/elevators" rel="alternate"></link><published>2026-03-22T00:00:00-07:00</published><updated>2026-03-22T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-03-22:/elevators</id><summary type="html">&lt;p&gt;We ask at which floors we should place a set of idle elevators in a building so
+as to minimize the expected wait time of the next caller. If there is just one
+elevator, we show that it should be placed at the "median of the demand
+distribution" — i.e., it should sit at the floor at which half the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We ask at which floors we should place a set of idle elevators in a building so
+as to minimize the expected wait time of the next caller. If there is just one
+elevator, we show that it should be placed at the "median of the demand
+distribution" — i.e., it should sit at the floor at which half the demand lies
+above that floor and half below. When there are multiple elevators available,
+they should be placed at floors such that they each individually sit at the
+demand medians of their respective "domains". We can use gradient descent to
+find the solution, but the system is not always convex and so there may
+sometimes be local minima.&lt;/p&gt;
+&lt;h3&gt;Problem setup – expected wait time&lt;/h3&gt;
+&lt;p&gt;Consider a building with some elevators that customers use to move between
+floors. We'll assume that demand arrives randomly with distribution&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+p(i) = \text{probability next elevator request appears on floor } i \tag{1}\label{1}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;If there are &lt;span class="math"&gt;\(N\)&lt;/span&gt; floors total, then the full set of probabilities can be
+written as&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\vec{p} \equiv (p_1, p_2, \ldots, p_N) \tag{2}\label{2}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;with the &lt;span class="math"&gt;\(\{p_i\}\)&lt;/span&gt; summing to &lt;span class="math"&gt;\(1\)&lt;/span&gt;. If an idle elevator sits at floor &lt;span class="math"&gt;\(j\)&lt;/span&gt; and is
+called to floor &lt;span class="math"&gt;\(i\)&lt;/span&gt;, we posit the rider will have to wait a time&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\text{wait time}(i, j) \equiv |i - j|. \tag{3}\label{3}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;for the elevator to arrive.  Here, we are choosing some convenient units so
+that the time to move one floor is exactly one unit of time.  The form
+(\ref{3}) simply says that it takes twice as long for an elevator to get to a
+location twice as far away.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Question:&lt;/strong&gt; Where should we place our available idle elevators so as to
+minimize the expected wait time for the next caller?&lt;/p&gt;
+&lt;h3&gt;Single elevator&lt;/h3&gt;
+&lt;p&gt;If there is just one elevator available, the wait time is minimized if we place
+it at the median of (\ref{2}). Proof:&lt;/p&gt;
+&lt;p&gt;If the idle elevator sits at &lt;span class="math"&gt;\(j\)&lt;/span&gt;, the average wait time is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+E(\text{wait time}) = \sum_{i=1}^{N} p(i) |i - j| \tag{4}\label{4}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Differentiating the above wrt &lt;span class="math"&gt;\(j\)&lt;/span&gt; and setting the result to zero we get&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\partial_j \, E(\text{wait time}) = \sum_{i:\, i \leq j} p(i) - \sum_{i:\, i &amp;gt; j} p(i)  = 0\tag{5}\label{5}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;The minimum will occur at that point &lt;span class="math"&gt;\(j\)&lt;/span&gt; where half the weight is below &lt;span class="math"&gt;\(j\)&lt;/span&gt; and
+half above — the median of the distribution.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example 1: simple steady state&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Suppose the riders primarily use the elevator to go up from the ground floor to
+a single upper floor, and then on exit return back to the first floor. In this
+case, half of all rides start at the ground floor, and the others start on one
+of the remaining floors &lt;span class="math"&gt;\((2, 3, \ldots, N)\)&lt;/span&gt;.  Since exactly half the demand is
+at floor 1, the median of (\ref{2}) is between floors 1 and 2.  We can place
+the elevator at either location (i.e., floor 1 or 2) to minimize the expected
+wait time.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example 2: simple, but up and down demand varies throughout day&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Now instead suppose that early in the day more people enter the building, while
+at the end more people leave.  In this case, (\ref{2}) will have more than half
+its weight at floor 1 at the start of the day. During these periods we should
+definitely hold the elevator at floor 1.  Later in the day, the distribution
+will shift to having less than half its weight at floor 1 and its median will
+be on some upper floor.&lt;/p&gt;
+&lt;p&gt;In a simple case, suppose all people enter at the start of the day and leave at
+the end of the day. If the upper floors are evenly populated, we then want to
+hold the elevator in the middle of floors &lt;span class="math"&gt;\((2, 3, \ldots, N)\)&lt;/span&gt; in the evening —
+i.e., at floor &lt;span class="math"&gt;\(1 + \frac{N}{2}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Multiple elevators&lt;/h3&gt;
+&lt;p&gt;To understand the optimal placement of multiple elevators, we'll next pursue a
+gradient descent type solution. To that end, consider the change in expected
+wait time when the &lt;span class="math"&gt;\(i\)&lt;/span&gt;-th elevator moves up a bit to &lt;span class="math"&gt;\(x_i \to x_i + \Delta
+x_i\)&lt;/span&gt;. As shown in Figure 1, when this occurs the points that this elevator is
+responsible for have their wait times change. To first order, the effect is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\Delta E(\text{wait time}) = \Delta x_i \left[ \int_{\frac{x_{i-1}+x_i}{2}}^{x_i} p(x) \, dx - \int_{x_i}^{\frac{x_i+x_{i+1}}{2}} p(x) \, dx \right] \tag{6}\label{6}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;That is, the points above ("in front") of &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; (and served by this elevator)
+have their wait times reduced by &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt;, while those behind it have their
+wait times increased by &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Rearranging (\ref{6}) gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{\partial E(\text{wait time})}{\partial x_i} = \int_{\frac{x_{i-1}+x_i}{2}}^{x_i} p(x) \, dx - \int_{x_i}^{\frac{x_i+x_{i+1}}{2}} p(x) \, dx, \tag{7}\label{7}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;analogous to (\ref{5}) above. The result (\ref{7}) allows us to apply gradient
+descent to find the minimum: We start at some convenient initial locations for
+the idle elevators, use (\ref{7}) to calculate the gradient wrt to their
+locations, nudge in that direction, and then iterate till convergence. At the
+minimum, the gradient (\ref{7}) will be zero, implying that each elevator will
+sit at the median of its "domain" (regions where it is the closest elevator).&lt;/p&gt;
+&lt;p&gt;Unfortunately, this system is not necessarily convex (see appendix), suggesting
+gradient descent may sometimes result in finding local, rather than global,
+minima.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://jslandy.com/images/elevator.png"&gt;&lt;img alt="elevator figure" src="https://jslandy.com/images/elevator.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Figure 1&lt;/strong&gt;: Elevators sit at the locations shown. To minimize wait time, the
+closest elevator to a demand event is assigned the ride. (top) Here, we
+illustrate the first derivative of the expected wait time wrt the &lt;span class="math"&gt;\(i\)&lt;/span&gt;-th
+elevator's location. At this order what happens is that the floors in front of
+&lt;span class="math"&gt;\(x_i\)&lt;/span&gt; have their wait time reduced by &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt;, while those behind have
+their waits increased by &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt;. (bottom) Here, we consider the second
+order effects — these are worked out in detail in the appendix: First, the
+decision boundary changes a bit on either side. At the right, the wait times
+are reduced, while at the left they are increased.  Similarly the little region
+of width &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt; right in front of &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; contributes no net effect to the
+wait time, but the first order estimate assumes that this region has a reduced
+wait time. We must correct that, giving an additional positive second order
+effect. Depending on the demand distribution values at these three points, the
+net second order effect can be either positive or negative, implying the system
+is not necessarily convex for all problems.&lt;/p&gt;
+&lt;h3&gt;Appendix: Second order effects&lt;/h3&gt;
+&lt;p&gt;Here, we work out the second order effects from moving the &lt;span class="math"&gt;\(i\)&lt;/span&gt;-th elevator by
+&lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt; — we find that this contribution need not always be positive,
+implying the system is not always convex.&lt;/p&gt;
+&lt;p&gt;First, consider the "right" boundary between &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_{i+1}\)&lt;/span&gt;. When we
+adjust &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; by &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt;, this boundary will shift to the right by &lt;span class="math"&gt;\(\Delta
+x_i / 2\)&lt;/span&gt; as in the bottom of Figure 1.  The average wait time for these points
+before was the time it took the elevator at &lt;span class="math"&gt;\(x_{i+1}\)&lt;/span&gt; to reach them. Now these
+points are served by the elevator at &lt;span class="math"&gt;\(x_i\)&lt;/span&gt;. The improvement in expected wait
+time is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{align}
+\Delta E(\text{wait time, right boundary})
+&amp;amp;= \int_{\frac{x_i+x_{i+1}}{2}}^{\frac{x_i+x_{i+1}}{2}+\frac{\Delta x_i}{2}} \left[(x - x_i - \Delta x_i) - (x_{i+1} - x)\right] p(x) \, dx \nonumber \\
+&amp;amp;= - p\!\left(\frac{x_i+x_{i+1}}{2}\right) \cdot \frac{\Delta x_i^2}{2} + O(\Delta x_i^3) \tag{8}\label{8}
+\end{align}&lt;/div&gt;
+&lt;p&gt;
+Here, we've approximated the integral as the domain width times the average
+value of the integrand over the domain.&lt;/p&gt;
+&lt;p&gt;Similarly, the points at the left domain edge have their wait times increase.
+This contributes a
+term&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\Delta E(\text{wait time, left boundary}) = p\!\left(\frac{x_{i-1}+x_i}{2}\right) \cdot \frac{\Delta x_i^2}{2} + O(\Delta x_i^3) \tag{9}\label{9}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Finally, in the first order estimate we assumed that all points in front of
+&lt;span class="math"&gt;\(x_i\)&lt;/span&gt; have their wait times reduced. But the average wait time in the little
+region of width &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt; does not change (to lowest order) when we move
+&lt;span class="math"&gt;\(x_i\)&lt;/span&gt;. We need to remove its contribution from (\ref{6}), giving a term&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\Delta E(\text{wait time, central}) = p(x_i) \, \Delta x_i^2 \tag{10}\label{10}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Combining these terms we see a second order contribution&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\Delta E(\text{wait time, second order}) = \Delta x_i^2 \cdot \left[- \frac{p\!\left(\frac{x_i+x_{i+1}}{2}\right)}{2} + \frac{p\!\left(\frac{x_{i-1}+x_i}{2}\right)}{2} + p(x_i)\right] \tag{11}\label{11}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Depending on the demand distribution &lt;span class="math"&gt;\(\vec{p}\)&lt;/span&gt;, this need not always be
+positive. We conclude that gradient descent may sometimes result in getting
+stuck in local minima.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category><category term="optimization"></category></entry><entry><title>Queueing Theory of Traffic</title><link href="https://jslandy.com/traffic-queue" rel="alternate"></link><published>2026-03-14T09:21:00-07:00</published><updated>2026-03-14T09:21:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-03-14:/traffic-queue</id><summary type="html">&lt;p&gt;When steady traffic limits the speed on a road, we argue that its throughput
 becomes independent of traffic density. As a result, the time required to reach
 a destination depends only on the number of cars ahead. In this regime, a road
 behaves much like a standard queue. We explore several consequences of this
