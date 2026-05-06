@@ -1,5 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-03-22T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Optimal Elevator Placement</title><link href="https://jslandy.com/elevators" rel="alternate"></link><published>2026-03-22T00:00:00-07:00</published><updated>2026-03-22T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-03-22:/elevators</id><summary type="html">&lt;p&gt;We ask at which floors we should place a set of idle elevators in a building so
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-05-05T09:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Allocation with Substitutes</title><link href="https://jslandy.com/allocation%20with%20subs" rel="alternate"></link><published>2026-05-05T09:00:00-07:00</published><updated>2026-05-05T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-05-05:/allocation with subs</id><summary type="html">&lt;p&gt;Here, we consider the problem of allocating limited inventory across demand
+sites, given the availability of a lower-quality substitute that can be used
+when inventory runs out.  We find that it can be optimal to send the premium
+item to only a subset of locations.&lt;/p&gt;
+&lt;h2&gt;Problem and general solution strategy&lt;/h2&gt;
+&lt;p&gt;In our first &lt;a href="/allocation"&gt;post on allocation&lt;/a&gt;, we argued that to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we consider the problem of allocating limited inventory across demand
+sites, given the availability of a lower-quality substitute that can be used
+when inventory runs out.  We find that it can be optimal to send the premium
+item to only a subset of locations.&lt;/p&gt;
+&lt;h2&gt;Problem and general solution strategy&lt;/h2&gt;
+&lt;p&gt;In our first &lt;a href="/allocation"&gt;post on allocation&lt;/a&gt;, we argued that to
+optimize net sales across a system, we should distribute inventory across sites
+so that each has the same probability of stockout. When inventory is scarce
+relative to demand, this optimal strategy leaves every site (equally)
+underserved.  Such cases motivate asking when it might be better to send a
+premium product to only a subset of sites — serving those well — while the
+remaining sites receive a more abundant, lower-quality substitute.&lt;/p&gt;
+&lt;p&gt;To make progress, suppose we have already equilibrated some of the sites to a
+common stock out probability,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation} \label{phi} \tag{1}
+\phi = 1 - P(d_i \leq Q_i).
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+Here, &lt;span class="math"&gt;\(d_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(Q_i\)&lt;/span&gt; are the demand and units initially allocated to site &lt;span class="math"&gt;\(i\)&lt;/span&gt;,
+respectively, and &lt;span class="math"&gt;\(P(d_i \leq Q_i)\)&lt;/span&gt; is the probability that demand at site &lt;span class="math"&gt;\(i\)&lt;/span&gt;
+is not more than its allocated inventory.  Recall that the reason these should
+be equilibrated across sites is that &lt;span class="math"&gt;\(1 - P(d_i \leq Q_i)\)&lt;/span&gt; is the increase in
+expected sales at site &lt;span class="math"&gt;\(i\)&lt;/span&gt; when it is allocated one additional unit – see our
+prior post for derivation.  Equilibrating the partials at right in (\ref{phi})
+to the common &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; value then prevents arbitrage.&lt;/p&gt;
+&lt;p&gt;Now consider adding one more site to receive the the premium product. Suppose
+doing so would require &lt;span class="math"&gt;\(Q_* \equiv Q_* (\phi)\)&lt;/span&gt; units to equilibrate.  To
+fulfill this demand, those units will have to be pulled from the other sites.
+The sales lost from these other locations due to the reallocation will then be&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}\label{cost} \tag{2}
+\text{Cost to serve} = Q_* \times \phi.
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Here, we again use the fact that &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; is the first partial of sales to units
+at each equilibrated site, and we assume a large system size so that &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;
+does not change appreciably as we reallocate the &lt;span class="math"&gt;\(Q_*\)&lt;/span&gt; units.&lt;/p&gt;
+&lt;p&gt;The net benefit of serving the additional site is the expected sales from the
+site, minus the cost (\ref{cost}).  We should proceed if this beats assigning
+the substitute:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}\label{equilibrium} \tag{3}
+E(sales \vert Q_*) - Q_* \times \phi \geq E(sales \vert \text{substitute}).
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+All terms here are specific to the candidate site.&lt;/p&gt;
+&lt;p&gt;Setting (\ref{equilibrium}) to equality and solving for &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; gives a
+"critical &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;" value for each site.  If the system-wide &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; exceeds this,
+the site should receive the substitute. Otherwise, it should receive the
+premium product.&lt;/p&gt;
+&lt;p&gt;This leads to a simple prioritization rule: sort sites by their critical &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;
+values (largest to smallest), and allocate in that order. At step &lt;span class="math"&gt;\(K\)&lt;/span&gt;, we
+assign the premium product to the top &lt;span class="math"&gt;\(K\)&lt;/span&gt; sites and evaluate &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;.  If this
+is no larger than the next site’s critical &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;, we then add that site and
+re-equilibrate. Otherwise, we stop and the remaining sites receive the
+substitute.&lt;/p&gt;
+&lt;h2&gt;Example: equivalent sites&lt;/h2&gt;
+&lt;p&gt;In a simple limit, all sites have equivalent demand.  In this case, each site
+will have the same critical &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; value.  Rather than sorting, we simply need
+to ask how many sites to give the premium item to.  Suppose there are &lt;span class="math"&gt;\(Q_T\)&lt;/span&gt;
+items total, &lt;span class="math"&gt;\(N\)&lt;/span&gt; total sites, and &lt;span class="math"&gt;\(K\)&lt;/span&gt; sites assigned the premium product.  In
+this case, (\ref{equilibrium}) maps to&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}\label{equilibrium_simple} \tag{4}
+E \left (sales \vert \frac{Q_T}{K} \right ) - \frac{Q_T}{K} \times \phi \geq E(sales \vert \text{substitute}).
+\end{equation}&lt;/div&gt;
+&lt;p&gt;If we set &lt;span class="math"&gt;\(K \to N\)&lt;/span&gt; and the left side of (\ref{equilibrium_simple}) is still
+larger than the right, all sites will share the premium product.  However, if
+this is not the case, a split solution is optimal.&lt;/p&gt;
+&lt;p&gt;The resulting lift in sales can vary widely depending on parameters. For
+example, it can be arbitrarily large when substitute quality is acceptable,
+demand is high, and premium inventory is scarce.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="inventory management"></category></entry><entry><title>Optimal Elevator Placement</title><link href="https://jslandy.com/elevators" rel="alternate"></link><published>2026-03-22T00:00:00-07:00</published><updated>2026-03-22T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-03-22:/elevators</id><summary type="html">&lt;p&gt;We ask at which floors we should place a set of idle elevators in a building so
 as to minimize the expected wait time of the next caller. If there is just one
 elevator, we show that it should be placed at the "median of the demand
 distribution" — i.e., it should sit at the floor at which half the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We ask at which floors we should place a set of idle elevators in a building so
