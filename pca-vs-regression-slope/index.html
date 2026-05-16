@@ -48,24 +48,25 @@
  
 
 <meta name="author" content="Jonathan Landy" />
-<meta name="description" content="We consider the problem of allocating a fixed inventory across multiple locations. To maximize expected sales, units should be distributed so that each site reaches the same sell-through probability. Interestingly, this implies we should often send more units to sites with greater demand uncertainty. We walk through an example that shows how operations teams can apply the strategy in practice …" />
-<meta name="keywords" content="inventory management">
+<meta name="description" content="A regression fit can sometimes look surprisingly poor when plotted on top of data, with the two having visually different slopes. The reason is that the line that visually seems to go through the data best is that which minimizes total projection error, while the least squares fit minimizes squared \(y\)-error at each fixed \(x\) (e.g., see this …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta name="keywords" content="math/stats, methods">
 
 
   <meta property="og:site_name" content="Jonathan Landy"/>
-  <meta property="og:title" content="Optimal Allocation"/>
-  <meta property="og:description" content="We consider the problem of allocating a fixed inventory across multiple locations. To maximize expected sales, units should be distributed so that each site reaches the same sell-through probability. Interestingly, this implies we should often send more units to sites with greater demand uncertainty. We walk through an example that shows how operations teams can apply the strategy in practice …"/>
+  <meta property="og:title" content="PCA slope vs regression slope"/>
+  <meta property="og:description" content="A regression fit can sometimes look surprisingly poor when plotted on top of data, with the two having visually different slopes. The reason is that the line that visually seems to go through the data best is that which minimizes total projection error, while the least squares fit minimizes squared \(y\)-error at each fixed \(x\) (e.g., see this …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width"/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:url" content="https://jslandy.com/allocation"/>
+  <meta property="og:url" content="https://jslandy.com/pca-vs-regression-slope"/>
   <meta property="og:type" content="article"/>
-  <meta property="article:published_time" content="2025-08-04 09:00:00-07:00"/>
+  <meta property="article:published_time" content="2026-05-16 00:00:00-07:00"/>
   <meta property="article:modified_time" content=""/>
   <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
   <meta property="article:section" content="articles"/>
-  <meta property="article:tag" content="inventory management"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="article:tag" content="methods"/>
   <meta property="og:image" content="/images/headshot.png">
 
-  <title>Jonathan Landy &ndash; Optimal Allocation</title>
+  <title>Jonathan Landy &ndash; PCA slope vs regression slope</title>
 
 
 </head>
@@ -107,9 +108,9 @@
 <article class="single">
   <header>
       
-    <h1 id="allocation">Optimal Allocation</h1>
+    <h1 id="pca-vs-regression-slope">PCA slope vs regression slope</h1>
     <p>
-      Published on Mon 04 August 2025
+      Published on Sat 16 May 2026
 
     </p>
   </header>
@@ -117,106 +118,83 @@
 
 
   <div>
-    <p align="center"><img src="https://jslandy.com/images/allocation_images/allocation_header.png"></p>
-
-<p>We consider the problem of allocating a fixed inventory across multiple
-locations.  To maximize expected sales, units should be distributed so that
-each site reaches the same sell-through probability.  Interestingly, this
-implies we should often send more units to sites with greater demand
-uncertainty.  We walk through an example that shows how operations teams can
-apply the strategy in practice.</p>
-<h2>Maximizing global expected sales</h2>
-<p>Retailers often place a single large order for a product, then face the
-challenge of allocating those units across multiple locations. In this post, we
-consider the optimal number of units to send to each site. We assume the team
-has already prepared demand estimates for each location – specifically, a
-distribution <span class="math">\(p_i(q)\)</span>representing the probability that location<span class="math">\(i\)</span> will sell
-<span class="math">\(q\)</span> units over the season, assuming sufficient inventory.</p>
-<p>The key idea is that at the optimal allocation, there are no arbitrage
-opportunities – that is, you can't improve total sales by shifting a unit from
-one location to another.  If such a transfer could increase net sales, the
-original allocation wouldn’t be optimal.</p>
-<p>To explore this, we start by considering the expected sales at a single
-location, given that it receives <span class="math">\(Q\)</span> units.  This is,</p>
+    <p>A regression fit can sometimes look surprisingly poor when plotted on top of
+data, with the two having visually different slopes. The reason is that the
+line that visually seems to go through the data best is that which minimizes
+total projection error, while the least squares fit minimizes squared <span class="math">\(y\)</span>-error
+at each fixed <span class="math">\(x\)</span> (e.g., see this prior Hacker News <a href =
+"https://news.ycombinator.com/item?id=46491821">thread</a> for discussion).
+Here, we make these points concrete by working out the exact angular difference
+between the two fits. We find the effect is strongest when the least squares
+fit has a slope of <span class="math">\(m = 1/\sqrt{3}\)</span>, running <span class="math">\(30\)</span> degrees off the x-axis, as in
+Figure 1 below.</p>
+<p><a href="https://jslandy.com/images/pca_vs_least_squares.png"><img alt="PCA vs least squares" src="https://jslandy.com/images/pca_vs_least_squares.png"></a></p>
+<p><strong>Figure 1</strong>: Synthetic data generated from (\ref{1}) with <span class="math">\(m=1/\sqrt{3}\)</span>,
+<span class="math">\(\sigma^2=1\)</span>.  The regression line (red) minimizes squared vertical residuals,
+while the PCA line (black) minimizes total squared perpendicular distance.
+Although the PCA line visually seems to fit the data much better, the plots at
+right show that the least-squares residuals are uncorrelated with <span class="math">\(x\)</span>, while
+PCA residuals show a clear trend.</p>
+<h3>Evaluating the slope from the two fits</h3>
+<p>We'll work here with a simple model where <span class="math">\(y\)</span> is related to <span class="math">\(x\)</span> via slope <span class="math">\(m\)</span>
+and additive noise:</p>
 <div class="math">\begin{equation}
-E(\text{sales at site}) = \int_0^Q p(q) \cdot q \cdot  dq + Q \int_Q^{\infty} p(q) \cdot dq. \tag{1}
+y_i = m x_i + \epsilon_i \tag{1}\label{1}
 \end{equation}</div>
+<p>Here, <span class="math">\(\epsilon_i\)</span> has variance <span class="math">\(\sigma^2\)</span>.  Taking a least-squares fit to
+plenty of data generated in this way will return a slope of <span class="math">\(m\)</span> and an
+intercept of <span class="math">\(0\)</span>, as expected.</p>
+<p>Now, in our <a href="https://jslandy.com/principal-component-analysis">prior post on PCA</a>, we
+reviewed that the PCA direction is the eigenvector corresponding to the largest
+eigenvalue of the data's covariance matrix. The components of this matrix are
+as follows:  Choosing the scale so that <span class="math">\(E(\delta x^2) = 1\)</span>, we have</p>
+<div class="math">\begin{equation}
+E(\delta y^2) = E\!\left[(m\,\delta x_i + \epsilon_i)(m\,\delta x_i + \epsilon_i)\right] = m^2 + \sigma^2 \tag{2}\label{2}
+\end{equation}</div>
+<p>and</p>
+<div class="math">\begin{equation}
+E(\delta x \cdot \delta y) = E\!\left[\delta x \cdot (m\,\delta x_i + \epsilon_i)\right] = m \tag{3}\label{3}
+\end{equation}</div>
+<p>The covariance matrix is then</p>
+<div class="math">\begin{equation}
+C = \begin{pmatrix} 1 &amp; m \\ m &amp; m^2 + \sigma^2 \end{pmatrix} \tag{4}\label{4}
+\end{equation}</div>
+<p>The eigenvalues of <span class="math">\(C\)</span> are</p>
+<div class="math">\begin{equation}
+\lambda_{\pm} = \frac{1 + m^2 + \sigma^2 \pm \sqrt{(1 + m^2 + \sigma^2)^2 - 4\sigma^2}}{2} \tag{5}\label{5}
+\end{equation}</div>
+<p>Again, in PCA we project the data onto the eigenvector corresponding to the
+larger eigenvalue.  This is</p>
+<div class="math">\begin{align}
+v_+ &amp;= \left[1,\; \frac{\lambda_+ - 1}{m}\right] \notag \\
+    &amp;\sim \left[1,\; m + \frac{m}{1+m^2}\,\sigma^2 + O(\sigma^4) \right] \tag{6}\label{6}
+\end{align}</div>
 <p>
-The marginal increase in expected sales (lift in sales given one more unit) is
-then
-</p>
+where the last line gives the first two terms in the small <span class="math">\(\sigma^2\)</span> limit.</p>
+<p>From (\ref{6}), we read out that the PCA slope is given by</p>
 <div class="math">\begin{equation}
-\partial_Q E(\text{sales at site}) = p(Q)\cdot Q + \int_Q^{\infty} p(q)\cdot dq - p(Q)\cdot Q = 1 - P(d \leq Q). \tag{2}
+\text{svd slope} \sim m\!\left(1 + \frac{\sigma^2}{1+m^2} + O(\sigma^4)\right) \tag{7}\label{7}
 \end{equation}</div>
-<p>
-This is simply the probability of sell-through at <span class="math">\(Q\)</span>.  To eliminate arbitrage
-opportunities – maximizing global expected sales – units should then be
-allocated so each site has the same sell-through probability.</p>
-<h2>Worked example</h2>
-<p>Suppose you have two locations.  In the first site,
-</p>
+<p>Relative to the regression slope <span class="math">\(m\)</span>, this is increased by a scale factor of</p>
 <div class="math">\begin{equation}
-\mu_1 = 50, \ \ \ \sigma_1 = 10 \tag{3}
+\kappa \equiv 1 + \frac{\sigma^2}{1+m^2} + O(\sigma^4)\tag{8}\label{8}
 \end{equation}</div>
-<p>
-In the second site,
-</p>
+<h3>Maximizing the angular difference</h3>
+<p>The slope of a line is related to its angle off the <span class="math">\(x\)</span>-axis by</p>
 <div class="math">\begin{equation}
-\mu_2 = 100, \ \ \ \sigma_2 = 50 \tag{4}
+m = \tan\theta \tag{9}\label{9}
 \end{equation}</div>
-<p>
-Here, <span class="math">\(\mu\)</span>and<span class="math">\(\sigma\)</span> are the symbols for expected value and standard
-deviation, respectively.  We’ll assume both sales distributions are normal for
-simplicity.  In this case, the probability of sell-through if we send <span class="math">\(Q\)</span> units
-to a site is simply a function of
-</p>
+<p>To get the change in angle for our case, we use</p>
 <div class="math">\begin{equation}
-z = \frac{Q - \mu}{\sigma} \tag{5}
+\theta_2 - \theta_1 = \arctan(\kappa m) - \arctan(m)
+\approx \frac{m}{1+m^2}(\kappa - 1) + O(\kappa-1)^2 \tag{10}\label{10}
 \end{equation}</div>
-<p>
-Suppose finally that we have purchased <span class="math">\(200\)</span> units total of the product.  To
-find the right amount to send to each location, we’ll assume a common
-sell-through, set by a common <span class="math">\(z\)</span>value.  Solving for<span class="math">\(Q\)</span> using (5) then gives
-</p>
+<p>Plugging in (\ref{8}), the change in angle is then</p>
 <div class="math">\begin{equation}
-Q_1 = \mu_1 + \sigma_1 \cdot z = 50 + 10 z \\ \tag{6}
+\Delta\theta = \frac{m}{(1+m^2)^2}\,\sigma^2 + O(\sigma^4) \tag{11}\label{11}
 \end{equation}</div>
-<div class="math">\begin{equation}
-Q_2 = \mu_2 + \sigma_2 \cdot z = 100 + 50 z \tag{7}
-\end{equation}</div>
-<p>
-From this, we see that each site should first receive units equal to its
-expected demand. Any remaining inventory is then divided among sites in
-proportion to their demand uncertainty. When total inventory exceeds overall
-expected demand, this approach allocates more units to higher-uncertainty
-sites, allowing you to capture upside if demand spikes there. However, when
-inventory is below expected demand, the allocation shifts toward
-lower-uncertainty sites to reduce the risk of unsold stock.</p>
-<p>To set <span class="math">\(z\)</span>, we just need find the value that results in a full allocation of
-our inventory.  Summing (6) and (7), this gives
-</p>
-<div class="math">\begin{equation}
-150 + 60 z = 200 \rightarrow z = \frac{5}{6} \tag{8}
-\end{equation}</div>
-<p>
-Plugging this into (6) and (7) gives
-</p>
-<div class="math">\begin{equation}
-Q_1 = 58 \text{ units, } Q_2 = 142 \text{ units} \tag{9}
-\end{equation}</div>
-<p>
-In this case, the total expected sales is around <span class="math">\(143\)</span> – just below the total
-expected sales given unlimited inventory.  The figure below plots the total
-sales across different options for <span class="math">\(U_1\)</span>.</p>
-<p align="center"><img src="https://jslandy.com/images/allocation_images/allocation_example.png" alt="Alt text" title="contraints"></p>
-
-<p><em>Figure 1</em>:  Total expected sales as a function of <span class="math">\(U_1\)</span>, the number of
-units sent to the first location. The remaining <span class="math">\(200 - U_1\)</span> units are sent to
-the second location.  Around the optimal point, the slope flattens — indicating
-that total sales are relatively insensitive to small deviations from the
-optimal split.  However, as we push away from this towards the extreme limit of
-sending all units to just one location (the plot’s right and left extremes), we
-are limited to that site's expected sales alone.</p>
+<p>The coefficient in front of <span class="math">\(\sigma^2\)</span> is <span class="math">\(\frac{m}{(1+m^2)^2}\)</span>, and this is
+largest at <span class="math">\(m = 1/\sqrt{3}\)</span>, where <span class="math">\(\theta = 30\)</span> degrees.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -282,7 +260,8 @@ are limited to that site's expected sales alone.</p>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="https://jslandy.com/tag/inventory-management.html">inventory management</a>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+      <a href="https://jslandy.com/tag/methods.html">methods</a>
     </p>
   </div>
 
@@ -292,7 +271,6 @@ are limited to that site's expected sales alone.</p>
 
 
 
-  <p><em>Originally posted at varietyiq.com.</em></p>
 
 </article>
 
