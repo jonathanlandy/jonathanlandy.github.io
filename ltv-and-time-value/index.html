@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="../theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Here, we review the discounted LTV concept and how we can use this to find &#34;profit optimal&#34; rows in our data. Time value of money A popular LTV variant is built on top of the &#34;time value of money&#34; principle. Essentially this says that it&#39;s best to have capital sooner rather than later, so we should &#34;discount&#34; future income streams …" />
+<meta name="keywords" content="math/stats, methods">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="LTV and the time value of money"/>
+  <meta property="og:description" content="Here, we review the discounted LTV concept and how we can use this to find &#34;profit optimal&#34; rows in our data. Time value of money A popular LTV variant is built on top of the &#34;time value of money&#34; principle. Essentially this says that it&#39;s best to have capital sooner rather than later, so we should &#34;discount&#34; future income streams …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="../ltv-and-time-value"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-05-20 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="../author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="og:image" content="../wp-content/uploads/2017/11/samples.jpg">
+
+  <title>Jonathan Landy &ndash; LTV and the time value of money</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="../">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="../"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="ltv-and-time-value">LTV and the time value of money</h1>
+    <p>
+      Published on Wed 20 May 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Here, we review the discounted LTV concept and how we can use this to find "profit optimal" rows in our data.</p>
+<h3>Time value of money</h3>
+<p>A popular LTV variant is built on top of the "time value of money" principle. Essentially this says that it's best to have capital sooner rather than later, so we should "discount" future income streams. We can think of LTV as the "present value" of money a user will generate. Optimizing LTV instead of profit can sometimes lead to a "baseline" investment that has a given rate of return <span class="math">\(r\)</span>. Instead of optimizing profit, we can think of LTV as the effective value of capital used in the business.</p>
+<p>A common application of LTV is in ad spending optimization. We can think of LTV as the effective value of revenue (if capital is invested to earn at the "market" rate of return <span class="math">\(r\)</span>). We should add one dollar to the budget if the projected LTV captured per dollar spent on a channel exceeds &#36;1 (e.g., the LTV/CAC ratio exceeds 1). We should add one more dollar to the budget, provided the extra LTV captured is more than one dollar.</p>
+<ul>
+<li>If the capital source is a loan, we should borrow that extra dollar and invest it in the channel. The resulting income will then cover the loan and interest, with some profit on top.</li>
+<li>If the capital source is internal/retained income, then instead of investing in ad spend we could have invested in some baseline investment (e.g., buying stocks or real estate). The implied decision rule is: we should invest in ad spend only if LTV &gt; CAC, since the LTV already incorporates the market rate of return as a baseline. If LTV exceeds the CAC, ad spend beats the baseline investment.</li>
+</ul>
+<p>This is a profitable thing to do! Provided LTV &gt; &#36;1, we can invest &#36;1 and make a profit per campaign dollar equal to LTV <span class="math">\(-\)</span> 1.</p>
+<p>As a side note: to see why LTV &gt; 1 implies profitability, suppose we pay &#36;1 now to acquire a customer. The LTV is the discounted sum of future revenues from that customer. LTV &gt; 1 means the discounted revenue stream exceeds the &#36;1 acquisition cost — so we recoup our investment.</p>
+<h3>Evaluating LTV as a decision for ad spend</h3>
+<p>We'll demonstrate how to evaluate LTV by example:</p>
+<ol>
+<li>
+<p>Suppose we have a business where we (1) pay the compounded debt &#36;1<span class="math">\((1+r)^n\)</span> and then (2) earn annual income <span class="math">\(a\)</span> at year <span class="math">\(n\)</span>, for <span class="math">\(n = 1, \ldots, t\)</span> years. Is this a profitable thing to do?</p>
+</li>
+<li>
+<p>Suppose now we pay &#36;1 upfront (from retained earnings) and earn annual income <span class="math">\(a_n\)</span> in year <span class="math">\(n\)</span>, for <span class="math">\(n = 1, \ldots, t\)</span>. The opportunity cost is the market return <span class="math">\(r\)</span> we forgo. This is profitable if the LTV exceeds &#36;1, where</p>
+</li>
+</ol>
+<div class="math">\begin{equation}\label{ltv}
+\text{LTV} = \sum_{n=1}^{t} \frac{a_n}{(1+r)^n}.
+\end{equation}</div>
+<p>Is this profitable? Yes, provided LTV &gt; &#36;1. We can pay &#36;1 and generate a net profit of LTV <span class="math">\(-\)</span> 1 per acquired customer.</p>
+<h3>Clicks application</h3>
+<p>To evaluate the "profit optimal" amount of money we have to pay up front for each click, note that if we pay a cost-per-click of <span class="math">\(c\)</span> and a fraction <span class="math">\(p\)</span> of clicks convert to customers with LTV <span class="math">\(= L\)</span>, then the expected profit per click is</p>
+<div class="math">\begin{equation}
+\text{profit per click} = p \cdot L - c.
+\end{equation}</div>
+<p>This is positive when <span class="math">\(c &lt; p \cdot L\)</span>. The profit-optimal maximum bid per click is therefore</p>
+<div class="math">\begin{equation}
+c^* = p \cdot L.
+\end{equation}</div>
+<p>For example, if <span class="math">\(L = $ &#36;15 and $p = 0.10\)</span>, then $c^* = $ &#36;1.50 per click.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="../tag/mathstats.html">math/stats</a>
+      <a href="../tag/methods.html">methods</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "..",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

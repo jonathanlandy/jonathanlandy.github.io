@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-3WTEYX1ZX9', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Here, we review the time value of money concept and its application to optimizing marketing (or other asset investment) spend. Time value of money A popular lifetime value (LTV) variant is built on top of the &#34;time value of money&#34; concept. Essentially this says that we&#39;d rather have a dollar now than in the future. To formalize this, we imagine …" />
+<meta name="keywords" content="math/stats, finance">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="LTV and the time value of money"/>
+  <meta property="og:description" content="Here, we review the time value of money concept and its application to optimizing marketing (or other asset investment) spend. Time value of money A popular lifetime value (LTV) variant is built on top of the &#34;time value of money&#34; concept. Essentially this says that we&#39;d rather have a dollar now than in the future. To formalize this, we imagine …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/ltv-and-time-value-of-money"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-05-20 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="article:tag" content="finance"/>
+  <meta property="og:image" content="https://jslandy.com/wp-content/uploads/2017/11/samples.jpg">
+
+  <title>Jonathan Landy &ndash; LTV and the time value of money</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="ltv-and-time-value-of-money">LTV and the time value of money</h1>
+    <p>
+      Published on Wed 20 May 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Here, we review the time value of money concept and its application to
+optimizing marketing (or other asset investment) spend.</p>
+<h3>Time value of money</h3>
+<p>A popular lifetime value (LTV) variant is built on top of the "time value of
+money" concept.  Essentially this says that we'd rather have a dollar now than
+in the future. To formalize this, we imagine we have a source of capital that
+comes with an associated interest rate. This capital source could be a line of
+credit, or it might be our own capital that would otherwise be allocated to
+some other "baseline" investment.  As we explain below, the capital source's
+interest rate sets the time value of money.</p>
+<p>A common application of LTV is to set marketing budgets: We can think of LTV as
+the effective value of a revenue stream, and we will want to acquire the stream
+provided its cost is less than this effective value.  When this holds:</p>
+<ul>
+<li>If the capital source is a loan, we should borrow the money to purchase the
+  asset. Its resulting revenue will then be enough to both pay back the loan
+  and generate excess profit on top of that.</li>
+<li>If the capital would instead come from reallocating funds from a baseline
+  investment, the asset here offers a higher rate of return. We should
+  therefore shift capital toward this asset if possible, continuing until
+  diminishing returns cause the marginal returns of the two investments to
+  become equal.</li>
+</ul>
+<h3>Evaluating LTV as a discounted sum of profits</h3>
+<p>We'll demonstrate how to evaluate LTVs by example.</p>
+<p><strong>Example 1</strong></p>
+<p>Suppose we can borrow capital at a <span class="math">\(20\%\)</span> interest rate, say, and are
+considering purchasing an asset for &#36;<span class="math">\(C\)</span> that will deliver &#36; <span class="math">\(p_T\)</span> in
+<span class="math">\(T\)</span> years. Is this a profitable thing to do?</p>
+<p>To check, suppose we do borrow the &#36;<span class="math">\(C\)</span> now to buy the asset. Then in <span class="math">\(T\)</span>
+years when the profit <span class="math">\(p_T\)</span> comes in, we check if we have enough to pay back
+the loan. The amount we owe after <span class="math">\(T\)</span> years is</p>
+<div class="math">\begin{equation}
+\text{compounded debt owed} = \$C \cdot 1.2^T \tag{1}\label{1}
+\end{equation}</div>
+<p>Therefore, if</p>
+<div class="math">\begin{eqnarray}
+\tag{2}\label{2}
+p_T = \$C \cdot 1.2^T,
+\end{eqnarray}</div>
+<p>
+the asset will return just enough money to pay back the loan. With this, we
+then define</p>
+<div class="math">\begin{eqnarray} \tag{3} \label{3}
+\text{LTV} \equiv \frac{ p_T}{ 1.2^T}
+\end{eqnarray}</div>
+<p>
+and note that if the asset's cost <span class="math">\(C &lt; LTV\)</span>, the asset will generate enough
+revenue to (i) pay back the compounded debt (\ref{1}), and then (ii) have some
+excess that we can pocket as profit.  On the other hand, if <span class="math">\(C &gt; LTV\)</span>, we won't
+be able to pay back the loan from the asset's revenue.  We see then that
+(\ref{3}) is precisely the amount we should be willing to pay for the asset:
+below this the asset will make a profit, above it will not (or in the case of a
+baseline investment, this determines whether or not we'd have been better off
+sticking with that baseline).</p>
+<p>The factor of <span class="math">\(1.2^{-T}\)</span> in (\ref{3}) is called the discount factor.  This
+effectively reduces the amount of value we place on revenue that comes in at
+time <span class="math">\(T\)</span>.  Higher interest rates force us to more strongly discount future
+earnings, and the larger <span class="math">\(T\)</span> is, the less we value that future revenue. This
+is the time value of money.</p>
+<p><strong>Example 2</strong></p>
+<p>Suppose now we pay &#36;<span class="math">\(C\)</span> and get back a profit stream with <span class="math">\(p_t\)</span> coming in
+at year <span class="math">\(t\)</span>, for <span class="math">\(t = 0, 1, 2, \ldots\)</span>. Is this profitable?</p>
+<p>In this case, we can write the LTV of the full stream as a sum of the LTVs of
+the individual payments. These can be read out using (\ref{2}), so the full LTV
+is</p>
+<div class="math">\begin{equation}
+\text{LTV} = \sum_t \text{LTV}_t = \sum_{t=0}^{\infty} \frac{p_t}{1.2^t} \tag{4}\label{4}
+\end{equation}</div>
+<p>This is the full "discounted sum of profits" formula for LTV. If this is larger
+than &#36;C, we'll again have enough to gradually pay back the loan and then
+pocket the excess as profit (or obtain a better rate of return than a baseline
+investment).</p>
+<p><strong>Example 3</strong></p>
+<p>Suppose a bond pays out &#36;1 every year off to infinity.  How much is it
+worth to us if our discount rate is again 20%? From (\ref{4}) this is</p>
+<div class="math">\begin{equation}
+\text{LTV} = \sum_{t=0}^{\infty} \frac{1}{1.2^t} = \frac{1}{1 - 1/1.2} = 6 \tag{5}\label{5}
+\end{equation}</div>
+<p>Although the bond will eventually pay out an infinite amount of money, we have
+to pay up front to get it. It's a profitable thing for us to do, provided the
+cost of the bond is less than &#36;6.</p>
+<h3>Practical application challenges</h3>
+<p>In practice one is often concerned with marginal returns: As you ramp up spend
+on a given acquisition channel you may see diminishing returns.  In this case,
+early spend might allow you to acquire revenue streams whose LTV is larger than
+their costs, but as you spend more, the LTV of the new acquisitions go down.</p>
+<p>In a situation like this, you need to calculate the return on each individual
+dollar invested, setting spend to the value where the marginal LTV captured is
+exactly equal to one dollar.  That is, at this point, if you spent one more
+dollar you'd capture an additional one dollar of LTV, but above that point the
+LTV would be less than the next dollar spent.  This is the profit-maximizing
+operating point.</p>
+<p>A second practical concern is risk.  If the asset under consideration has an
+uncertain value, one thing you can do is increase your discount rate.  E.g.,
+risk is often the result of uncertain forecasts, and these can become more
+uncertain the further out you are forecasting.  The discounting strategy is
+well-suited to situations such as this, as near-term revenue (which is less
+subject to forecast error) will not be discounted too heavily, while far out
+revenue (which is relatively uncertain) will be.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+      <a href="https://jslandy.com/tag/finance.html">finance</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>
