@@ -68,7 +68,7 @@ is the time value of money.&lt;/p&gt;
 &lt;p&gt;Suppose now we pay &amp;#36;&lt;span class="math"&gt;\(C\)&lt;/span&gt; and get back a profit stream with &lt;span class="math"&gt;\(p_t\)&lt;/span&gt; coming in
 at year &lt;span class="math"&gt;\(t\)&lt;/span&gt;, for &lt;span class="math"&gt;\(t = 0, 1, 2, \ldots\)&lt;/span&gt;. Is this profitable?&lt;/p&gt;
 &lt;p&gt;In this case, we can write the LTV of the full stream as a sum of the LTVs of
-the individual payments. These can be read out using (\ref{2}), so the full LTV
+the individual payments. These can be read out using (\ref{3}), so the full LTV
 is&lt;/p&gt;
 &lt;div class="math"&gt;\begin{equation}
 \text{LTV} = \sum_t \text{LTV}_t = \sum_{t=0}^{\infty} \frac{p_t}{1.2^t} \tag{4}\label{4}
