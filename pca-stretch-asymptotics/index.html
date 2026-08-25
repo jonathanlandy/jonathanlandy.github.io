@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3WTEYX1ZX9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3WTEYX1ZX9');
+</script>
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="This is a companion article to our post PCA response to scaling. There we looked at how the eigensystem of a data set&#39;s correlation matrix responds to continuously stretching or compressing a single coordinate direction. We showed that the eigenvalues always maintain their relative order under such transformations. Here, we present a few additional calculations relating to the asymptotics of …" />
+<meta name="keywords" content="math/stats, methods, projection methods">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="PCA stretch asymptotics"/>
+  <meta property="og:description" content="This is a companion article to our post PCA response to scaling. There we looked at how the eigensystem of a data set&#39;s correlation matrix responds to continuously stretching or compressing a single coordinate direction. We showed that the eigenvalues always maintain their relative order under such transformations. Here, we present a few additional calculations relating to the asymptotics of …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/pca-stretch-asymptotics"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-08-25 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="article:tag" content="projection methods"/>
+  <meta property="og:image" content="https://jslandy.com/wp-content/uploads/2017/11/samples.jpg">
+
+  <title>Jonathan Landy &ndash; PCA stretch asymptotics</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="pca-stretch-asymptotics">PCA stretch asymptotics</h1>
+    <p>
+      Published on Tue 25 August 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>This is a companion article to our post <a href="https://jslandy.com/pca-invariant">PCA response to
+scaling</a>. There we looked at how the
+eigensystem of a data set's correlation matrix responds to continuously
+stretching or compressing a single coordinate direction. We showed that the
+eigenvalues always maintain their relative order under such transformations.
+Here, we present a few additional calculations relating to the asymptotics of
+this system:</p>
+<ul>
+<li>We work out the exact asymptotic (limiting) forms of the eigenvalues and
+  eigenvectors in the two extreme single-axis scaling regimes: a very strong
+  compression (<span class="math">\(s \ll 1\)</span>) and a very strong stretch (<span class="math">\(s \gg 1\)</span>) along a single
+  direction.</li>
+<li>We show that one can start with any covariance matrix and map it to any other
+  of the same dimension via a finite series of single-axis scalings.</li>
+<li>We integrate the perturbation equations in the limit of a near-crossing of
+  two eigenvalues.  This provides a "microscopic" view of the eigenvector
+  rotation effect described in our other post.</li>
+</ul>
+<p>In addition to these results, we present a simple general result on the
+determinant of the scaled covariance matrix in an appendix.</p>
+<h1>Limiting single-axis scaling forms</h1>
+<h2>Strong compression limit</h2>
+<p><strong>Asymptotic algebraic solution</strong></p>
+<p>We begin by considering what happens when we compress by <span class="math">\(s \ll 1\)</span> along the
+<span class="math">\(x\)</span> direction. It is helpful to write the covariance matrix in block form,</p>
+<div class="math">\begin{equation}
+M \equiv \begin{pmatrix} s^2 a &amp; s\, \vec b^{\,T} \\ s\, \vec b &amp; C \end{pmatrix} \tag{1}\label{1}
+\end{equation}</div>
+<p>with <span class="math">\(a \equiv M_{11}\)</span>, etc. The eigensystem satisfies</p>
+<div class="math">\begin{equation}
+s^2 a\, x + s\, \vec b^{\,T} \cdot \vec y = \lambda x \tag{2}\label{2}
+\end{equation}</div>
+<div class="math">\begin{equation}
+s\, \vec b\, x + C \cdot \vec y = \lambda \vec y \tag{3}\label{3}
+\end{equation}</div>
+<p>Looking for a small eigenvalue with <span class="math">\(x \sim 1\)</span> and <span class="math">\(y \sim O(s)\)</span>, the first
+equation suggests the eigenvalue will be <span class="math">\(O(s^2)\)</span>.  In the second equation
+then, the left two terms dominate, and we get</p>
+<div class="math">\begin{equation} \tag{4}\label{4}
+s \vec{b} x + C \vec{y} \sim 0,
+\end{equation}</div>
+<p>
+or
+</p>
+<div class="math">\begin{equation}\tag{5}\label{5}
+\vec{y} \sim - s C^{-1} \cdot \vec{b}
+\end{equation}</div>
+<p>
+Plugging into the first eigenvalue equation then gives</p>
+<div class="math">\begin{equation}
+s^2 a\, x - s^2\, \vec b^{\,T} \cdot C^{-1} \cdot \vec{b} x = \lambda x \tag{6}\label{6}
+\end{equation}</div>
+<p>
+or 
+</p>
+<div class="math">\begin{equation}  \tag{7}\label{7}
+\lambda \sim s^2 \left (a - \vec b^{\,T} \cdot C^{-1} \cdot \vec{b}  \right)
+\end{equation}</div>
+<p>
+The eigenvalue indeed vanishes like <span class="math">\(s^2\)</span>.</p>
+<p>Next, we look for the remaining <span class="math">\(n-1\)</span>, finite eigenvalues. Here <span class="math">\(x\)</span> must go to
+zero as <span class="math">\(s \to 0\)</span> in order to maintain mode orthogonality. Balancing <span class="math">\(\lambda
+x\)</span> against <span class="math">\(s\, \vec b^{\,T} \cdot \vec y\)</span> in (\ref{2}) (the <span class="math">\(s^2 a x\)</span> term is
+subleading here), we get <span class="math">\(x \sim (s / \lambda)\, \vec b^{\,T} \cdot \vec y\)</span>.
+Plugging into (\ref{3}),</p>
+<div class="math">\begin{equation}
+\left(C + O(s^2)\right) \cdot \vec y = \lambda \vec y \tag{8}\label{8}
+\end{equation}</div>
+<p>To leading order then, the finite eigenvalues and eigenvectors are simply those
+of <span class="math">\(C\)</span> — the correlation matrix of the data with the compression direction
+dropped entirely.  We used this result in a key step of the sister post.</p>
+<p><strong>Geometric interpretation</strong></p>
+<p>After a strong compression along <span class="math">\(\textbf{e}_1\)</span>, the finite eigenvalues and
+eigenvectors above are simply those of the space orthogonal to
+<span class="math">\(\textbf{e}_{1}\)</span>. This is easy enough to understand.  How can we interpret
+(\ref{7}), the eigenvalue of the compressed component?</p>
+<p>What's happening here is illustrated in Figure 2 below, for a simple 2-d case.
+When we compress strongly along <span class="math">\(\textbf{e}_1\)</span>, one eigenvector will be nearly
+parallel to this compressed direction.  The eigenvalue corresponding to this
+direction will be the squared variance of the data along this direction.  In
+other words, it will be the variance of the distance to the space spanned by
+the other eigenvector for each point.  We've drawn that distance in solid black
+below, and have also drawn the <span class="math">\(x\)</span>-distance to the larger eigenvector using a
+dashed line. </p>
+<p>At left we see the original space, and at right the compressed space.  Notice
+that in the compressed space the solid and dashed lines begin to align because
+the lowest principal component is now nearly parallel to <span class="math">\(\textbf{e}_1\)</span>.  In
+the limit of very strong compressions then, the distance to this subspace will
+simply be its <span class="math">\(\Delta x\)</span> value.  In other words, we need to know the <span class="math">\(x\)</span> value
+for a given data point, as well as the <span class="math">\(x\)</span> value of the space spanned by the
+finite principal components at fixed <span class="math">\(\vec{y}\)</span>.  At strong compressions, this
+turns out to be the <span class="math">\(x\)</span> value obtained through linear fit onto the other data
+points.  This gives,</p>
+<div class="math">\begin{eqnarray} \label{9} \tag{9}
+\Delta x_i &amp;=&amp; x_i - \vec{b}^T \cdot C^{-1} \cdot \vec{y}_i, \\
+           &amp;\equiv&amp; x_i - \vec{\beta} \cdot \vec{y}_i.
+\end{eqnarray}</div>
+<p> 
+The variance of the <span class="math">\(\Delta x_i\)</span> values is then</p>
+<div class="math">\begin{eqnarray} \tag{10}\label{10}
+\text{var} (\Delta x) &amp;\equiv&amp; s^2 (1, - \vec{\beta})^T \cdot M \cdot (1,- \vec{\beta}) \\
+&amp;=&amp;  s^2  \left (  M_{11} - \vec{b}^T \cdot C^{-1} \cdot \vec{b} \right),
+\end{eqnarray}</div>
+<p>
+agreeing with (\ref{7}).  In other words, the width of the smallest component
+is not just the width in <span class="math">\(x\)</span>, but the distance to the space spanned by the
+other components, and this is what gives the correction shown in (\ref{7}).</p>
+<p align="center"><img src="https://jslandy.com/images/compressed.png" alt="Compressed along x" style="max-width: 500px; width: 100%; height: auto;"></p>
+<p><b>Figure 2</b>: Under a strong compression, the distance of a data point to the
+space spanned by the finite eigenvalue principal components approaches its
+<span class="math">\(x\)</span>-distance (the dark and dashed lines approach each other in the right
+figure).  If we project out the part of the data explained by the other
+components, we then get the residual <span class="math">\(x_1 - f_{x_1}(x_2, x_3, \ldots)\)</span>, where
+<span class="math">\(f_{x_1}(x_2, x_3, \ldots)\)</span> is the linear regression of <span class="math">\(x\)</span> on the other
+components.  Including the <span class="math">\(s^2\)</span> compression, this has variance as given in
+(\ref{7}).</p>
+<h2>Strong stretch limit</h2>
+<p><strong>Algebraic solution</strong></p>
+<p>Let's now look for the solutions to (\ref{2}) and (\ref{3}) in the strong
+stretch limit, <span class="math">\(s \gg 1\)</span>.  If we look for a large eigenvalue, the first of
+these equations gives</p>
+<div class="math">\begin{equation}
+x \sim 1, \quad \lambda \sim s^2 a\; (\equiv s^2 M_{11}). \tag{11}\label{11}
+\end{equation}</div>
+<p>
+Plugging (\ref{11}) into the second equation, we get</p>
+<div class="math">\begin{equation}
+\vec y \sim \frac{1}{s\, a}\, \vec b \tag{12}\label{12}
+\end{equation}</div>
+<p>The equations (\ref{11}) and (\ref{12}) give the principal component to leading
+order in <span class="math">\(s\)</span>. The eigenvalue in this case is simply the net variance in the <span class="math">\(x\)</span>
+direction after stretching. </p>
+<p>Next, we look for the finite eigenvalues. We know <span class="math">\(x\)</span> won't be large for
+these, so neither will be <span class="math">\(\lambda x\)</span>, and the first eigenvalue equation
+(\ref{2}) goes to</p>
+<div class="math">\begin{equation}
+(s^2 a)\, x + s\, \vec b^{\,T} \cdot \vec y = 0 \quad \to \quad x = -\frac{\vec b^{\,T} \cdot \vec y}{s\, a} \tag{13}\label{13}
+\end{equation}</div>
+<p>Plugging into the second equation (\ref{3}), we get</p>
+<div class="math">\begin{equation}
+\left(C - \frac{1}{a}\, \vec b\, \vec b^{\,T}\right) \cdot \vec y = \lambda \vec y \tag{14}\label{14}
+\end{equation}</div>
+<p>This gives the eigensystem for the finite eigenvalues at large <span class="math">\(s\)</span>. We see
+there are again <span class="math">\(n - 1\)</span> finite solutions of <span class="math">\(O(1)\)</span>. However, unlike in the
+strong compression case, the finite eigensystem is not simply that of <span class="math">\(C\)</span>.</p>
+<p><strong>Geometric interpretation</strong></p>
+<p>In the figure below, we give a geometric interpretation of what's happening
+with respect to the finite eigenvalues: In short, at large <span class="math">\(s\)</span> the data
+orthogonal to the first principal component is that part not explained by a
+linear fit to the data, regressing <span class="math">\(y_i\)</span> on <span class="math">\(x\)</span>. The slope of the fit (in the
+unstretched system) of <span class="math">\(y_i\)</span> to <span class="math">\(x\)</span> is given by <span class="math">\(m \equiv
+\frac{M_{xy_i}}{M_{xx}}\)</span>, so the data in that direction gets mapped to</p>
+<div class="math">\begin{equation}
+\widetilde y_i \equiv y_i - \frac{M_{1i}}{M_{11}}\, x \tag{15}\label{15}
+\end{equation}</div>
+<p>The covariance of <span class="math">\(\widetilde y_i\)</span> and <span class="math">\(\widetilde y_j\)</span> is then</p>
+<div class="math">\begin{equation}
+\widetilde M_{ij} = \left(\widehat e_i - \frac{M_{1i}}{M_{11}}\widehat e_1\right)^T \cdot M \cdot \left(\widehat e_j - \frac{M_{1j}}{M_{11}}\widehat e_1\right)^T = M_{ij} - \frac{M_{i1}M_{1j}}{M_{11}}, \tag{16}\label{16}
+\end{equation}</div>
+<p>which is equivalent to the left side of (\ref{14}).</p>
+<p align="center"><img src="https://jslandy.com/images/stretched.png" alt="Stretched along x" style="max-width: 500px; width: 100%; height: auto;"></p>
+
+<p><strong>Figure</strong>: Plots of one component <span class="math">\(y\)</span> vs <span class="math">\(x\)</span> — the direction along which we
+stretch: (top) original system, (bottom) stretched system. First notice that
+the data to be explained by the second and lower principal components is that
+part remaining once we project orthogonally to the first component.  Next, we
+note that when we stretch strongly, the first principal component aligns with
+the linear regression of <span class="math">\(y\)</span> vs <span class="math">\(x\)</span> (e.g., see our <a href="https://jslandy.com/pca-vs-regression-slope">prior
+post</a> on PCA vs regression slopes), which
+in turn rotates to be close to parallel to <span class="math">\(\widehat x\)</span>. In this limit, the
+orthogonal projection off the first component (solid black projection lines)
+ends up reducing to the <span class="math">\(y\)</span>-distance to the fit line (dashed projection lines).
+This dashed projection is the same as that in the unstretched system, and so
+the <span class="math">\(y\)</span> data gets mapped to <span class="math">\(\Delta y \equiv y - \frac{M_{12}}{M_{11}}\, x\)</span>,
+the original value of <span class="math">\(y\)</span> minus the value of <span class="math">\(y\)</span> along the regression of <span class="math">\(y\)</span> vs
+<span class="math">\(x\)</span>.</p>
+<h1>Mapping between covariance matrices</h1>
+<h2>Algebraic solution</h2>
+<p>In our main post, we demonstrated that eigenvalue ordering is maintained when
+scaling along single axis directions.  We then argued that this implies that
+ordering is maintained for any scaling transformation, since these can always
+be carried out via a series of single-axis scalings.  Here, we spell this latter
+point out.</p>
+<p>The first observation to make is that any positive definite matrix can be
+considered a set of scalings.  To see this, consider the matrix in the basis of
+its eigenvectors.  In that frame, the transformation can be seen to be diagonal
+with a separate scaling factor for each direction.</p>
+<p>Now, whenever we transform via a scaling, an initial covariance matrix will be
+mapped into some new covariance matrix.  We can then identify the set of
+possible scalings by first identifying all covariance matrices that an initial
+one can be mapped into.  Assuming our initial matrix is positive definite, we
+can easily see that this is the full set of other positive definite matrices.
+Indeed, ChatGPT was able to quickly write down the following transformation:
+Let <span class="math">\(M\)</span> be our initial matrix and <span class="math">\(T\)</span> be our target.  If we then write
+</p>
+<div class="math">\begin{equation}
+S = M^{-1/2} \left( M^{1/2} T M^{1/2} \right)^{1/2} M^{-1/2}. \tag{17}\label{17}
+\end{equation}</div>
+<p> 
+then one can easily see that this is a real symmetric positive definite matrix,
+and also that 
+</p>
+<div class="math">\begin{equation}
+T = S \cdot M \cdot S \tag{18}\label{18}
+\end{equation}</div>
+<p>
+That is, we have a finite set of scalings (along the <span class="math">\(n\)</span> eigenvectors of <span class="math">\(S\)</span>),
+that maps <span class="math">\(M\)</span> to <span class="math">\(T\)</span>.</p>
+<p>This is striking, given the result from our main post that the eigenvalues
+maintain their order through any scaling transformation.  Combining that with
+this result, we see that any pair of covariance matrices can be mapped from
+one to the other via a finite set of scalings, at each step maintaining
+eigenvalue order.</p>
+<h2>Geometric solution</h2>
+<p>Before moving on, we give an alternative, geometric method to map between any
+two covariance matrices, this time motivated by our asymptotic results above.
+In order to map from one covariance to another, we will proceed one eigenvector
+at a time.  Once we get one eigenvector to align with a target direction, we can
+work in the subspace orthogonal to that to align the next eigenvector, etc.</p>
+<p>To align the first eigenvector of <span class="math">\(M\)</span> with that of <span class="math">\(T\)</span>, recall that in the
+limit of a strong compression, the smallest eigenmode rotates to align with
+that direction.  In the limit of a very strong compression, (\ref{9}) gives the
+part of this vector that is orthogonal to the compression direction (taken as
+<span class="math">\(\textbf{e}_1\)</span> here for simplicity).  What one can do then to align an
+eigenmode with the target direction is to first compress strongly along the
+target direction, and then follow up by stretching back out along the final
+eigenmode's direction (taking into account the small bit left orthogonal to
+the compression direction of the smallest mode when it is compressed).  Working
+through the asymptotics, the combined effect of these two steps is easily found
+to be </p>
+<div class="math">\begin{equation}
+S =
+\begin{pmatrix}
+1 &amp; -\mathbf{b}^T C^{-1} \\
+\mathbf{0} &amp; I
+\end{pmatrix} \tag{19}\label{19}
+\end{equation}</div>
+<p>Applying the pair of scalings to <span class="math">\(M\)</span> then gives
+</p>
+<div class="math">\begin{equation}
+S M S^T =
+\begin{pmatrix}
+m_{11} - \mathbf{b}^T C^{-1} \mathbf{b} &amp; \mathbf{0}^T \\
+\mathbf{0} &amp; C
+\end{pmatrix}. \tag{20}\label{20}
+\end{equation}</div>
+<p>
+and the first mode is now aligned with the target direction.  Applying an extra
+factor to the second scaling step we can also adjust the eigenvalue as desired.
+Again, continuing in this way we can align each of the other modes as well. </p>
+<h1>Near-crossings</h1>
+<p>Using the perturbation equations for <span class="math">\(d\lambda_i/ds\)</span> and <span class="math">\(d \vec{v}_i/ds\)</span>
+derived in the <a href="https://jslandy.com/pca-invariant">main post</a> (equation
+(6) there, together with equation (7) dotted with <span class="math">\(\widehat e_1\)</span> to isolate the
+evolution of <span class="math">\(\alpha_i \equiv \widehat e_1 \cdot \vec v_i\)</span>), we can obtain an
+algebraic view of what happens in a generic system that is close to a near
+eigenvalue crossing.</p>
+<p>To simplify the equations, we first change variables to</p>
+<div class="math">\begin{equation}
+t \equiv 2 \log s, \qquad dt = \frac{2}{s}\, ds, \tag{21}\label{21}
+\end{equation}</div>
+<div class="math">\begin{equation}
+p_i \equiv \alpha_i^2. \tag{22}\label{22}
+\end{equation}</div>
+<p>Plugging these into the perturbation equations gives</p>
+<div class="math">\begin{equation}
+\frac{d\lambda_i}{dt} = \lambda_i\, p_i \tag{23}\label{23}
+\end{equation}</div>
+<div class="math">\begin{equation}
+\frac{dp_i}{dt} = p_i \sum_{j \neq i} \frac{\lambda_i + \lambda_j}{\lambda_i - \lambda_j}\, p_j \tag{24}\label{24}
+\end{equation}</div>
+<p>Suppose the eigenvalues are initially non-degenerate and ordered as
+<span class="math">\(\lambda_1 &lt; \lambda_2 &lt; \ldots &lt; \lambda_n\)</span>. Consider then whether two
+adjacent eigenvalues, <span class="math">\(\lambda_i\)</span> and <span class="math">\(\lambda_{i+1}\)</span>, can cross at some point
+in the evolution with respect to <span class="math">\(t\)</span>. From (\ref{23}), the growth of
+<span class="math">\(\lambda_i\)</span> is proportional to <span class="math">\(\lambda_i\)</span> itself, a term that will tend to
+support order maintenance. However, that growth is also proportional to
+<span class="math">\(p_i\)</span>, and it's possible to have <span class="math">\(p_i &gt; p_{i+1}\)</span> at the start — suggesting
+the lower eigenvalue might initially grow faster than the larger one.</p>
+<p>Suppose we sit at a point where two adjacent eigenvalues are close. Let</p>
+<div class="math">\begin{equation}
+\lambda_{i+1} \equiv \lambda + \frac{\Delta}{2}, \qquad \lambda_i \equiv
+\lambda - \frac{\Delta}{2}, \qquad \Delta \equiv \lambda_{i+1} - \lambda_i \ll
+1, \tag{25}\label{25}
+\end{equation}</div>
+<div class="math">\begin{equation}
+q \equiv p_{i+1} - p_i, \qquad m \equiv p_{i+1} + p_i. \tag{26}\label{26}
+\end{equation}</div>
+<p>We'll show that <span class="math">\(\Delta\)</span> must stay positive. Plugging these definitions into
+(\ref{23}) and (\ref{24}) and keeping terms only to lowest order in <span class="math">\(\Delta\)</span>
+gives</p>
+<div class="math">\begin{equation}
+\frac{d\Delta}{dt} = \lambda q + O(\Delta) \tag{27}\label{27}
+\end{equation}</div>
+<div class="math">\begin{equation}
+\frac{dq}{dt} = \frac{\lambda}{\Delta}\left(m^2 - q^2\right) \tag{28}\label{28}
+\end{equation}</div>
+<div class="math">\begin{equation}
+\frac{dm}{dt} = O(1) \tag{29}\label{29}
+\end{equation}</div>
+<p>The second of these equations, (\ref{28}), tells us that as <span class="math">\(\Delta \to 0\)</span>,
+weight along <span class="math">\(\widehat x\)</span> shifts rapidly from the lower component to the upper
+one. This is what brings us to the regime where both terms on the right of
+(\ref{23}) act together to support order maintenance. Indeed, dividing
+(\ref{27}) by (\ref{28}) gives</p>
+<div class="math">\begin{equation}
+\frac{d\Delta}{dq} = \frac{\Delta \cdot q}{m^2 - q^2}, \tag{30}\label{30}
+\end{equation}</div>
+<p>Since <span class="math">\(m\)</span> changes only at <span class="math">\(O(1)\)</span> in <span class="math">\(t\)</span> — much more slowly than <span class="math">\(q\)</span> does as
+<span class="math">\(\Delta \to 0\)</span> — we can treat <span class="math">\(m\)</span> as fixed and integrate this line directly,
+giving</p>
+<div class="math">\begin{equation}
+\Delta^2 \left(m^2 - q^2\right) = C, \tag{31}\label{31}
+\end{equation}</div>
+<p>with <span class="math">\(C\)</span> a constant, to lowest order in <span class="math">\(\Delta\)</span>.</p>
+<p>This conservation law is what implies order maintenance: if <span class="math">\(\Delta\)</span> is close
+to zero and attempts to get closer still, the second factor in (\ref{31}),
+<span class="math">\(m^2 - q^2\)</span>, must grow quickly to compensate and maintain the conservation
+law. But <span class="math">\(m^2 - q^2 \equiv O(1)\)</span>, and so cannot grow without bound. We
+conclude that the two eigenvalues cannot get arbitrarily close — and so cannot
+cross — if (\ref{31}) is to be maintained.</p>
+<p>How small can <span class="math">\(\Delta\)</span> get?  We can rewrite (\ref{31}) as
+</p>
+<div class="math">\begin{equation}
+4 \Delta^2 p_i p_{i+1} = C, \tag{32}\label{32}
+\end{equation}</div>
+<p>
+Now from (\ref{26}), the sum of <span class="math">\(p_i\)</span> and <span class="math">\(p_{i+1}\)</span> is <span class="math">\(m\)</span>, which is fixed over
+the <span class="math">\(t\)</span> time scale (this is the net power along the stretch direction of the
+two nearly-degenerate modes).  The product of the two is therefore maximized
+when the two are equal (by the arithmetic geometric mean inequality).  This
+gives
+</p>
+<div class="math">\begin{equation}
+\Delta^2 \geq \frac{C}{m^2} \tag{33}\label{33}
+\end{equation}</div>
+<p>Next we plug (\ref{31}) into (\ref{28}), to obtain
+</p>
+<div class="math">\begin{equation}
+\frac{dq}{dt} = \frac{\lambda C}{\Delta^3}, \tag{34}\label{34}
+\end{equation}</div>
+<p>
+This implies a bounce:  As the two eigenvalues approach each other, weight
+along the scaling direction quickly pushes from the lower eigenvalue to the
+larger throughout. When this occurs, (\ref{27}) implies <span class="math">\(\Delta\)</span>'s growth will
+also change signs and the two eigenvalues will start to separate.  Further, as
+we enter and exit the bounce, (\ref{31}) tells us the <span class="math">\(q^2\)</span> value must be the
+same at equal values of <span class="math">\(\Delta\)</span>.  We do not show this last step here, but a
+simple asymptotic calculation shows that this implies a swapping of the
+orientations of the two modes on either side of the bounce, consistent with the
+"macroscopic" view that we covered in the sister post.</p>
+<h1>Appendix A: A determinant identity</h1>
+<p>Here we note a simple constraint on how the eigenvalues of <span class="math">\(M(s)\)</span> can vary as
+we scale our system.  A first observation is that we can write</p>
+<div class="math">\begin{equation}
+M(s) = S\, M\, S \tag{35}\label{35}
+\end{equation}</div>
+<p>where</p>
+<div class="math">\begin{equation}
+S = diag(s, 1, 1, ..., 1). \tag{36}\label{36}
+\end{equation}</div>
+<p>In general, if we scale more than one measurement — perhaps each according to
+a different scale factor — we'll just need to insert each direction's scale
+into <span class="math">\(S\)</span>. If we scale in only one direction, (\ref{35}) gives</p>
+<div class="math">\begin{equation}
+det\, M(s) = s^2\, det\, M(1) \tag{37}\label{37}
+\end{equation}</div>
+<p>This puts one simple constraint on how the eigenvalues can vary as we scale
+our system.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+      <a href="https://jslandy.com/tag/methods.html">methods</a>
+      <a href="https://jslandy.com/tag/projection-methods.html">projection methods</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

@@ -1,5 +1,932 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-05-20T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>LTV and the time value of money</title><link href="https://jslandy.com/ltv-and-time-value-of-money" rel="alternate"></link><published>2026-05-20T00:00:00-07:00</published><updated>2026-05-20T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-05-20:/ltv-and-time-value-of-money</id><summary type="html">&lt;p&gt;Here, we review the time value of money concept and its application to
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-08-25T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>A scale invariance property of PCA</title><link href="https://jslandy.com/pca-invariant" rel="alternate"></link><published>2026-08-25T00:00:00-07:00</published><updated>2026-08-25T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-08-25:/pca-invariant</id><summary type="html">&lt;p&gt;The PCA algorithm is sensitive to changes in measurement scale.  Measuring one
+variable of a system in inches rather than centimeters, say, alters both its
+principal axes and principal eigenvalues.  Although this scale dependence is
+generally complicated, we show here that it nevertheless obeys a strict
+invariance property:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Under a continuous scale adjustment, the initial state's &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th largest
+  principal …&lt;/li&gt;&lt;/ul&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><content type="html">&lt;p&gt;The PCA algorithm is sensitive to changes in measurement scale.  Measuring one
+variable of a system in inches rather than centimeters, say, alters both its
+principal axes and principal eigenvalues.  Although this scale dependence is
+generally complicated, we show here that it nevertheless obeys a strict
+invariance property:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Under a continuous scale adjustment, the initial state's &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th largest
+  principal component (ordered by eigenvalue) continuously evolves into the
+  final state's &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th largest principal component, for each &lt;span class="math"&gt;\(k\)&lt;/span&gt;. In this
+  sense, we can say that the modes of PCA are "order-stable" with respect to
+  changes in measurement scale — see Figure 1 below for an example.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A special case occurs when scaling along directions that are orthogonal to some
+modes — here, apparent eigenvalue crossings can occur.  However, we show that
+we can interpret these apparent crossings as cases where the modes
+instantaneously swap their orientation, in this way maintaining the required
+order stability.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;video src="https://jslandy.com/images/gaussian_stretch_polished.mp4" autoplay loop muted playsinline style="max-width: 700px; width: 100%; height: auto;"&gt;&lt;/video&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 1&lt;/b&gt;: PCA response to scaling in &lt;span class="math"&gt;\(2\)&lt;/span&gt;-d:  When we compress along the
+&lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt;-direction, the smaller (black) principal component rotates to
+align with the compression direction. Similarly, when we stretch, the larger
+(red) principal component rotates into the stretch direction. At all scales, a
+consistent eigenvalue ordering is maintained — the black mode is always the
+smaller of the two and the red is always the larger.&lt;/p&gt;
+&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;In Principal Component Analysis ("PCA" for short, see our &lt;a href="https://jslandy.com/principal-component-analysis"&gt;prior
+post&lt;/a&gt; for an intro), we are
+concerned with the eigensystem of a given data set's covariance matrix,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+M = \begin{pmatrix} M_{11} &amp;amp; M_{12} &amp;amp; \ldots \\ M_{21} &amp;amp; M_{22} &amp;amp; \ldots \\ \ldots &amp;amp; &amp;amp; \end{pmatrix} \tag{1}\label{1}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;The eigensystem provides us with an ellipsoidal approximation to the data set,
+giving us a sense of its geometry.  Projecting into the space spanned by a
+truncated subset of these eigenvectors can often give us a high-fidelity
+compression of the data set.  These applications make PCA a workhorse algorithm
+in data analysis.  The fact that its outputs are sensitive to measurement scale
+is therefore a cause of frequent discomfort: It's almost never clear which
+choice of units (and which downstream PCA output) is the objectively "right"
+one for a given application.  This motivates our work here, where we aim to
+better understand the response of PCA to changes in measurement scale.&lt;/p&gt;
+&lt;p&gt;To focus our attention, we'll be mostly interested here in the response to a
+simple scaling of the first coordinate, writing &lt;span class="math"&gt;\(x \to s\, x\)&lt;/span&gt;.  In this case,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\langle \delta x, \delta y \rangle \to s\, M_{xy} \tag{2}\label{2}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;and&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\langle \delta x^2 \rangle \to s^2\, M_{xx} \tag{3}\label{3}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;This sends the covariance matrix to&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+M(s) = \begin{pmatrix} s^2 M_{11} &amp;amp; s M_{12} &amp;amp; s M_{13} &amp;amp; \ldots \\ s M_{21} &amp;amp; M_{22} &amp;amp; M_{23} &amp;amp; \ldots \\ s M_{31} &amp;amp; M_{32} &amp;amp; M_{33} &amp;amp; \ldots \\ &amp;amp; \ldots &amp;amp; &amp;amp; \end{pmatrix} \tag{4}\label{4}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;How do the eigenvectors and eigenvalues of this matrix change as we adjust the
+scale factor &lt;span class="math"&gt;\(s\)&lt;/span&gt;?&lt;/p&gt;
+&lt;p&gt;Our key result is that the eigenvalues of (\ref{4}) never cross as we vary &lt;span class="math"&gt;\(s\)&lt;/span&gt;,
+but instead always maintain their order.  Because this holds for scaling along
+any single direction, the result extends to general scalings by composition,
+one scaling direction at a time.  The result can be proved using a
+strict-interlacing theorem for rank-one perturbations of real symmetric
+matrices [1]. Here, we instead give a direct proof tailored to the
+positive-definite real symmetric setting, which also provides a geometric
+explanation of the result.  We first analyze the "generic" case, in three
+steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First-order perturbation theory shows that every eigenvalue increases
+  monotonically with &lt;span class="math"&gt;\(s\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;In the limit of a very strong compression (&lt;span class="math"&gt;\(s \to 0\)&lt;/span&gt;), one eigenvalue goes to
+  zero, while the other finite eigenvalues approach those of the subspace
+  orthogonal to the compression direction (here, &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt;).
+  The Cauchy interlacing theorem constrains these limiting finite eigenvalues
+  to lie between successive eigenvalues of the original covariance matrix.&lt;/li&gt;
+&lt;li&gt;Combining the last two points via an inductive "cell" argument, we show that
+  — provided the stretch direction is not orthogonal to any principal component
+  (the "generic case") — the eigenvalues must maintain their order under any
+  change in scale.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Note that the first two steps here apply in all cases.  Only the third requires
+the generic assumption.  Further, non-orthogonality will hold with probability
+&lt;span class="math"&gt;\(1\)&lt;/span&gt; if we select our scaling directions at random — this is why we call it the
+"generic" case.&lt;/p&gt;
+&lt;p&gt;We walk through these main arguments in the next section and discuss the
+results in a summary.  We cover the non-generic limit and the orientation
+swapping effect in an appendix.  Some additional results are worked out in a
+&lt;a href="https://jslandy.com/pca-stretch-asymptotics"&gt;companion post&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;Eigenvalue order maintenance and interlacing&lt;/h1&gt;
+&lt;h3&gt;Coupled perturbation system&lt;/h3&gt;
+&lt;p&gt;To begin our analysis, we'll consider the perturbation equations. If we let &lt;span class="math"&gt;\(s
+\to s + \delta s\)&lt;/span&gt; in (\ref{4}), the first-order change in &lt;span class="math"&gt;\(M\)&lt;/span&gt; will be given by&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\delta M = \begin{pmatrix} 2 s \delta s\, M_{11} &amp;amp; \delta s\, M_{12} &amp;amp; \delta s\, M_{13} &amp;amp; \ldots \\ \delta s\, M_{21} &amp;amp; 0 &amp;amp; 0 &amp;amp; \ldots \\ \delta s\, M_{31} &amp;amp; 0 &amp;amp; 0 &amp;amp; \ldots \\ &amp;amp; \ldots &amp;amp; &amp;amp; \end{pmatrix} \tag{5}\label{5}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Applying standard first-order perturbation theory then gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{d\lambda_i}{ds} = \frac{2 \lambda_i \alpha_i^2}{s} \tag{6}\label{6}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;and&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{d\vec{v}_i}{ds} = \frac{\alpha_i}{s} \sum_{j \neq i} \frac{\lambda_i +
+\lambda_j}{\lambda_i - \lambda_j}\, \alpha_j \vec{v}_j \tag{7}\label{7}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Here, &lt;span class="math"&gt;\(\vec{v}_i\)&lt;/span&gt; is the eigenvector of (\ref{4}) corresponding to &lt;span class="math"&gt;\(\lambda_i\)&lt;/span&gt; and
+&lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; is its first component (each evaluated at &lt;span class="math"&gt;\(s\)&lt;/span&gt;),&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\alpha_i \equiv \widehat e_1 \cdot \vec v_i \tag{8}\label{8}.
+\end{equation}&lt;/div&gt;
+&lt;p&gt;We see that (\ref{6} - \ref{8}) give us a coupled set of differential equations
+that we can use to solve for the &lt;span class="math"&gt;\(\vec{v}_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(\lambda_i\)&lt;/span&gt; as we adjust &lt;span class="math"&gt;\(s\)&lt;/span&gt;
+continuously.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Key Observations&lt;/b&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;From (\ref{6}), we see that each non-zero eigenvalue grows monotonically
+  with &lt;span class="math"&gt;\(s\)&lt;/span&gt;, provided its mode is not orthogonal to the scaling direction.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From (\ref{7}), we see that if a particular eigenvector is orthogonal to the
+  scaling direction, it will remain fixed for all &lt;span class="math"&gt;\(s\)&lt;/span&gt;.  In this case, (\ref{6})
+  implies the eigenvalue will also remain fixed for all &lt;span class="math"&gt;\(s\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Eigenvalue Interlacing Under a Strong Compression&lt;/h3&gt;
+&lt;p&gt;The &lt;a
+href='https://people.orie.cornell.edu/dpw/orie6334/Fall2016/lecture4.pdf'&gt;Cauchy
+interlacing theorem&lt;/a&gt; states the following:  Let &lt;span class="math"&gt;\(A \in \mathbb{R}^{n\times
+n}\)&lt;/span&gt; be a symmetric matrix, and &lt;span class="math"&gt;\(B \in \mathbb{R}^{(n-1) \times (n-1)}\)&lt;/span&gt; a
+principal submatrix of &lt;span class="math"&gt;\(A\)&lt;/span&gt; (obtained by deleting both the &lt;span class="math"&gt;\(i\)&lt;/span&gt;-th row and column
+of &lt;span class="math"&gt;\(A\)&lt;/span&gt; for some &lt;span class="math"&gt;\(i\)&lt;/span&gt;).  If &lt;span class="math"&gt;\(\lambda_1 \leq \lambda_2 \leq \ldots \leq \lambda_n\)&lt;/span&gt;
+are the ordered eigenvalues of &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(\mu_1 \leq \mu_2 \leq \ldots \leq
+\mu_{n-1}\)&lt;/span&gt; are the ordered eigenvalues of &lt;span class="math"&gt;\(B\)&lt;/span&gt;, they interlace:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation} \tag{9}\label{9}
+\lambda_{i} \leq \mu_i \leq \lambda_{i + 1}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;That is, &lt;span class="math"&gt;\(\mu_i\)&lt;/span&gt; must be at least as large as &lt;span class="math"&gt;\(\lambda_i\)&lt;/span&gt; and it can't be
+larger than &lt;span class="math"&gt;\(\lambda_{i+1}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This theorem has direct relevance to our problem in the limit of a strong
+compression along a single direction: Qualitatively, what happens in this limit
+is that we effectively project the data set into the space orthogonal to the
+compression direction (if this is &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt;, say, each data point's &lt;span class="math"&gt;\(x\)&lt;/span&gt;
+value is pushed to zero).  As a result, one eigenvalue will be zero in this
+limit (the width in the compression direction), while the other finite
+eigenvalues will be those characterizing the space orthogonal to &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt;.
+I.e., the finite eigenvalues will match those of the first principal submatrix
+of &lt;span class="math"&gt;\(M\)&lt;/span&gt;.  The Cauchy interlacing theorem therefore applies in this limit.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Key Observations&lt;/b&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Under a strong compression along a single direction, one eigenvalue goes to
+  zero and &lt;span class="math"&gt;\(n-1\)&lt;/span&gt; eigenvalues remain finite. These new finite eigenvalues
+  &lt;span class="math"&gt;\(\mu_i\)&lt;/span&gt; and the original eigenvalues &lt;span class="math"&gt;\(\lambda_i\)&lt;/span&gt; satisfy (\ref{9}).&lt;/li&gt;
+&lt;li&gt;We detail the asymptotics of the strong compression limit in &lt;a href="https://jslandy.com/pca-stretch-asymptotics"&gt;our companion
+  post&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Eigenvalue Interlacing (generic case)&lt;/h3&gt;
+&lt;p&gt;In Figure 2, we've illustrated what happens to the eigenvalues under a generic
+compression along a single direction.  There, we've labeled the spaces between
+the original eigenvalues (orange dots) as ordered "cells" — cell &lt;span class="math"&gt;\(1\)&lt;/span&gt; is
+&lt;span class="math"&gt;\((0, \lambda_1)\)&lt;/span&gt;, and cell &lt;span class="math"&gt;\(i\)&lt;/span&gt; is &lt;span class="math"&gt;\((\lambda_{i-1}, \lambda_i)\)&lt;/span&gt; for &lt;span class="math"&gt;\(i \geq 2\)&lt;/span&gt;.
+If we compress all
+the way to &lt;span class="math"&gt;\(s \rightarrow 0\)&lt;/span&gt;, our last section indicates that there must
+ultimately be exactly one eigenvalue in each cell (one eigenvalue goes to &lt;span class="math"&gt;\(0\)&lt;/span&gt;,
+while the others interlace with the original orange eigenvalues).&lt;/p&gt;
+&lt;p&gt;Consider then what happens under a finite compression.  Again, assuming the
+generic case, our perturbation equations indicate that each eigenvalue must
+strictly and continuously decrease as the compression strength is raised.  In
+particular, the first eigenvalue &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; must decrease as we start to
+compress and it must strictly occupy the first cell throughout (i.e., not
+remain at the cell 1 / 2 boundary, its initial position). Under compression, a
+second eigenvalue cannot also cross this boundary — entering the first cell —
+because monotonicity would not allow it to exit before getting to the &lt;span class="math"&gt;\(s \to 0\)&lt;/span&gt;
+limit.  If this did happen, there would then be two eigenvalues in the first
+cell at &lt;span class="math"&gt;\(s \to 0\)&lt;/span&gt;, a contradiction.  It follows that &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; will enter the
+cell &lt;span class="math"&gt;\(1\)&lt;/span&gt; under any finite compression, and no second eigenvalue can enter it as
+well.  An easy inductive argument then implies that &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; must be the
+only eigenvalue in the cell &lt;span class="math"&gt;\(2\)&lt;/span&gt; throughout, and so on.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/cells.png" alt="Eigenvalue
+interlacing under stretch and compression" style="max-width: 500px; width:
+100%; height: auto;"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 2&lt;/b&gt;:  Upon compressing by any finite &lt;span class="math"&gt;\(s &amp;lt; 1\)&lt;/span&gt;, the eigenvalues must
+always monotonically decrease, always maintaining the interlacing property.&lt;/p&gt;
+&lt;p&gt;To summarize, if we let the eigenvalues of the original (relatively stretched)
+matrix be &lt;span class="math"&gt;\(\lambda_i^{(s)}\)&lt;/span&gt; and those of the compressed system be
+&lt;span class="math"&gt;\(\lambda_i^{(c)}\)&lt;/span&gt;, we have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+0 &amp;lt; \lambda_1^{(c)} &amp;lt; \lambda_1^{(s)} &amp;lt; \lambda_2^{(c)} &amp;lt; \ldots
+&amp;lt; \lambda_n^{(c)} &amp;lt; \lambda_n^{(s)} &amp;lt; \infty,  \tag{10}\label{10}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+for any generic compression.  But of course any compression played in reverse
+is a stretch, so (\ref{10}) can also be used to characterize what happens under
+a stretch.  It follows that upon any finite stretch, the eigenvalues again
+interlace, but in the opposite direction: The &lt;span class="math"&gt;\(i\)&lt;/span&gt;-th eigenvalue will increase,
+but not so much as to cross the original &lt;span class="math"&gt;\((i+1)\)&lt;/span&gt;-st eigenvalue.  Figure 3 below
+illustrates these results.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/interlacing.png" alt="Eigenvalue
+interlacing under stretch and compression" style="max-width: 500px; width:
+100%; height: auto;"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 3&lt;/b&gt;:  Upon a stretch by &lt;span class="math"&gt;\(s &amp;gt; 1\)&lt;/span&gt; along a single direction, the
+eigenvalues generically each increase and maintain their ordering.  Further,
+the &lt;span class="math"&gt;\(i\)&lt;/span&gt;-th eigenvalue cannot increase beyond the original &lt;span class="math"&gt;\(( i+1 )\)&lt;/span&gt;-st
+eigenvalue.  Similarly, under a generic compression along a single direction,
+the eigenvalues each decrease, but without dipping below the original preceding
+eigenvalues.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Final observations&lt;/b&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Under a generic, single-axis compression or stretch of any finite strength,
+  the eigenvalues interlace the original eigenvalues and maintain their initial
+  order.  See Figure 4 below for a numerical example.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Main result: Since any set of compressions and stretches can be carried out
+  via a composition of single-axis compressions and stretches, it follows that
+  in the generic case — where each step's scale direction is not orthogonal to
+  any mode at that point in the composition — the modes will also maintain
+  their order.  These results also apply to the non-generic case — see the
+  Appendix.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p align="center"&gt;&lt;video src="https://jslandy.com/images/scaled_correlation_eigenvalues.mp4" autoplay loop muted playsinline style="max-width: 700px; width: 100%; height: auto;"&gt;&lt;/video&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 4&lt;/b&gt;: Here, we plot the eigenvalues of a random five-dimensional
+covariance matrix &lt;span class="math"&gt;\(M(s)\)&lt;/span&gt; as a function of &lt;span class="math"&gt;\(s\)&lt;/span&gt;.  The eigenvalues never cross
+one another and satisfy the strict interlacing property.  Note that sometimes
+the eigenvalues appear to bounce off one another.  We explain this behavior
+from a "macroscopic" perspective in the appendix, and detail the microscopics
+in the &lt;a href="https://jslandy.com/pca-stretch-asymptotics"&gt;companion post&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;We have shown that monotonicity and asymptotic behavior imply that PCA
+eigenvalues cannot cross under continuous changes in scale, and therefore
+maintain their ordering. This non-crossing property provides a qualitative
+picture of how the principal components evolve under changes in scale. E.g.,
+under a strong stretch in one direction, order maintenance tells us that it
+must be the largest principal component that rotates into the stretch
+direction. Similarly, under a strong compression, it must be the smallest
+principal component that rotates into this compression direction — see Figure 1
+for an example.  Finally, our cell argument provides some insight into how the
+eigenvalues will change under single-axis scalings, and this can be adapted to
+understand non-generic cases as well — see the Appendix.&lt;/p&gt;
+&lt;p&gt;Our result may allay some concern during applications that the results of PCA
+are sensitive to scale changes.  Provided the changes in scale are "generic"
+and not too large, order maintenance implies that the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th mode will
+more-or-less maintain its character.  However, under non-generic scalings with
+apparent crossings, eigenvalue ordering is maintained only through sudden
+rotations of the eigenvectors.  At such a degeneracy, the two modes effectively
+swap their character.  This should be kept in mind when considering changes of
+scale of this nature (or nearby cases — again, see the Appendix).&lt;/p&gt;
+&lt;p&gt;See our &lt;a href="https://jslandy.com/pca-stretch-asymptotics"&gt;companion post&lt;/a&gt; for several
+additional results. There, we derive the asymptotics of strong single-axis
+scalings and show that any two positive-definite covariance matrices can be
+connected by a finite sequence of single-axis scalings. That is, the modes of
+any two positive-definite covariance matrices are connected in the sense
+discussed here. We also analyze the perturbation equations near a “bounce” and
+derive a simple expression for the change in determinant under scaling.&lt;/p&gt;
+&lt;p&gt;Although motivated by PCA, these results apply more generally to arbitrary real
+symmetric positive-definite matrices, and therefore to a broad class of
+spectral problems, including covariance matrices of many mechanical systems.&lt;/p&gt;
+&lt;h1&gt;Appendix: Non-generic scaling and instantaneous rotations&lt;/h1&gt;
+&lt;p&gt;Here, we'll first illustrate how our cell argument above can be adapted to
+anticipate exactly how apparent eigenvalue hopping will occur in the
+non-generic regime (again, where the scaling direction is orthogonal to some
+modes).  Next, we'll consider what happens as we approach this limit from the
+generic regime.  We'll show that eigenvalue ordering is maintained here via
+rapid rotations of the modes.  If we interpret the non-generic limit as one
+where similar rotations occur instantaneously, we can then formally say that
+eigenvalue order maintenance is respected in this regime as well.&lt;/p&gt;
+&lt;h3&gt;Non-generic Apparent Eigenvalue Hopping&lt;/h3&gt;
+&lt;p&gt;The top cell diagram in Figure 5 provides a simple example where eigenvalues
+can be seen to hop in the non-generic limit.  There, we consider a strong
+compression along a direction orthogonal to the initially smallest eigenvalue
+mode (we assume the compression direction is not orthogonal to any other mode).
+From our perturbation equations, this means that &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; must be fixed
+throughout.  However, we also know that in the limit of a strong compression,
+one eigenvalue must go to zero and the others must interlace the original
+eigenvalues.  In this case, since &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; must decrease, we conclude that
+&lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; must be the two (and only two) eigenvalues
+occupying the first two cells throughout the compression process.  Since one of
+these must go to zero, it follows that &lt;span class="math"&gt;\(\lambda_2 \to 0\)&lt;/span&gt; as &lt;span class="math"&gt;\(s \to 0\)&lt;/span&gt;, hopping
+below &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt;.  The logic then continues as before, with the remaining
+eigenvalues interlacing — e.g., &lt;span class="math"&gt;\(\lambda_3\)&lt;/span&gt; must be the only eigenvalue in cell
+&lt;span class="math"&gt;\(3\)&lt;/span&gt;, etc.&lt;/p&gt;
+&lt;p&gt;We note that it's also possible to construct simple examples where hopping of
+intermediate eigenvalues occurs, provided these are orthogonal to the scaling
+direction. A special case occurs when scaling along a single principal
+component.  In this case, all eigenvalues are frozen except for that
+corresponding to the scale direction and this can move to any finite value
+under an appropriate scaling.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Key Observations:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;From the perturbation equations (\ref{6}) and (\ref{7}), we see that modes
+  orthogonal to scaling directions cannot move.  Strong scalings can then
+  force "apparent" crossings.&lt;/li&gt;
+&lt;li&gt;As illustrated here, our cell argument can often be adapted to understand
+  qualitatively what happens under non-generic scalings.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/non_generic.png" alt="Eigenvalue
+interlacing breaking down in a non-generic case" style="max-width: 500px;
+width: 100%; height: auto;"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 5&lt;/b&gt;: In a non-generic case, some eigenvalues will be frozen and can
+be hopped.  Here, we illustrate what happens under a strong compression
+orthogonal to the initial lowest mode.  In the nearby-generic case, the
+eigenvalues do not cross.  Rather, at the near-crossing, &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; bounces
+into &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt;, stopping there. The smaller eigenvalue &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; then
+continues to zero.&lt;/p&gt;
+&lt;h3&gt;Rapid Rotations Save Order Maintenance&lt;/h3&gt;
+&lt;p&gt;The eigensystem of a matrix is continuous in its components, at least away from
+any eigenvalue degeneracies.  This introduces the question of how we can break
+order maintenance under a non-generic scale change, but retain it for a nearby
+generic transformation.&lt;/p&gt;
+&lt;p&gt;The resolution to the issue can be understood through consideration of the
+bottom cell diagram of Figure 5.  Here, we show what happens for a generic
+compression very near to the non-generic one considered above it.  In this
+case, the eigenvalues cannot cross, but must ultimately sit very close to those
+of the compressed non-generic system.  By continuity, the eigenvalue locations
+(ignoring their labels) must approximately match those of the non-generic
+system for each point in the compression.  What must happen in this case then
+is as follows: Before the apparent crossing, &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; will hardly budge.
+However, when &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; approaches very close to &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt;, &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt;
+will suddenly bounce off and continue towards &lt;span class="math"&gt;\(0\)&lt;/span&gt;, leaving &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; in its
+prior place.  In words, they'll behave like the balls in a Newton's Cradle toy.
+This is the only way for the eigenvalues to match in the two systems throughout
+the continuous compression process.&lt;/p&gt;
+&lt;p&gt;The eigenvectors must also match throughout.  Now, the eigenvector
+corresponding to &lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; does not change at all in the non-generic scaling.
+It must similarly barely change as &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; approaches it in the
+nearby-generic transformation.  For the two systems to continue to match after
+the bounce, the eigenvector of &lt;span class="math"&gt;\(\lambda_2\)&lt;/span&gt; must then align with that of
+&lt;span class="math"&gt;\(\lambda_1\)&lt;/span&gt; before the bounce.  In other words, the two modes must swap
+orientation right at the bounce in the generic system.  This is possible as we
+have a (near-)degeneracy around the bounce (in a degenerate sub-space we are
+free to choose any orthogonal basis for the eigensystem — it is this
+flexibility that allows for the rapid rotation).  Figure 6 below illustrates
+this effect in a simple two-d example.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Key Observations:&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A non-generic mode is not affected by scaling if it is orthogonal to the
+  scaling direction.  For this reason, it looks like the modes can cross in
+  this case.&lt;/li&gt;
+&lt;li&gt;However, when considering near-by generic scalings, we see that order
+  maintenance occurs via rapid orientation swaps of the corresponding modes.
+  We can interpret the non-generic crossings as limiting forms of this
+  behavior, also respecting order-stability.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For another view of this behavior, see our &lt;a href="https://jslandy.com/pca-stretch-asymptotics"&gt;companion
+post&lt;/a&gt;, where we work out what happens
+near a crossing of two eigenvalues via integration of the perturbation
+equations.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;video src="https://jslandy.com/images/two_d_combined.mp4" autoplay loop muted playsinline style="max-width: 700px; width: 100%; height: auto;"&gt;&lt;/video&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 6&lt;/b&gt;: A nearly non-generic scaled system in two dimensions.  Here,
+we have chosen a data set that has one principal component nearly parallel to
+the &lt;span class="math"&gt;\(x\)&lt;/span&gt;-axis, the direction along which we scale.  In the top panel we show the
+data and principal components at various values of &lt;span class="math"&gt;\(s\)&lt;/span&gt;.  In the bottom we show
+the eigenvalues at the corresponding values of &lt;span class="math"&gt;\(s\)&lt;/span&gt;.  As the two eigenvalues
+approach each other, we see a rapid rotation of the modes, preventing an
+eigenvalue crossing.&lt;/p&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;p&gt;[1] Dobosevych &amp;amp; Hryniv, “Direct and Inverse Spectral Problems for Rank-One
+Perturbations of Self-adjoint Operators” [&lt;a
+href="https://link.springer.com/article/10.1007/s00020-021-02630-y?utm_source=chatgpt.com"&gt;link&lt;/a&gt;]&lt;/p&gt;
+&lt;p&gt;Note that interlacing results for rank-one perturbations appear at least as
+early as the 1960s, but this is the first article we could find that quotes the
+strict interlacing result we need.  However, ChatGPT says this follows directly
+from the so-called secular equations considered in this sort of analysis.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category><category term="methods"></category><category term="projection methods"></category></entry><entry><title>PCA stretch asymptotics</title><link href="https://jslandy.com/pca-stretch-asymptotics" rel="alternate"></link><published>2026-08-25T00:00:00-07:00</published><updated>2026-08-25T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-08-25:/pca-stretch-asymptotics</id><summary type="html">&lt;p&gt;This is a companion article to our post &lt;a href="https://jslandy.com/pca-invariant"&gt;PCA response to
+scaling&lt;/a&gt;. There we looked at how the
+eigensystem of a data set's correlation matrix responds to continuously
+stretching or compressing a single coordinate direction. We showed that the
+eigenvalues always maintain their relative order under such transformations.
+Here, we present a few additional calculations relating to the asymptotics of …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is a companion article to our post &lt;a href="https://jslandy.com/pca-invariant"&gt;PCA response to
+scaling&lt;/a&gt;. There we looked at how the
+eigensystem of a data set's correlation matrix responds to continuously
+stretching or compressing a single coordinate direction. We showed that the
+eigenvalues always maintain their relative order under such transformations.
+Here, we present a few additional calculations relating to the asymptotics of
+this system:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We work out the exact asymptotic (limiting) forms of the eigenvalues and
+  eigenvectors in the two extreme single-axis scaling regimes: a very strong
+  compression (&lt;span class="math"&gt;\(s \ll 1\)&lt;/span&gt;) and a very strong stretch (&lt;span class="math"&gt;\(s \gg 1\)&lt;/span&gt;) along a single
+  direction.&lt;/li&gt;
+&lt;li&gt;We show that one can start with any covariance matrix and map it to any other
+  of the same dimension via a finite series of single-axis scalings.&lt;/li&gt;
+&lt;li&gt;We integrate the perturbation equations in the limit of a near-crossing of
+  two eigenvalues.  This provides a "microscopic" view of the eigenvector
+  rotation effect described in our other post.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In addition to these results, we present a simple general result on the
+determinant of the scaled covariance matrix in an appendix.&lt;/p&gt;
+&lt;h1&gt;Limiting single-axis scaling forms&lt;/h1&gt;
+&lt;h2&gt;Strong compression limit&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Asymptotic algebraic solution&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;We begin by considering what happens when we compress by &lt;span class="math"&gt;\(s \ll 1\)&lt;/span&gt; along the
+&lt;span class="math"&gt;\(x\)&lt;/span&gt; direction. It is helpful to write the covariance matrix in block form,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+M \equiv \begin{pmatrix} s^2 a &amp;amp; s\, \vec b^{\,T} \\ s\, \vec b &amp;amp; C \end{pmatrix} \tag{1}\label{1}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;with &lt;span class="math"&gt;\(a \equiv M_{11}\)&lt;/span&gt;, etc. The eigensystem satisfies&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+s^2 a\, x + s\, \vec b^{\,T} \cdot \vec y = \lambda x \tag{2}\label{2}
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
+s\, \vec b\, x + C \cdot \vec y = \lambda \vec y \tag{3}\label{3}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Looking for a small eigenvalue with &lt;span class="math"&gt;\(x \sim 1\)&lt;/span&gt; and &lt;span class="math"&gt;\(y \sim O(s)\)&lt;/span&gt;, the first
+equation suggests the eigenvalue will be &lt;span class="math"&gt;\(O(s^2)\)&lt;/span&gt;.  In the second equation
+then, the left two terms dominate, and we get&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation} \tag{4}\label{4}
+s \vec{b} x + C \vec{y} \sim 0,
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+or
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}\tag{5}\label{5}
+\vec{y} \sim - s C^{-1} \cdot \vec{b}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+Plugging into the first eigenvalue equation then gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+s^2 a\, x - s^2\, \vec b^{\,T} \cdot C^{-1} \cdot \vec{b} x = \lambda x \tag{6}\label{6}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+or 
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}  \tag{7}\label{7}
+\lambda \sim s^2 \left (a - \vec b^{\,T} \cdot C^{-1} \cdot \vec{b}  \right)
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+The eigenvalue indeed vanishes like &lt;span class="math"&gt;\(s^2\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Next, we look for the remaining &lt;span class="math"&gt;\(n-1\)&lt;/span&gt;, finite eigenvalues. Here &lt;span class="math"&gt;\(x\)&lt;/span&gt; must go to
+zero as &lt;span class="math"&gt;\(s \to 0\)&lt;/span&gt; in order to maintain mode orthogonality. Balancing &lt;span class="math"&gt;\(\lambda
+x\)&lt;/span&gt; against &lt;span class="math"&gt;\(s\, \vec b^{\,T} \cdot \vec y\)&lt;/span&gt; in (\ref{2}) (the &lt;span class="math"&gt;\(s^2 a x\)&lt;/span&gt; term is
+subleading here), we get &lt;span class="math"&gt;\(x \sim (s / \lambda)\, \vec b^{\,T} \cdot \vec y\)&lt;/span&gt;.
+Plugging into (\ref{3}),&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\left(C + O(s^2)\right) \cdot \vec y = \lambda \vec y \tag{8}\label{8}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;To leading order then, the finite eigenvalues and eigenvectors are simply those
+of &lt;span class="math"&gt;\(C\)&lt;/span&gt; — the correlation matrix of the data with the compression direction
+dropped entirely.  We used this result in a key step of the sister post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Geometric interpretation&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;After a strong compression along &lt;span class="math"&gt;\(\textbf{e}_1\)&lt;/span&gt;, the finite eigenvalues and
+eigenvectors above are simply those of the space orthogonal to
+&lt;span class="math"&gt;\(\textbf{e}_{1}\)&lt;/span&gt;. This is easy enough to understand.  How can we interpret
+(\ref{7}), the eigenvalue of the compressed component?&lt;/p&gt;
+&lt;p&gt;What's happening here is illustrated in Figure 2 below, for a simple 2-d case.
+When we compress strongly along &lt;span class="math"&gt;\(\textbf{e}_1\)&lt;/span&gt;, one eigenvector will be nearly
+parallel to this compressed direction.  The eigenvalue corresponding to this
+direction will be the squared variance of the data along this direction.  In
+other words, it will be the variance of the distance to the space spanned by
+the other eigenvector for each point.  We've drawn that distance in solid black
+below, and have also drawn the &lt;span class="math"&gt;\(x\)&lt;/span&gt;-distance to the larger eigenvector using a
+dashed line. &lt;/p&gt;
+&lt;p&gt;At left we see the original space, and at right the compressed space.  Notice
+that in the compressed space the solid and dashed lines begin to align because
+the lowest principal component is now nearly parallel to &lt;span class="math"&gt;\(\textbf{e}_1\)&lt;/span&gt;.  In
+the limit of very strong compressions then, the distance to this subspace will
+simply be its &lt;span class="math"&gt;\(\Delta x\)&lt;/span&gt; value.  In other words, we need to know the &lt;span class="math"&gt;\(x\)&lt;/span&gt; value
+for a given data point, as well as the &lt;span class="math"&gt;\(x\)&lt;/span&gt; value of the space spanned by the
+finite principal components at fixed &lt;span class="math"&gt;\(\vec{y}\)&lt;/span&gt;.  At strong compressions, this
+turns out to be the &lt;span class="math"&gt;\(x\)&lt;/span&gt; value obtained through linear fit onto the other data
+points.  This gives,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{9} \tag{9}
+\Delta x_i &amp;amp;=&amp;amp; x_i - \vec{b}^T \cdot C^{-1} \cdot \vec{y}_i, \\
+           &amp;amp;\equiv&amp;amp; x_i - \vec{\beta} \cdot \vec{y}_i.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt; 
+The variance of the &lt;span class="math"&gt;\(\Delta x_i\)&lt;/span&gt; values is then&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{10}\label{10}
+\text{var} (\Delta x) &amp;amp;\equiv&amp;amp; s^2 (1, - \vec{\beta})^T \cdot M \cdot (1,- \vec{\beta}) \\
+&amp;amp;=&amp;amp;  s^2  \left (  M_{11} - \vec{b}^T \cdot C^{-1} \cdot \vec{b} \right),
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+agreeing with (\ref{7}).  In other words, the width of the smallest component
+is not just the width in &lt;span class="math"&gt;\(x\)&lt;/span&gt;, but the distance to the space spanned by the
+other components, and this is what gives the correction shown in (\ref{7}).&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/compressed.png" alt="Compressed along x" style="max-width: 500px; width: 100%; height: auto;"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 2&lt;/b&gt;: Under a strong compression, the distance of a data point to the
+space spanned by the finite eigenvalue principal components approaches its
+&lt;span class="math"&gt;\(x\)&lt;/span&gt;-distance (the dark and dashed lines approach each other in the right
+figure).  If we project out the part of the data explained by the other
+components, we then get the residual &lt;span class="math"&gt;\(x_1 - f_{x_1}(x_2, x_3, \ldots)\)&lt;/span&gt;, where
+&lt;span class="math"&gt;\(f_{x_1}(x_2, x_3, \ldots)\)&lt;/span&gt; is the linear regression of &lt;span class="math"&gt;\(x\)&lt;/span&gt; on the other
+components.  Including the &lt;span class="math"&gt;\(s^2\)&lt;/span&gt; compression, this has variance as given in
+(\ref{7}).&lt;/p&gt;
+&lt;h2&gt;Strong stretch limit&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Algebraic solution&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Let's now look for the solutions to (\ref{2}) and (\ref{3}) in the strong
+stretch limit, &lt;span class="math"&gt;\(s \gg 1\)&lt;/span&gt;.  If we look for a large eigenvalue, the first of
+these equations gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+x \sim 1, \quad \lambda \sim s^2 a\; (\equiv s^2 M_{11}). \tag{11}\label{11}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+Plugging (\ref{11}) into the second equation, we get&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\vec y \sim \frac{1}{s\, a}\, \vec b \tag{12}\label{12}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;The equations (\ref{11}) and (\ref{12}) give the principal component to leading
+order in &lt;span class="math"&gt;\(s\)&lt;/span&gt;. The eigenvalue in this case is simply the net variance in the &lt;span class="math"&gt;\(x\)&lt;/span&gt;
+direction after stretching. &lt;/p&gt;
+&lt;p&gt;Next, we look for the finite eigenvalues. We know &lt;span class="math"&gt;\(x\)&lt;/span&gt; won't be large for
+these, so neither will be &lt;span class="math"&gt;\(\lambda x\)&lt;/span&gt;, and the first eigenvalue equation
+(\ref{2}) goes to&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+(s^2 a)\, x + s\, \vec b^{\,T} \cdot \vec y = 0 \quad \to \quad x = -\frac{\vec b^{\,T} \cdot \vec y}{s\, a} \tag{13}\label{13}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Plugging into the second equation (\ref{3}), we get&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\left(C - \frac{1}{a}\, \vec b\, \vec b^{\,T}\right) \cdot \vec y = \lambda \vec y \tag{14}\label{14}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;This gives the eigensystem for the finite eigenvalues at large &lt;span class="math"&gt;\(s\)&lt;/span&gt;. We see
+there are again &lt;span class="math"&gt;\(n - 1\)&lt;/span&gt; finite solutions of &lt;span class="math"&gt;\(O(1)\)&lt;/span&gt;. However, unlike in the
+strong compression case, the finite eigensystem is not simply that of &lt;span class="math"&gt;\(C\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Geometric interpretation&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In the figure below, we give a geometric interpretation of what's happening
+with respect to the finite eigenvalues: In short, at large &lt;span class="math"&gt;\(s\)&lt;/span&gt; the data
+orthogonal to the first principal component is that part not explained by a
+linear fit to the data, regressing &lt;span class="math"&gt;\(y_i\)&lt;/span&gt; on &lt;span class="math"&gt;\(x\)&lt;/span&gt;. The slope of the fit (in the
+unstretched system) of &lt;span class="math"&gt;\(y_i\)&lt;/span&gt; to &lt;span class="math"&gt;\(x\)&lt;/span&gt; is given by &lt;span class="math"&gt;\(m \equiv
+\frac{M_{xy_i}}{M_{xx}}\)&lt;/span&gt;, so the data in that direction gets mapped to&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\widetilde y_i \equiv y_i - \frac{M_{1i}}{M_{11}}\, x \tag{15}\label{15}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;The covariance of &lt;span class="math"&gt;\(\widetilde y_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(\widetilde y_j\)&lt;/span&gt; is then&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\widetilde M_{ij} = \left(\widehat e_i - \frac{M_{1i}}{M_{11}}\widehat e_1\right)^T \cdot M \cdot \left(\widehat e_j - \frac{M_{1j}}{M_{11}}\widehat e_1\right)^T = M_{ij} - \frac{M_{i1}M_{1j}}{M_{11}}, \tag{16}\label{16}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;which is equivalent to the left side of (\ref{14}).&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/stretched.png" alt="Stretched along x" style="max-width: 500px; width: 100%; height: auto;"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Figure&lt;/strong&gt;: Plots of one component &lt;span class="math"&gt;\(y\)&lt;/span&gt; vs &lt;span class="math"&gt;\(x\)&lt;/span&gt; — the direction along which we
+stretch: (top) original system, (bottom) stretched system. First notice that
+the data to be explained by the second and lower principal components is that
+part remaining once we project orthogonally to the first component.  Next, we
+note that when we stretch strongly, the first principal component aligns with
+the linear regression of &lt;span class="math"&gt;\(y\)&lt;/span&gt; vs &lt;span class="math"&gt;\(x\)&lt;/span&gt; (e.g., see our &lt;a href="https://jslandy.com/pca-vs-regression-slope"&gt;prior
+post&lt;/a&gt; on PCA vs regression slopes), which
+in turn rotates to be close to parallel to &lt;span class="math"&gt;\(\widehat x\)&lt;/span&gt;. In this limit, the
+orthogonal projection off the first component (solid black projection lines)
+ends up reducing to the &lt;span class="math"&gt;\(y\)&lt;/span&gt;-distance to the fit line (dashed projection lines).
+This dashed projection is the same as that in the unstretched system, and so
+the &lt;span class="math"&gt;\(y\)&lt;/span&gt; data gets mapped to &lt;span class="math"&gt;\(\Delta y \equiv y - \frac{M_{12}}{M_{11}}\, x\)&lt;/span&gt;,
+the original value of &lt;span class="math"&gt;\(y\)&lt;/span&gt; minus the value of &lt;span class="math"&gt;\(y\)&lt;/span&gt; along the regression of &lt;span class="math"&gt;\(y\)&lt;/span&gt; vs
+&lt;span class="math"&gt;\(x\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h1&gt;Mapping between covariance matrices&lt;/h1&gt;
+&lt;h2&gt;Algebraic solution&lt;/h2&gt;
+&lt;p&gt;In our main post, we demonstrated that eigenvalue ordering is maintained when
+scaling along single axis directions.  We then argued that this implies that
+ordering is maintained for any scaling transformation, since these can always
+be carried out via a series of single-axis scalings.  Here, we spell this latter
+point out.&lt;/p&gt;
+&lt;p&gt;The first observation to make is that any positive definite matrix can be
+considered a set of scalings.  To see this, consider the matrix in the basis of
+its eigenvectors.  In that frame, the transformation can be seen to be diagonal
+with a separate scaling factor for each direction.&lt;/p&gt;
+&lt;p&gt;Now, whenever we transform via a scaling, an initial covariance matrix will be
+mapped into some new covariance matrix.  We can then identify the set of
+possible scalings by first identifying all covariance matrices that an initial
+one can be mapped into.  Assuming our initial matrix is positive definite, we
+can easily see that this is the full set of other positive definite matrices.
+Indeed, ChatGPT was able to quickly write down the following transformation:
+Let &lt;span class="math"&gt;\(M\)&lt;/span&gt; be our initial matrix and &lt;span class="math"&gt;\(T\)&lt;/span&gt; be our target.  If we then write
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+S = M^{-1/2} \left( M^{1/2} T M^{1/2} \right)^{1/2} M^{-1/2}. \tag{17}\label{17}
+\end{equation}&lt;/div&gt;
+&lt;p&gt; 
+then one can easily see that this is a real symmetric positive definite matrix,
+and also that 
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+T = S \cdot M \cdot S \tag{18}\label{18}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+That is, we have a finite set of scalings (along the &lt;span class="math"&gt;\(n\)&lt;/span&gt; eigenvectors of &lt;span class="math"&gt;\(S\)&lt;/span&gt;),
+that maps &lt;span class="math"&gt;\(M\)&lt;/span&gt; to &lt;span class="math"&gt;\(T\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This is striking, given the result from our main post that the eigenvalues
+maintain their order through any scaling transformation.  Combining that with
+this result, we see that any pair of covariance matrices can be mapped from
+one to the other via a finite set of scalings, at each step maintaining
+eigenvalue order.&lt;/p&gt;
+&lt;h2&gt;Geometric solution&lt;/h2&gt;
+&lt;p&gt;Before moving on, we give an alternative, geometric method to map between any
+two covariance matrices, this time motivated by our asymptotic results above.
+In order to map from one covariance to another, we will proceed one eigenvector
+at a time.  Once we get one eigenvector to align with a target direction, we can
+work in the subspace orthogonal to that to align the next eigenvector, etc.&lt;/p&gt;
+&lt;p&gt;To align the first eigenvector of &lt;span class="math"&gt;\(M\)&lt;/span&gt; with that of &lt;span class="math"&gt;\(T\)&lt;/span&gt;, recall that in the
+limit of a strong compression, the smallest eigenmode rotates to align with
+that direction.  In the limit of a very strong compression, (\ref{9}) gives the
+part of this vector that is orthogonal to the compression direction (taken as
+&lt;span class="math"&gt;\(\textbf{e}_1\)&lt;/span&gt; here for simplicity).  What one can do then to align an
+eigenmode with the target direction is to first compress strongly along the
+target direction, and then follow up by stretching back out along the final
+eigenmode's direction (taking into account the small bit left orthogonal to
+the compression direction of the smallest mode when it is compressed).  Working
+through the asymptotics, the combined effect of these two steps is easily found
+to be &lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+S =
+\begin{pmatrix}
+1 &amp;amp; -\mathbf{b}^T C^{-1} \\
+\mathbf{0} &amp;amp; I
+\end{pmatrix} \tag{19}\label{19}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Applying the pair of scalings to &lt;span class="math"&gt;\(M\)&lt;/span&gt; then gives
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+S M S^T =
+\begin{pmatrix}
+m_{11} - \mathbf{b}^T C^{-1} \mathbf{b} &amp;amp; \mathbf{0}^T \\
+\mathbf{0} &amp;amp; C
+\end{pmatrix}. \tag{20}\label{20}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+and the first mode is now aligned with the target direction.  Applying an extra
+factor to the second scaling step we can also adjust the eigenvalue as desired.
+Again, continuing in this way we can align each of the other modes as well. &lt;/p&gt;
+&lt;h1&gt;Near-crossings&lt;/h1&gt;
+&lt;p&gt;Using the perturbation equations for &lt;span class="math"&gt;\(d\lambda_i/ds\)&lt;/span&gt; and &lt;span class="math"&gt;\(d \vec{v}_i/ds\)&lt;/span&gt;
+derived in the &lt;a href="https://jslandy.com/pca-invariant"&gt;main post&lt;/a&gt; (equation
+(6) there, together with equation (7) dotted with &lt;span class="math"&gt;\(\widehat e_1\)&lt;/span&gt; to isolate the
+evolution of &lt;span class="math"&gt;\(\alpha_i \equiv \widehat e_1 \cdot \vec v_i\)&lt;/span&gt;), we can obtain an
+algebraic view of what happens in a generic system that is close to a near
+eigenvalue crossing.&lt;/p&gt;
+&lt;p&gt;To simplify the equations, we first change variables to&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+t \equiv 2 \log s, \qquad dt = \frac{2}{s}\, ds, \tag{21}\label{21}
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
+p_i \equiv \alpha_i^2. \tag{22}\label{22}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Plugging these into the perturbation equations gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{d\lambda_i}{dt} = \lambda_i\, p_i \tag{23}\label{23}
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{dp_i}{dt} = p_i \sum_{j \neq i} \frac{\lambda_i + \lambda_j}{\lambda_i - \lambda_j}\, p_j \tag{24}\label{24}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Suppose the eigenvalues are initially non-degenerate and ordered as
+&lt;span class="math"&gt;\(\lambda_1 &amp;lt; \lambda_2 &amp;lt; \ldots &amp;lt; \lambda_n\)&lt;/span&gt;. Consider then whether two
+adjacent eigenvalues, &lt;span class="math"&gt;\(\lambda_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(\lambda_{i+1}\)&lt;/span&gt;, can cross at some point
+in the evolution with respect to &lt;span class="math"&gt;\(t\)&lt;/span&gt;. From (\ref{23}), the growth of
+&lt;span class="math"&gt;\(\lambda_i\)&lt;/span&gt; is proportional to &lt;span class="math"&gt;\(\lambda_i\)&lt;/span&gt; itself, a term that will tend to
+support order maintenance. However, that growth is also proportional to
+&lt;span class="math"&gt;\(p_i\)&lt;/span&gt;, and it's possible to have &lt;span class="math"&gt;\(p_i &amp;gt; p_{i+1}\)&lt;/span&gt; at the start — suggesting
+the lower eigenvalue might initially grow faster than the larger one.&lt;/p&gt;
+&lt;p&gt;Suppose we sit at a point where two adjacent eigenvalues are close. Let&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\lambda_{i+1} \equiv \lambda + \frac{\Delta}{2}, \qquad \lambda_i \equiv
+\lambda - \frac{\Delta}{2}, \qquad \Delta \equiv \lambda_{i+1} - \lambda_i \ll
+1, \tag{25}\label{25}
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
+q \equiv p_{i+1} - p_i, \qquad m \equiv p_{i+1} + p_i. \tag{26}\label{26}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;We'll show that &lt;span class="math"&gt;\(\Delta\)&lt;/span&gt; must stay positive. Plugging these definitions into
+(\ref{23}) and (\ref{24}) and keeping terms only to lowest order in &lt;span class="math"&gt;\(\Delta\)&lt;/span&gt;
+gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{d\Delta}{dt} = \lambda q + O(\Delta) \tag{27}\label{27}
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{dq}{dt} = \frac{\lambda}{\Delta}\left(m^2 - q^2\right) \tag{28}\label{28}
+\end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{dm}{dt} = O(1) \tag{29}\label{29}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;The second of these equations, (\ref{28}), tells us that as &lt;span class="math"&gt;\(\Delta \to 0\)&lt;/span&gt;,
+weight along &lt;span class="math"&gt;\(\widehat x\)&lt;/span&gt; shifts rapidly from the lower component to the upper
+one. This is what brings us to the regime where both terms on the right of
+(\ref{23}) act together to support order maintenance. Indeed, dividing
+(\ref{27}) by (\ref{28}) gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{d\Delta}{dq} = \frac{\Delta \cdot q}{m^2 - q^2}, \tag{30}\label{30}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Since &lt;span class="math"&gt;\(m\)&lt;/span&gt; changes only at &lt;span class="math"&gt;\(O(1)\)&lt;/span&gt; in &lt;span class="math"&gt;\(t\)&lt;/span&gt; — much more slowly than &lt;span class="math"&gt;\(q\)&lt;/span&gt; does as
+&lt;span class="math"&gt;\(\Delta \to 0\)&lt;/span&gt; — we can treat &lt;span class="math"&gt;\(m\)&lt;/span&gt; as fixed and integrate this line directly,
+giving&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\Delta^2 \left(m^2 - q^2\right) = C, \tag{31}\label{31}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;with &lt;span class="math"&gt;\(C\)&lt;/span&gt; a constant, to lowest order in &lt;span class="math"&gt;\(\Delta\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This conservation law is what implies order maintenance: if &lt;span class="math"&gt;\(\Delta\)&lt;/span&gt; is close
+to zero and attempts to get closer still, the second factor in (\ref{31}),
+&lt;span class="math"&gt;\(m^2 - q^2\)&lt;/span&gt;, must grow quickly to compensate and maintain the conservation
+law. But &lt;span class="math"&gt;\(m^2 - q^2 \equiv O(1)\)&lt;/span&gt;, and so cannot grow without bound. We
+conclude that the two eigenvalues cannot get arbitrarily close — and so cannot
+cross — if (\ref{31}) is to be maintained.&lt;/p&gt;
+&lt;p&gt;How small can &lt;span class="math"&gt;\(\Delta\)&lt;/span&gt; get?  We can rewrite (\ref{31}) as
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+4 \Delta^2 p_i p_{i+1} = C, \tag{32}\label{32}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+Now from (\ref{26}), the sum of &lt;span class="math"&gt;\(p_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(p_{i+1}\)&lt;/span&gt; is &lt;span class="math"&gt;\(m\)&lt;/span&gt;, which is fixed over
+the &lt;span class="math"&gt;\(t\)&lt;/span&gt; time scale (this is the net power along the stretch direction of the
+two nearly-degenerate modes).  The product of the two is therefore maximized
+when the two are equal (by the arithmetic geometric mean inequality).  This
+gives
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\Delta^2 \geq \frac{C}{m^2} \tag{33}\label{33}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Next we plug (\ref{31}) into (\ref{28}), to obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\frac{dq}{dt} = \frac{\lambda C}{\Delta^3}, \tag{34}\label{34}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+This implies a bounce:  As the two eigenvalues approach each other, weight
+along the scaling direction quickly pushes from the lower eigenvalue to the
+larger throughout. When this occurs, (\ref{27}) implies &lt;span class="math"&gt;\(\Delta\)&lt;/span&gt;'s growth will
+also change signs and the two eigenvalues will start to separate.  Further, as
+we enter and exit the bounce, (\ref{31}) tells us the &lt;span class="math"&gt;\(q^2\)&lt;/span&gt; value must be the
+same at equal values of &lt;span class="math"&gt;\(\Delta\)&lt;/span&gt;.  We do not show this last step here, but a
+simple asymptotic calculation shows that this implies a swapping of the
+orientations of the two modes on either side of the bounce, consistent with the
+"macroscopic" view that we covered in the sister post.&lt;/p&gt;
+&lt;h1&gt;Appendix A: A determinant identity&lt;/h1&gt;
+&lt;p&gt;Here we note a simple constraint on how the eigenvalues of &lt;span class="math"&gt;\(M(s)\)&lt;/span&gt; can vary as
+we scale our system.  A first observation is that we can write&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+M(s) = S\, M\, S \tag{35}\label{35}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;where&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+S = diag(s, 1, 1, ..., 1). \tag{36}\label{36}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;In general, if we scale more than one measurement — perhaps each according to
+a different scale factor — we'll just need to insert each direction's scale
+into &lt;span class="math"&gt;\(S\)&lt;/span&gt;. If we scale in only one direction, (\ref{35}) gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+det\, M(s) = s^2\, det\, M(1) \tag{37}\label{37}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;This puts one simple constraint on how the eigenvalues can vary as we scale
+our system.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category><category term="methods"></category><category term="projection methods"></category></entry><entry><title>LTV and the time value of money</title><link href="https://jslandy.com/ltv-and-time-value-of-money" rel="alternate"></link><published>2026-05-20T00:00:00-07:00</published><updated>2026-05-20T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-05-20:/ltv-and-time-value-of-money</id><summary type="html">&lt;p&gt;Here, we review the time value of money concept and its application to
 optimizing marketing (or other asset investment) spend.&lt;/p&gt;
 &lt;h3&gt;Time value of money&lt;/h3&gt;
 &lt;p&gt;A popular lifetime value (LTV) variant is built on top of the "time value of
@@ -368,7 +1295,7 @@ largest at &lt;span class="math"&gt;\(m = 1/\sqrt{3}\)&lt;/span&gt;, where &lt;s
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category><category term="methods"></category></entry><entry><title>Allocation with Substitutes</title><link href="https://jslandy.com/allocation%20with%20subs" rel="alternate"></link><published>2026-05-05T09:00:00-07:00</published><updated>2026-05-05T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-05-05:/allocation with subs</id><summary type="html">&lt;p&gt;Here, we consider the problem of allocating limited inventory across demand
+&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category><category term="methods"></category><category term="projection methods"></category></entry><entry><title>Allocation with Substitutes</title><link href="https://jslandy.com/allocation%20with%20subs" rel="alternate"></link><published>2026-05-05T09:00:00-07:00</published><updated>2026-05-05T09:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-05-05:/allocation with subs</id><summary type="html">&lt;p&gt;Here, we consider the problem of allocating limited inventory across demand
 sites, given the availability of a lower-quality substitute that can be used
 when inventory runs out.  We find that it can be optimal to send the premium
 item to only a subset of locations.&lt;/p&gt;
@@ -7292,7 +8219,7 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="linselect"></category><category term="methods"></category><category term="popular"></category></entry><entry><title>linselect demo: a tech sector stock analysis</title><link href="https://jslandy.com/linselect-demo" rel="alternate"></link><published>2018-05-31T14:17:00-07:00</published><updated>2018-05-31T14:17:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2018-05-31:/linselect-demo</id><summary type="html">&lt;p&gt;This is a tutorial post relating to our python feature selection package, &lt;code&gt;linselect&lt;/code&gt;. The package allows one to easily identify minimal, informative feature subsets within a given data set.&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="linselect"></category><category term="methods"></category><category term="popular"></category><category term="projection methods"></category></entry><entry><title>linselect demo: a tech sector stock analysis</title><link href="https://jslandy.com/linselect-demo" rel="alternate"></link><published>2018-05-31T14:17:00-07:00</published><updated>2018-05-31T14:17:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2018-05-31:/linselect-demo</id><summary type="html">&lt;p&gt;This is a tutorial post relating to our python feature selection package, &lt;code&gt;linselect&lt;/code&gt;. The package allows one to easily identify minimal, informative feature subsets within a given data set.&lt;/p&gt;
 &lt;p&gt;Here, we demonstrate &lt;code&gt;linselect&lt;/code&gt;'s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over one trading year. We will be interested in identifying minimal …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is a tutorial post relating to our python feature selection package, &lt;code&gt;linselect&lt;/code&gt;. The package allows one to easily identify minimal, informative feature subsets within a given data set.&lt;/p&gt;
 &lt;p&gt;Here, we demonstrate &lt;code&gt;linselect&lt;/code&gt;'s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over one trading year. We will be interested in identifying minimal stock subsets that can be used to predict the lifts of the others.&lt;/p&gt;
 &lt;p&gt;This is a demonstration walkthrough, with commentary and interpretation throughout. See the package docs folder for docstrings that succinctly detail the API.&lt;/p&gt;
@@ -7619,7 +8546,7 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="linselect"></category></entry><entry><title>Integration method to map model scores to conversion rates from example data</title><link href="https://jslandy.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" rel="alternate"></link><published>2018-03-03T17:53:00-08:00</published><updated>2018-03-03T17:53:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2018-03-03:/integration-method-to-map-model-scores-to-conversion-rates-from-example-data</id><summary type="html">&lt;p&gt;This note addresses the typical applied problem of estimating from data how a target "conversion rate" function varies with some available scalar score function -- e.g., estimating conversion rates from some marketing campaign as a function of a targeting model score. The idea centers around estimating the integral of the rate function; differentiating this gives the rate function. The method …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This note addresses the typical applied problem of estimating from data how a target "conversion rate" function varies with some available scalar score function -- e.g., estimating conversion rates from some marketing campaign as a function of a targeting model score. The idea centers around estimating the integral of the rate function; differentiating this gives the rate function. The method is a variation on a standard technique for estimating pdfs via fits to empirical cdfs.&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="linselect"></category><category term="projection methods"></category></entry><entry><title>Integration method to map model scores to conversion rates from example data</title><link href="https://jslandy.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" rel="alternate"></link><published>2018-03-03T17:53:00-08:00</published><updated>2018-03-03T17:53:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2018-03-03:/integration-method-to-map-model-scores-to-conversion-rates-from-example-data</id><summary type="html">&lt;p&gt;This note addresses the typical applied problem of estimating from data how a target "conversion rate" function varies with some available scalar score function -- e.g., estimating conversion rates from some marketing campaign as a function of a targeting model score. The idea centers around estimating the integral of the rate function; differentiating this gives the rate function. The method …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This note addresses the typical applied problem of estimating from data how a target "conversion rate" function varies with some available scalar score function -- e.g., estimating conversion rates from some marketing campaign as a function of a targeting model score. The idea centers around estimating the integral of the rate function; differentiating this gives the rate function. The method is a variation on a standard technique for estimating pdfs via fits to empirical cdfs.&lt;/p&gt;
 &lt;h3&gt;Problem definition and naive binning solution&lt;/h3&gt;
 &lt;p&gt;Here, we are interested in estimating a rate function, &lt;span class="math"&gt;\(p \equiv p(x)\)&lt;/span&gt;, representing the probability of some "conversion" event as a function of &lt;span class="math"&gt;\(x\)&lt;/span&gt;, some scalar model score. To do this, we assume we have access to a finite set of score-outcome data of the form &lt;span class="math"&gt;\(\{(x_i, n_i), i= 1, \ldots ,k\}\)&lt;/span&gt;. Here, &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; is the score for example &lt;span class="math"&gt;\(i\)&lt;/span&gt; and &lt;span class="math"&gt;\(n_i \in \{0,1\}\)&lt;/span&gt; is its conversion indicator.&lt;/p&gt;
 &lt;p&gt;There are a number of standard methods for estimating rate functions. For example, if the score &lt;span class="math"&gt;\(x\)&lt;/span&gt; is a prior estimate for the conversion rate, a trivial mapping &lt;span class="math"&gt;\(p(x) = x\)&lt;/span&gt; may work. This won't work if the score function in question is not an estimate for &lt;span class="math"&gt;\(p\)&lt;/span&gt;. A more general approach is to bin together example data points that have similar scores: The observed conversion rate within each bin can then be used as an estimate for the true conversion rate in the bin's score range. An example output of this approach is shown in Fig. 1. Another option is to create a moving average, analogous to the binned solution.&lt;/p&gt;
@@ -10484,7 +11411,7 @@ where brackets represent an average over time (or index). It turns out that the 
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="methods"></category></entry><entry><title>Maximum-likelihood asymptotics</title><link href="https://jslandy.com/maximum-likelihood-asymptotics" rel="alternate"></link><published>2015-12-30T00:01:00-08:00</published><updated>2015-12-30T00:01:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2015-12-30:/maximum-likelihood-asymptotics</id><summary type="html">&lt;p&gt;In this post, we review two facts about maximum-likelihood estimators: 1) They are consistent, meaning that they converge to the correct values given a large number of samples, &lt;span class="math"&gt;\(N\)&lt;/span&gt;, and 2) They satisfy the &lt;a href="/multivariate-cramer-rao-bound"&gt;Cramer-Rao&lt;/a&gt; lower bound for unbiased parameter estimates in this same limit -- that is, they have the lowest possible variance of any unbiased estimator, in the &lt;span class="math"&gt;\(N …&lt;/span&gt;&lt;/p&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+&lt;/script&gt;</content><category term="articles"></category><category term="methods"></category><category term="projection methods"></category></entry><entry><title>Maximum-likelihood asymptotics</title><link href="https://jslandy.com/maximum-likelihood-asymptotics" rel="alternate"></link><published>2015-12-30T00:01:00-08:00</published><updated>2015-12-30T00:01:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2015-12-30:/maximum-likelihood-asymptotics</id><summary type="html">&lt;p&gt;In this post, we review two facts about maximum-likelihood estimators: 1) They are consistent, meaning that they converge to the correct values given a large number of samples, &lt;span class="math"&gt;\(N\)&lt;/span&gt;, and 2) They satisfy the &lt;a href="/multivariate-cramer-rao-bound"&gt;Cramer-Rao&lt;/a&gt; lower bound for unbiased parameter estimates in this same limit -- that is, they have the lowest possible variance of any unbiased estimator, in the &lt;span class="math"&gt;\(N …&lt;/span&gt;&lt;/p&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";
@@ -10876,7 +11803,7 @@ $$&lt;/div&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="articles"></category><category term="methods"></category></entry><entry><title>A review of parameter regularization and Bayesian regression</title><link href="https://jslandy.com/bayesian-linear-regression" rel="alternate"></link><published>2015-10-11T00:01:00-07:00</published><updated>2015-10-11T00:01:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2015-10-11:/bayesian-linear-regression</id><summary type="html">&lt;p&gt;Here, we review parameter regularization, which is a method for improving regression models through the penalization of non-zero parameter estimates. Why is this effective? Biasing parameters towards zero will (of course!) unfavorably bias a model, but it will also reduce its variance. At times the latter effect can win out, resulting in a net reduction in generalization error. We also …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we review parameter regularization, which is a method for improving regression models through the penalization of non-zero parameter estimates. Why is this effective? Biasing parameters towards zero will (of course!) unfavorably bias a model, but it will also reduce its variance. At times the latter effect can win out, resulting in a net reduction in generalization error. We also review Bayesian regressions -- in effect, these generalize the regularization approach, biasing model parameters to any specified prior estimates, not necessarily zero.&lt;/p&gt;
+&lt;/script&gt;</content><category term="articles"></category><category term="methods"></category><category term="projection methods"></category></entry><entry><title>A review of parameter regularization and Bayesian regression</title><link href="https://jslandy.com/bayesian-linear-regression" rel="alternate"></link><published>2015-10-11T00:01:00-07:00</published><updated>2015-10-11T00:01:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2015-10-11:/bayesian-linear-regression</id><summary type="html">&lt;p&gt;Here, we review parameter regularization, which is a method for improving regression models through the penalization of non-zero parameter estimates. Why is this effective? Biasing parameters towards zero will (of course!) unfavorably bias a model, but it will also reduce its variance. At times the latter effect can win out, resulting in a net reduction in generalization error. We also …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we review parameter regularization, which is a method for improving regression models through the penalization of non-zero parameter estimates. Why is this effective? Biasing parameters towards zero will (of course!) unfavorably bias a model, but it will also reduce its variance. At times the latter effect can win out, resulting in a net reduction in generalization error. We also review Bayesian regressions -- in effect, these generalize the regularization approach, biasing model parameters to any specified prior estimates, not necessarily zero.&lt;/p&gt;
 &lt;p&gt;This is the second of a series of posts expounding on topics discussed in the text, &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/"&gt;"An Introduction to Statistical Learning"&lt;/a&gt;. Here, we cover material from its Chapters 2 and 6. See prior post &lt;a href="/leave-one-out-cross-validation"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Introduction and overview&lt;/h3&gt;
 &lt;p&gt;In this post, we will be concerned with the problem of fitting a function of the form

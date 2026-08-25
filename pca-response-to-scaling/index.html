@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="../theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="An uncomfortable property of PCA is that its results are sensitive to changes in measurement scale. Measuring one variable in inches instead of centimeters, or one time variable in seconds instead of days, generally rotates the principal axes and changes the eigenvalues. Surprisingly, although both the principal components and eigenvalues change continuously with scale, we prove here that their ordering …" />
+<meta name="keywords" content="math/stats, methods, projection methods">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="A generic invariance property of principal components"/>
+  <meta property="og:description" content="An uncomfortable property of PCA is that its results are sensitive to changes in measurement scale. Measuring one variable in inches instead of centimeters, or one time variable in seconds instead of days, generally rotates the principal axes and changes the eigenvalues. Surprisingly, although both the principal components and eigenvalues change continuously with scale, we prove here that their ordering …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="../pca-response-to-scaling"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-07-26 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="../author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="article:tag" content="projection methods"/>
+  <meta property="og:image" content="../wp-content/uploads/2017/11/samples.jpg">
+
+  <title>Jonathan Landy &ndash; A generic invariance property of principal components</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="../">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="../"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="pca-response-to-scaling">A generic invariance property of principal components</h1>
+    <p>
+      Published on Sun 26 July 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>An uncomfortable property of PCA is that its results are sensitive to changes
+in measurement scale. Measuring one variable in inches instead of centimeters,
+or one time variable in seconds instead of days, generally rotates the
+principal axes and changes the eigenvalues.  Surprisingly, although both the
+principal components and eigenvalues change continuously with scale, we prove
+here that their ordering typically does not:</p>
+<ul>
+<li>Under a continuous scale adjustment, the initial state's <span class="math">\(k\)</span>-th largest
+  principal component generically maps into the final state's <span class="math">\(k\)</span>-th largest
+  principal component, for each <span class="math">\(k\)</span>. This holds provided each stretch direction
+  is not orthogonal to any mode (the "generic" case). In this sense, we can say
+  that the modes of PCA are generically "order-stable" with respect to changes
+  in measurement scale — see the figure below for an example.</li>
+<li>If we stretch or compress in only one direction, the eigenvalues GENERICALLY?
+  "interlace" in a particular way with those of the original system.</li>
+<li>In a <a href="../pca-stretch-asymptotics">companion post</a>, we derive the
+  limiting results for a very strong compression along one direction as well
+  as those for a strong stretch along a single direction.  In both cases,
+  the stretch direction becomes an independent mode, "de-hybridized" from the
+  other measurement directions.</li>
+</ul>
+<p>Although motivated by PCA, these results apply to arbitrary positive-definite
+symmetric matrices. They therefore describe how eigenmodes evolve under
+stretching in many settings, including mechanical systems, covariance matrices,
+and other spectral problems.</p>
+<p align="center"><video src="../images/gaussian_stretch_polished.mp4" autoplay loop muted playsinline style="max-width: 700px; width: 100%; height: auto;"></video></p>
+<p><b>Figure 1</b>: PCA response to scaling in <span class="math">\(2\)</span>-d:  When we compress along the
+<span class="math">\(\textbf{x}\)</span>-direction, the smaller principal component rotates to align with
+the compression direction. Similarly, when we stretch, the larger component
+rotates into the stretch direction.  I.e., the initial eigenvalue ordering is
+maintained throughout.</p>
+<h1 id="introduction">Introduction</h1>
+<p>In Principal Component Analysis ("PCA" for short, see our <a href="../principal-component-analysis">prior
+post</a> for an intro), we are
+concerned with the eigensystem of a given data set's correlation matrix,</p>
+<div class="math">\begin{equation}
+M = \begin{pmatrix} M_{11} &amp; M_{12} &amp; \ldots \\ M_{21} &amp; M_{22} &amp; \ldots \\ \ldots &amp; &amp; \end{pmatrix} \tag{1}\label{1}
+\end{equation}</div>
+<p>The eigensystem provides us with an ellipsoidal approximation to the data set,
+giving us a sense of its geometry.  Projecting into the space spanned by a
+truncated subset of these eigenvectors can often give us a high-fidelity
+compression of the data set.  It is a workhorse algorithm in data analysis.
+The fact that PCA's results are sensitive to measurement scale is therefore a
+cause of frequent discomfort, because it's never clear which set of units is
+the "right" one for a given application.  The invariance property we derive
+here suggests that the sensitivity is not as consequential as it might at first
+seem.</p>
+<p>To explore this problem, we'll be mostly interested here in the response to a
+simple scaling of the first coordinate, writing <span class="math">\(x \to s\, x\)</span>.  In this case,</p>
+<div class="math">\begin{equation}
+\langle \delta x, \delta y \rangle \to s\, M_{xy} \tag{2}\label{2}
+\end{equation}</div>
+<p>and</p>
+<div class="math">\begin{equation}
+\langle \delta x^2 \rangle \to s^2\, M_{xx} \tag{3}\label{3}
+\end{equation}</div>
+<p>This sends the correlation matrix to</p>
+<div class="math">\begin{equation}
+M(s) = \begin{pmatrix} s^2 M_{11} &amp; s M_{12} &amp; s M_{13} &amp; \ldots \\ s M_{21} &amp; M_{22} &amp; M_{23} &amp; \ldots \\ s M_{31} &amp; M_{32} &amp; M_{33} &amp; \ldots \\ &amp; \ldots &amp; &amp; \end{pmatrix} \tag{4}\label{4}
+\end{equation}</div>
+<p>How do the eigenvectors and eigenvalues of this matrix change as we adjust the
+scale factor <span class="math">\(s\)</span>?</p>
+<p>Our key results characterizing what happens under changes in scale are outlined
+at the top of this page.  Their derivation follows from three steps:</p>
+<ul>
+<li>First order perturbation theory shows that each eigenvalue responds
+  monotonically to a stretch's stength.</li>
+<li>In the limit of a very strong compression, one eigenvalue goes to zero, while
+  the other finite eigenvalues approach those of the subspace orthogonal to the
+  stretch direction.  The Cauchy interlacing theorem tells us that these
+  finite eigenvalues interlace in a particular way with those of the original
+  correlation matrix.</li>
+<li>Combining the last two points, we show that — provided the stretch direction
+  is not orthogonal to any principal component (the "generic case") — the
+  eigenvalues must maintain their order under any stretch.</li>
+</ul>
+<p>We walk through these main arguments in the next section.  The limiting forms
+and some other results are worked out in a <a href="../pca-stretch-asymptotics">companion
+post</a>.  Finally,some comments on what can
+happen outside the generic case are covered in an appendix below.</p>
+<h1 id="eigenvalue-order-maintenance">Eigenvalue order maintenance and interlacing</h1>
+<h3 id="coupled-perturbation-system">Coupled perturbation system</h3>
+<p>To begin our analysis, we'll consider perturbation equations. If we let
+<span class="math">\(s \to s + \delta s\)</span> in (\ref{4}), the first order change in <span class="math">\(M\)</span> will be
+given by</p>
+<div class="math">\begin{equation}
+\delta M = \begin{pmatrix} 2 s \delta s\, M_{11} &amp; \delta s\, M_{12} &amp; \delta s\, M_{13} &amp; \ldots \\ \delta s\, M_{21} &amp; 0 &amp; 0 &amp; \ldots \\ \delta s\, M_{31} &amp; 0 &amp; 0 &amp; \ldots \\ &amp; \ldots &amp; &amp; \end{pmatrix} \tag{5}\label{5}
+\end{equation}</div>
+<p>Applying standard first order perturbation theory then gives</p>
+<div class="math">\begin{equation}
+\frac{d\lambda_i}{ds} = \frac{2 \lambda_i \alpha_i^2}{s} \tag{6}\label{6}
+\end{equation}</div>
+<p>Here, <span class="math">\(\alpha_i\)</span> is the first component of the <span class="math">\(i\)</span>-th eigenvector (evaluated
+at <span class="math">\(s\)</span>),</p>
+<div class="math">\begin{equation}
+\alpha_i \equiv \widehat e_1 \cdot \vec v_i \tag{7}\label{7}
+\end{equation}</div>
+<p>The first order change in the eigenvector can be used to also derive the
+following equation for the rate of change of <span class="math">\(\alpha_i\)</span>. This is,</p>
+<div class="math">\begin{equation}
+\frac{d\alpha_i}{ds} = \frac{\alpha_i}{s} \sum_{j \neq i} \frac{\lambda_i + \lambda_j}{\lambda_i - \lambda_j}\, \alpha_j^2 \tag{8}\label{8}
+\end{equation}</div>
+<p>We see that (\ref{6}) and (\ref{8}) give us a coupled set of differential
+equations that we can use to solve for the <span class="math">\(\alpha_i\)</span> and <span class="math">\(\lambda_i\)</span> as we
+adjust <span class="math">\(s\)</span> by finite values.</p>
+<p><b>Key Observations</b>:</p>
+<ul>
+<li>
+<p>From (\ref{6}), we see that each non-zero eigenvalue grows monotonically
+  with <span class="math">\(s\)</span>.</p>
+</li>
+<li>
+<p>From (\ref{8}), we see that if a particular eigenvector is orthogonal to the
+  stretch direction, it will remain so for all <span class="math">\(s\)</span>.</p>
+</li>
+</ul>
+<h3 id="eigenvalue-interlacing-strong-compression">Eigenvalue Interlacing Under a Strong Compression</h3>
+<p>The <a
+href='https://people.orie.cornell.edu/dpw/orie6334/Fall2016/lecture4.pdf'>Cauchy
+interlacing theorem</a> states the following:  Let <span class="math">\(A \in \mathbb{R}^{n\times
+n}\)</span> be a symmetric matrix, and <span class="math">\(B \in \mathbb{R}^{(n-1) \times (n-1)}\)</span> a
+principal submatrix of <span class="math">\(A\)</span> (obtained by deleting both the <span class="math">\(i\)</span>-th row and column
+of <span class="math">\(A\)</span> for some <span class="math">\(i\)</span>).  If <span class="math">\(\lambda_1 \leq \lambda_2 \leq \ldots \leq \lambda_n\)</span>
+are the ordered eigenvalues of <span class="math">\(A\)</span> and <span class="math">\(\mu_1 \leq \mu_2 \leq \ldots \leq
+\mu_{n-1}\)</span> are the ordered eigenvalues of <span class="math">\(B\)</span>, they interlace:</p>
+<div class="math">\begin{equation} \tag{9}\label{9}
+\lambda_{i-1} \leq \mu_i \leq \lambda_i
+\end{equation}</div>
+<p>That is, <span class="math">\(\mu_i\)</span> can't be larger than <span class="math">\(\lambda_i\)</span> and it also can't dip below
+the next lower eigenvalue of <span class="math">\(A\)</span>.</p>
+<p>This theorem has direct relevance to our problem in the limit of a single
+strong compression: Qualitatively, what happens in this limit is that we
+effectively project the data set into the space orthogonal to the compression
+direction (if this is <span class="math">\(\textbf{x}\)</span>, say, each data point's <span class="math">\(x\)</span> value is pushed
+to zero).  As a result, one eigenvalue will be zero in this limit (the width in
+the compression direction), while the other finite eigenvalues will be those
+characterizing the space orthogonal to <span class="math">\(\textbf{x}\)</span>.  I.e., the finite
+eigenvalues will match those of the first principal submatrix of <span class="math">\(M\)</span>.  The
+Cauchy interlacing theorem therefore applies in this limit.</p>
+<p><b>Key Observations</b>:</p>
+<ul>
+<li>Under a strong compression along a single direction, one eigenvalue goes to
+  zero and <span class="math">\(n-1\)</span> eigenvalues remain finite. These new finite eigenvalues
+  <span class="math">\(\mu_i\)</span> and the original eigenvalues <span class="math">\(\lambda_i\)</span> satisfy (\ref{9}).</li>
+<li>We work through this limiting behavior in detail in <a href="../pca-stretch-asymptotics">a companion post</a>.</li>
+</ul>
+<h3 id="eigenvalue-interlacing-generic-case">Eigenvalue Interlacing (generic case)</h3>
+<p>In Figure 2, we've illustrated what happens to the eigenvalues under a
+compression.  There, we've labeled the spaces between the original eigenvalues
+(blue dots) as ordered "cells".  If we compress all the say to <span class="math">\(s \rightarrow
+0\)</span>, our last section indicates that there must be one eigenvalue in each cell.
+Consider then what happens under a finite compression.  Again, assuming the
+generic case, each eigenvalue must decrease continuously as the compression
+strength is raised.  In particular, the first eigenvalue <span class="math">\(\lambda_1\)</span> must
+decrease as we start to compress and it must occupy the first cell throughout.
+A second eigenvalue cannot enter the first cell then, because the monotonicity
+property would imply that this second eigenvalue could not exit before getting
+to the <span class="math">\(s \to 0\)</span> limit.  It follows that the first eigenvalue must be the only
+eigenvalue in the first cell throughout.  Similarly, <span class="math">\(\lambda_2\)</span> must be the
+only eigenvalue in the second cell throughout, and so on.</p>
+<p align="center"><img src="../images/cells.png" alt="Eigenvalue
+interlacing under stretch and compression" style="max-width: 500px; width:
+100%; height: auto;"></p>
+
+<p><b>Figure 2</b>:  Upon compressing by any finite <span class="math">\(s &lt; 1\)</span>, the eigenvalues must
+always monotonically decrease, always maintaining the interlacing property.</p>
+<p>To summarize the above, if we let the eigenvalues of the original (relatively
+stretched) matrix be <span class="math">\(\lambda_i^{(s)}\)</span> and those of the compressed system be
+<span class="math">\(\lambda_i^{(c)}\)</span> then we have
+</p>
+<div class="math">\begin{equation}
+0 &lt; \lambda_1^{(c)} &lt; \lambda_1^{(s)} &lt; \lambda_2^{(c)} &lt; \ldots
+&lt; \lambda_n^{(c)} &lt; \lambda_n^{(s)} &lt; \infty,  \tag{10}\label{10}
+\end{equation}</div>
+<p>
+for any generic compression.  But of course any compression played in reverse
+is a stretch, so (\ref{10}) can also be used to characterize what happens under
+a stretch.  It follows that upon any finite stretch, the eigenvalues again
+interlace, but in the opposite direction: The <span class="math">\(i\)</span>-th eigenvalue will increase,
+but not so much as to cross the original <span class="math">\(i+1\)</span>-st eigenvalue.  The figure below
+illustrates these results.</p>
+<p align="center"><img src="../images/interlacing.png" alt="Eigenvalue
+interlacing under stretch and compression" style="max-width: 500px; width:
+100%; height: auto;"></p>
+<p><b>Figure 3</b>:  Upon a stretch by <span class="math">\(s &gt; 1\)</span> along a single direction, the
+eigenvalues maintain their ordering.  Further, the <span class="math">\(i\)</span>-th eigenvalue cannot
+increase beyond the original <span class="math">\((i+1)\)</span>-st eigenvalue.  Similarly, under a
+compression along a single direction, the eigenvalues each decrease, but
+without dipping below the original preceeding eigenvalues.</p>
+<p><b> Final observations </b>:</p>
+<ul>
+<li>
+<p>Under a generic, single axis compression or stretch of any strength, the
+  eigenvalues interlace and maintain their initial order.</p>
+</li>
+<li>
+<p>Since any set of compressions and stretches can be carried out via a
+  composition of single axis compressions and stretches, it follows that in the
+  generic case the eigenvalues will also adiabatically maintain their order.</p>
+</li>
+</ul>
+<h1 id="summary">Summary</h1>
+<p>In our first section, we showed that the ordering of our eigenvalues is
+maintained under continuous changes in scale. Because of this, we know that
+under a large stretch in one direction, it must be the first principal
+component that rotates into the stretch direction. Similarly, under a
+strong compression, it must be the initial last principal component that
+compresses into this direction. The details of how the rotation occurs can
+be evaluated numerically using the perturbation equations, but these
+limiting forms already give us a qualitative understanding of what happens
+under scaling.</p>
+<p>A note on a key detail here: The large stretch limit was a bit confusing to
+me at first because I was looking for modes orthogonal to <span class="math">\(\widehat x\)</span>.
+However, the first principal component is not precisely along this
+direction even at large <span class="math">\(s\)</span>, but rather along the fit line. This results in
+small off axis components scaling like <span class="math">\(s^{-1}\)</span>. These couple with the
+<span class="math">\(s M_{1j}\)</span> terms in the eigenvalue equations for the other modes, resulting
+in a cancelation of the <span class="math">\(s\)</span> factors and a finite contribution. This took
+some time to understand.</p>
+<p>Combined with eigenvalue order maintenance, this pins down what happens to each
+surviving eigenvalue as we compress: the <span class="math">\(k\)</span>-th largest eigenvalue starts at
+<span class="math">\(\lambda_k\)</span> (at <span class="math">\(s=1\)</span>) and must end at <span class="math">\(\mu_k\)</span> (as <span class="math">\(s \to 0\)</span>), without crossing
+any other eigenvalue along the way. Since <span class="math">\(\mu_k\)</span> is guaranteed to lie between
+<span class="math">\(\lambda_k\)</span> and <span class="math">\(\lambda_{k+1}\)</span>, this eigenvalue can only move down, and only
+by an amount bounded by the gap to the next eigenvalue below it in the original
+spectrum.</p>
+<p>The analysis in 2-d can be easily worked out analytically to gain better
+intution still — we review this in our appendix below. These results helped to
+guide the general analysis above.</p>
+<h1 id="appendix-interlacing-special-cases">Appendix A: Interlacing special cases</h1>
+<p>In the main text, we assumed the generic case, where the scaling directions are
+not orthogonal to any of the original system's principal components.  If the
+assumption of non-orthogonality is violated, our order maintenance results do
+not necessarily apply.  However, the cell arguments we applied can sometimes be
+adapted to get a good picture of what happens in these cases as well.</p>
+<p>To illustrate, consider Figure 4 below.  Here, we consider a strong compression
+along a direction orthogonal to the initially smallest eigenvalue mode (but
+having finite energy along each of the other modes).  From our perturbation
+equations, this means that <span class="math">\(\lambda_1\)</span> must be fixed throughout.  However, we
+also know that in the limit of a strong compression, one eigenvalue must go to
+zero.  In this case, since <span class="math">\(\lambda_2\)</span> must decrease, we conclude that
+<span class="math">\(\lambda_1\)</span> and <span class="math">\(\lambda_2\)</span> must be the two eigenvalues occupying the first two
+cells.  It follows then that <span class="math">\(\lambda_2 \to 0\)</span> in the limit that <span class="math">\(s \to 0\)</span>,
+hopping the first eigenvalue.  The logic then continues as above, with the
+remaining eigenvalues interlacing as before.</p>
+<p>We note that it's also possible to have cases where hopping of intermediate
+eigenvalues occur, provided these are orthogonal to the scaling direction.  And
+one special case occurs when you scale along a single principal component.  In
+this case, all eigenvalues are frozen except for that corresponding to the
+stretch direction and this can move to any finite value under an appropriate
+scaling.</p>
+<p align="center"><img src="../images/non_generic.png" alt="Eigenvalue
+interlacing breaking down in a non-generic case" style="max-width: 500px;
+width: 100%; height: auto;"></p>
+<p><b>Figure 4</b>: In a non-generic case, some eigenvalues will be frozen and can
+be hopped.  Here, we illustrate what happens under a strong compression
+orthogonal to initial lowest mode.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="../tag/mathstats.html">math/stats</a>
+      <a href="../tag/methods.html">methods</a>
+      <a href="../tag/projection-methods.html">projection methods</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "..",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>
