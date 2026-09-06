@@ -1,5 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-08-25T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>A scale invariance property of PCA</title><link href="https://jslandy.com/pca-invariant" rel="alternate"></link><published>2026-08-25T00:00:00-07:00</published><updated>2026-08-25T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-08-25:/pca-invariant</id><summary type="html">&lt;p&gt;The PCA algorithm is sensitive to changes in measurement scale.  Measuring one
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-09-06T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Two party systems and the quartile voters</title><link href="https://jslandy.com/two-party-systems-quartile-voters" rel="alternate"></link><published>2026-09-06T00:00:00-07:00</published><updated>2026-09-06T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-09-06:/two-party-systems-quartile-voters</id><summary type="html">&lt;p&gt;We present a minimal model for elections in two-party systems [1]. In this
+model, elections that have a primary process produce lower average voter
+utility than do single-stage elections.  In the former case, a candidate wins
+who sits at the first or third quartile on positions, while in the latter the
+winner sits at the median.&lt;/p&gt;
+&lt;h2&gt;Coffee House Allegory&lt;/h2&gt;
+&lt;p&gt;Initially …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We present a minimal model for elections in two-party systems [1]. In this
+model, elections that have a primary process produce lower average voter
+utility than do single-stage elections.  In the former case, a candidate wins
+who sits at the first or third quartile on positions, while in the latter the
+winner sits at the median.&lt;/p&gt;
+&lt;h2&gt;Coffee House Allegory&lt;/h2&gt;
+&lt;p&gt;Initially a single coffee shop (black) sits on Main Street. A second business
+decides to open a competing coffee shop (orange) and opts to place it so as to
+maximize revenue &amp;#8211; right next to the black shop. See Figures 1a and 1b
+for explanation. The average walking distance of consumers in this case is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\overline{d}_{\text{median}} = \frac{L}{4} \tag{1}\label{1}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(L\)&lt;/span&gt; is the length of the street and we assume demand is evenly
+distributed.&lt;/p&gt;
+&lt;p&gt;Although 1b is optimal for the retailers, it is not optimal for consumers. To
+minimize the average distance a consumer must walk, the two shops should be
+placed at the medians of their respective domains &amp;#8211; as in 1c. In this
+case, the average walking distance is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\overline{d}_{\text{both quartiles}} = \frac{L}{8} \tag{2}\label{2}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;half that of (\ref{1}).  We see that different optimization processes result in
+different consumer utilities.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/coffee_houses.png" alt="Optimal
+placement of coffee shops" style="max-width: 600px; width: 100%; height:
+auto;"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 1&lt;/b&gt;: Optimal placement of coffee shops, assuming consumers prefer
+the shop closest to them. (a) If two coffee shops sit apart, each captures
+half the demand between them. (b) If the orange shop instead sits next to
+black, it will capture all of the demand between them in a, rather than just
+half. (c) Consumers would prefer each shop to sit in the median of its
+respective domain, halving their average travel time.&lt;/p&gt;
+&lt;h2&gt;General and primary elections&lt;/h2&gt;
+&lt;p&gt;Consider now the positions taken by two political parties on an issue. When a
+party takes a non-median position, it is costly because the opposition can sit
+adjacent to them and capture more than 50% of the electorate. For most issues,
+we therefore expect parties to pursue adjacent positions near the median voter
+as in Figure 2a.&lt;/p&gt;
+&lt;p&gt;This is complicated by the primary system which allow voters on either side to
+first select their candidate. Competition here will push candidates towards the
+median position of their party as in 2b. This solution is the analog of 1c for
+coffee shops, favored by consumers. But this is illusory, because just one
+candidate takes the general election. Ultimately, we end up with 2c or its
+image.&lt;/p&gt;
+&lt;p&gt;If we define the voter loss function as the average distance to the elected
+official, (\ref{1}) and (\ref{2}) give the losses of the median and both
+quartile cases. The loss of 2c is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+\overline{d}_{\text{single quartile}} = \frac{5}{16}L, \tag{3}\label{3}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;
+worse than either of the other solutions.&lt;/p&gt;
+&lt;p&gt;Conclusion: Primaries allow voters to pursue the illusory (2), but cause them
+to end up with (3) – 25% worse than what they'd get under a single-step process
+(1).&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/parties.png" alt="Optimal party
+positions" style="max-width: 600px; width: 100%; height: auto;"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 2&lt;/b&gt;: Optimal party positions, assuming the electorate prefers
+positions closer to their own. (a) Analogous to Figure 1a and 1b. (b) In
+primary elections, a candidate will take the median position of their party.
+If citizens could always live in a world dominated by their personal party,
+average distance would be improved here vs having a single government at the
+median. (c) But only one candidate can win the general election, resulting in a
+higher average distance than that of the median solution.&lt;/p&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;p&gt;[1] Our model can be considered an extended Hotelling-Downs spatial model
+&amp;#8212; we've made this a two-stage model to incorporate the primary process.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="misc"></category><category term="math/stats"></category></entry><entry><title>A scale invariance property of PCA</title><link href="https://jslandy.com/pca-invariant" rel="alternate"></link><published>2026-08-25T00:00:00-07:00</published><updated>2026-08-25T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-08-25:/pca-invariant</id><summary type="html">&lt;p&gt;The PCA algorithm is sensitive to changes in measurement scale.  Measuring one
 variable of a system in inches rather than centimeters, say, alters both its
 principal axes and principal eigenvalues.  Although this scale dependence is
 generally complicated, we show here that it nevertheless obeys a strict

@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3WTEYX1ZX9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3WTEYX1ZX9');
+</script>
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="We present a minimal model for elections in two-party systems [1]. In this model, elections that have a primary process produce lower average voter utility than do single-stage elections. In the former case, a candidate wins who sits at the first or third quartile on positions, while in the latter the winner sits at the median. Coffee House Allegory Initially …" />
+<meta name="keywords" content="misc, math/stats">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Two party systems and the quartile voters"/>
+  <meta property="og:description" content="We present a minimal model for elections in two-party systems [1]. In this model, elections that have a primary process produce lower average voter utility than do single-stage elections. In the former case, a candidate wins who sits at the first or third quartile on positions, while in the latter the winner sits at the median. Coffee House Allegory Initially …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/two-party-systems-quartile-voters"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-09-06 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="misc"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="og:image" content="https://jslandy.com/wp-content/uploads/2017/11/samples.jpg">
+
+  <title>Jonathan Landy &ndash; Two party systems and the quartile voters</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="two-party-systems-quartile-voters">Two party systems and the quartile voters</h1>
+    <p>
+      Published on Sun 06 September 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>We present a minimal model for elections in two-party systems [1]. In this
+model, elections that have a primary process produce lower average voter
+utility than do single-stage elections.  In the former case, a candidate wins
+who sits at the first or third quartile on positions, while in the latter the
+winner sits at the median.</p>
+<h2>Coffee House Allegory</h2>
+<p>Initially a single coffee shop (black) sits on Main Street. A second business
+decides to open a competing coffee shop (orange) and opts to place it so as to
+maximize revenue &#8211; right next to the black shop. See Figures 1a and 1b
+for explanation. The average walking distance of consumers in this case is</p>
+<div class="math">\begin{equation}
+\overline{d}_{\text{median}} = \frac{L}{4} \tag{1}\label{1}
+\end{equation}</div>
+<p>where <span class="math">\(L\)</span> is the length of the street and we assume demand is evenly
+distributed.</p>
+<p>Although 1b is optimal for the retailers, it is not optimal for consumers. To
+minimize the average distance a consumer must walk, the two shops should be
+placed at the medians of their respective domains &#8211; as in 1c. In this
+case, the average walking distance is</p>
+<div class="math">\begin{equation}
+\overline{d}_{\text{both quartiles}} = \frac{L}{8} \tag{2}\label{2}
+\end{equation}</div>
+<p>half that of (\ref{1}).  We see that different optimization processes result in
+different consumer utilities.</p>
+<p align="center"><img src="https://jslandy.com/images/coffee_houses.png" alt="Optimal
+placement of coffee shops" style="max-width: 600px; width: 100%; height:
+auto;"></p>
+
+<p><b>Figure 1</b>: Optimal placement of coffee shops, assuming consumers prefer
+the shop closest to them. (a) If two coffee shops sit apart, each captures
+half the demand between them. (b) If the orange shop instead sits next to
+black, it will capture all of the demand between them in a, rather than just
+half. (c) Consumers would prefer each shop to sit in the median of its
+respective domain, halving their average travel time.</p>
+<h2>General and primary elections</h2>
+<p>Consider now the positions taken by two political parties on an issue. When a
+party takes a non-median position, it is costly because the opposition can sit
+adjacent to them and capture more than 50% of the electorate. For most issues,
+we therefore expect parties to pursue adjacent positions near the median voter
+as in Figure 2a.</p>
+<p>This is complicated by the primary system which allow voters on either side to
+first select their candidate. Competition here will push candidates towards the
+median position of their party as in 2b. This solution is the analog of 1c for
+coffee shops, favored by consumers. But this is illusory, because just one
+candidate takes the general election. Ultimately, we end up with 2c or its
+image.</p>
+<p>If we define the voter loss function as the average distance to the elected
+official, (\ref{1}) and (\ref{2}) give the losses of the median and both
+quartile cases. The loss of 2c is</p>
+<div class="math">\begin{equation}
+\overline{d}_{\text{single quartile}} = \frac{5}{16}L, \tag{3}\label{3}
+\end{equation}</div>
+<p>
+worse than either of the other solutions.</p>
+<p>Conclusion: Primaries allow voters to pursue the illusory (2), but cause them
+to end up with (3) – 25% worse than what they'd get under a single-step process
+(1).</p>
+<p align="center"><img src="https://jslandy.com/images/parties.png" alt="Optimal party
+positions" style="max-width: 600px; width: 100%; height: auto;"></p>
+
+<p><b>Figure 2</b>: Optimal party positions, assuming the electorate prefers
+positions closer to their own. (a) Analogous to Figure 1a and 1b. (b) In
+primary elections, a candidate will take the median position of their party.
+If citizens could always live in a world dominated by their personal party,
+average distance would be improved here vs having a single government at the
+median. (c) But only one candidate can win the general election, resulting in a
+higher average distance than that of the median solution.</p>
+<h1>References</h1>
+<p>[1] Our model can be considered an extended Hotelling-Downs spatial model
+&#8212; we've made this a two-stage model to incorporate the primary process.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/misc.html">misc</a>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>
