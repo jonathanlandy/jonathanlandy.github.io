@@ -221,6 +221,7 @@ modes — here, apparent eigenvalue crossings can occur.  However, we show that
 we can interpret these apparent crossings as cases where the modes
 instantaneously swap their orientation, in this way maintaining the required
 order stability.&lt;/p&gt;
+&lt;p&gt;Pre-print article available at &lt;a href="https://arxiv.org/abs/2609.11016"&gt;https://arxiv.org/abs/2609.11016&lt;/a&gt;.&lt;/p&gt;
 &lt;p align="center"&gt;&lt;video src="https://jslandy.com/images/gaussian_stretch_polished.mp4" autoplay loop muted playsinline style="max-width: 700px; width: 100%; height: auto;"&gt;&lt;/video&gt;&lt;/p&gt;
 &lt;p&gt;&lt;b&gt;Figure 1&lt;/b&gt;: PCA response to scaling in &lt;span class="math"&gt;\(2\)&lt;/span&gt;-d:  When we compress along the
 &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt;-direction, the smaller (black) principal component rotates to
