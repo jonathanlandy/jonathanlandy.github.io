@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3WTEYX1ZX9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3WTEYX1ZX9');
+</script>
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="The Dunning–Kruger (DK) effect states that people with low skill tend to overestimate their ability, while those with high skill tend to underestimate theirs. Though intuitive, the central evidence in the original DK paper [1] was famously invalid — its analysis produces the same pattern even when participant predictions are completely unbiased. Previous &#34;post-mortems&#34; of the paper have focused on …" />
+<meta name="keywords" content="math/stats">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="The Illusory Dunning-Kruger Effect and Reciprocal Fits"/>
+  <meta property="og:description" content="The Dunning–Kruger (DK) effect states that people with low skill tend to overestimate their ability, while those with high skill tend to underestimate theirs. Though intuitive, the central evidence in the original DK paper [1] was famously invalid — its analysis produces the same pattern even when participant predictions are completely unbiased. Previous &#34;post-mortems&#34; of the paper have focused on …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/illusory-dunning-kruger-effect"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-09-27 00:00:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="og:image" content="https://jslandy.com/wp-content/uploads/2017/11/samples.jpg">
+
+  <title>Jonathan Landy &ndash; The Illusory Dunning-Kruger Effect and Reciprocal Fits</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="illusory-dunning-kruger-effect">The Illusory Dunning-Kruger Effect and Reciprocal Fits</h1>
+    <p>
+      Published on Sun 27 September 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>The Dunning–Kruger (DK) effect states that people with low skill tend to
+overestimate their ability, while those with high skill tend to underestimate
+theirs.  Though intuitive, the central evidence in the original DK paper [1]
+was famously invalid — its analysis produces the same pattern even when
+participant predictions are completely unbiased.  Previous "post-mortems" of the
+paper have focused on regression to the mean and a global positive bias in
+predictions [2,3].   Here, we don't address whether the effect is real, but
+instead focus on the logical flaw in the original analysis.  We show that it
+stemmed from a common mistake: forgetting that regressing <span class="math">\(y\)</span> on <span class="math">\(x\)</span> generally
+gives a different slope from regressing <span class="math">\(x\)</span> on <span class="math">\(y\)</span>.</p>
+<h2>The Dunning-Kruger plot</h2>
+<p>The original DK paper considered an experiment where study participants were
+first asked to predict their future performance on some specified task.  Next,
+the participants performed the task and had their results graded.  The
+participants were then binned according to their actual performance into
+four quartile groups.  Plotting the self-predicted performance against the
+actual performance across these groups generated a plot as in the black curve
+in Figure 1 below.  The red points there show the <span class="math">\(y=x\)</span> line for comparison.
+Notice that the top performing quartile underpredicted their average
+performance, while the bottom performing quartile overpredicted theirs.</p>
+<p>At first glance, this result does seem to suggest that the talented
+underestimate their skill and vice versa.  But in fact, I generated this plot
+using a simulated data set where each participant's estimate was completely
+unbiased.  How can this be?</p>
+<p align="center"><img src="https://jslandy.com/images/dk.png" alt="DK-type plot of predicted vs actual performance" style="max-width: 600px; width: 100%; height: auto;"></p>
+
+<p><b>Figure 1</b>: DK-type plot, showing predicted performance vs actual
+performance.  The black curve shows that those who performed best (top
+quartile) underestimated how well they'd do, etc.</p>
+<h2>Explanation in terms of reciprocal fit slopes</h2>
+<p>Suppose we generate simulated <span class="math">\((x_i, y_i)\)</span> data via the linear relationship</p>
+<div class="math">\begin{equation}
+y_i (\text{"performance"}) = m \times x_i (\text{"prediction"}) + \epsilon_i, \tag{1}\label{model}
+\end{equation}</div>
+<p>where <span class="math">\(m\)</span> is a parameter that relates the performance level of each
+participant to their prediction, and <span class="math">\(\epsilon_i\)</span> is IID <span class="math">\(N(0,\sigma^2)\)</span> noise
+on top of that.  For convenience, further suppose we have centered and
+normalized the <span class="math">\(x_i\)</span> to have mean <span class="math">\(0\)</span> and variance <span class="math">\(1\)</span>.</p>
+<p>Using standard formulas for the least-squares fit line, the slope of the fit
+of <span class="math">\(y\)</span> vs <span class="math">\(x\)</span> is given by</p>
+<div class="math">\begin{equation}
+m_{y \vert x} = \frac{E(\delta x \, \delta y)}{E(\delta x^2)} = m. \tag{2}\label{myx}
+\end{equation}</div>
+<p>Here, we've used (\ref{model}) to evaluate the numerator.  Similarly, when we
+regress <span class="math">\(x\)</span> on <span class="math">\(y\)</span>, the slope is</p>
+<div class="math">\begin{equation}
+m_{x \vert y} = \frac{E(\delta x \, \delta y)}{E(\delta y^2)} = \frac{m}{E((m x_i + \epsilon_i)^2)} = \frac{m}{m^2+\sigma^2}. \tag{3}\label{mxy}
+\end{equation}</div>
+<p>Notice that if <span class="math">\(\sigma^2 &gt; 0\)</span>, (\ref{myx}) and (\ref{mxy}) are not
+reciprocals.  If we plot both fit lines on a fixed set of axes they will
+differ.</p>
+<p>We can now understand the illusory DK effect in terms of the two slopes
+(\ref{myx}) and (\ref{mxy}): If we set <span class="math">\(m=1\)</span> in (\ref{model}), we have <span class="math">\(y_i =
+x_i + \epsilon_i\)</span>.  Averaging performance at fixed prediction gives
+<span class="math">\(E(y \vert x) = x\)</span> — no bias.  This is what we'd see by plotting
+<span class="math">\(y\)</span> vs <span class="math">\(x\)</span>, reading out the slope <span class="math">\(m_{y \vert x} = 1\)</span>, as in Figure 2.  But the
+black DK line in Figure 1 is a plot of <span class="math">\(x\)</span> vs <span class="math">\(y\)</span>, having slope <span class="math">\(m_{x \vert y}
+= \frac{1}{1+\sigma^2} &lt; 1\)</span>.  Therefore, while the DK plot does show that the
+top-performing group had, on average, predicted scores below their realized
+scores — it does not show that any group had systematic bias in their
+performance predictions.  A tongue-twister, perhaps, but these are different
+assertions corresponding to two different regressions.</p>
+<p align="center"><img src="https://jslandy.com/images/dk_reciprocal.png" alt="Reciprocal fit plot of actual vs predicted performance" style="max-width: 600px; width: 100%; height: auto;"></p>
+
+<p><b>Figure 2</b>: Here, we now bin our synthetic data — created using
+(\ref{model}) with <span class="math">\(m=1\)</span> — by predicted performance and then plot
+actual performance against this.  I.e., here we plot "<span class="math">\(y\)</span> vs <span class="math">\(x\)</span>" instead of
+"<span class="math">\(x\)</span> vs <span class="math">\(y\)</span>", revealing there is no bias in the predictions.</p>
+<h2>Conclusion</h2>
+<p>The original DK plot on its own does not provide evidence for a bias in human
+psychology.  Further, careful follow ups have been done with mixed results
+— it is currently unclear whether the DK effect is real or general
+[3, 4].</p>
+<h1>References</h1>
+<p>[1] Kruger, J., &amp; Dunning, D. (1999).  "Unskilled and unaware of it: How
+difficulties in recognizing one's own incompetence lead to inflated
+self-assessments." Journal of Personality and Social Psychology, 77(6),
+1121&#8211;1134.</p>
+<p>[2] Krueger, J. I., &amp; Mueller, R. A. (2002).  "Unskilled, unaware, or both?
+The better-than-average heuristic and statistical regression predict errors
+in estimates of own performance." Journal of Personality and Social
+Psychology, 82(2), 180&#8211;188.</p>
+<p>[3] Gignac, G. E., &amp; Zajenkowski, M. (2020).  "The Dunning-Kruger effect is
+(mostly) a statistical artefact: Valid approaches to testing the hypothesis
+with individual differences data." Intelligence, 80, 101449.</p>
+<p>[4] Dunkel, C. S., Nedelec, J. L., &amp; van der Linden, D. (2023).  "Reevaluating
+the Dunning-Kruger effect: A response to and replication of Gignac and
+Zajenkowski (2020)." Intelligence, 96, 101717.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

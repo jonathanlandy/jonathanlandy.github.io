@@ -1,5 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-09-06T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Two party systems and the quartile voters</title><link href="https://jslandy.com/two-party-systems-quartile-voters" rel="alternate"></link><published>2026-09-06T00:00:00-07:00</published><updated>2026-09-06T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-09-06:/two-party-systems-quartile-voters</id><summary type="html">&lt;p&gt;We present a minimal model for elections in two-party systems [1]. In this
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-09-27T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>The Illusory Dunning-Kruger Effect and Reciprocal Fits</title><link href="https://jslandy.com/illusory-dunning-kruger-effect" rel="alternate"></link><published>2026-09-27T00:00:00-07:00</published><updated>2026-09-27T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-09-27:/illusory-dunning-kruger-effect</id><summary type="html">&lt;p&gt;The Dunning–Kruger (DK) effect states that people with low skill tend to
+overestimate their ability, while those with high skill tend to underestimate
+theirs.  Though intuitive, the central evidence in the original DK paper [1]
+was famously invalid — its analysis produces the same pattern even when
+participant predictions are completely unbiased.  Previous "post-mortems" of the
+paper have focused on …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The Dunning–Kruger (DK) effect states that people with low skill tend to
+overestimate their ability, while those with high skill tend to underestimate
+theirs.  Though intuitive, the central evidence in the original DK paper [1]
+was famously invalid — its analysis produces the same pattern even when
+participant predictions are completely unbiased.  Previous "post-mortems" of the
+paper have focused on regression to the mean and a global positive bias in
+predictions [2,3].   Here, we don't address whether the effect is real, but
+instead focus on the logical flaw in the original analysis.  We show that it
+stemmed from a common mistake: forgetting that regressing &lt;span class="math"&gt;\(y\)&lt;/span&gt; on &lt;span class="math"&gt;\(x\)&lt;/span&gt; generally
+gives a different slope from regressing &lt;span class="math"&gt;\(x\)&lt;/span&gt; on &lt;span class="math"&gt;\(y\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h2&gt;The Dunning-Kruger plot&lt;/h2&gt;
+&lt;p&gt;The original DK paper considered an experiment where study participants were
+first asked to predict their future performance on some specified task.  Next,
+the participants performed the task and had their results graded.  The
+participants were then binned according to their actual performance into
+four quartile groups.  Plotting the self-predicted performance against the
+actual performance across these groups generated a plot as in the black curve
+in Figure 1 below.  The red points there show the &lt;span class="math"&gt;\(y=x\)&lt;/span&gt; line for comparison.
+Notice that the top performing quartile underpredicted their average
+performance, while the bottom performing quartile overpredicted theirs.&lt;/p&gt;
+&lt;p&gt;At first glance, this result does seem to suggest that the talented
+underestimate their skill and vice versa.  But in fact, I generated this plot
+using a simulated data set where each participant's estimate was completely
+unbiased.  How can this be?&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/dk.png" alt="DK-type plot of predicted vs actual performance" style="max-width: 600px; width: 100%; height: auto;"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 1&lt;/b&gt;: DK-type plot, showing predicted performance vs actual
+performance.  The black curve shows that those who performed best (top
+quartile) underestimated how well they'd do, etc.&lt;/p&gt;
+&lt;h2&gt;Explanation in terms of reciprocal fit slopes&lt;/h2&gt;
+&lt;p&gt;Suppose we generate simulated &lt;span class="math"&gt;\((x_i, y_i)\)&lt;/span&gt; data via the linear relationship&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+y_i (\text{"performance"}) = m \times x_i (\text{"prediction"}) + \epsilon_i, \tag{1}\label{model}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(m\)&lt;/span&gt; is a parameter that relates the performance level of each
+participant to their prediction, and &lt;span class="math"&gt;\(\epsilon_i\)&lt;/span&gt; is IID &lt;span class="math"&gt;\(N(0,\sigma^2)\)&lt;/span&gt; noise
+on top of that.  For convenience, further suppose we have centered and
+normalized the &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; to have mean &lt;span class="math"&gt;\(0\)&lt;/span&gt; and variance &lt;span class="math"&gt;\(1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Using standard formulas for the least-squares fit line, the slope of the fit
+of &lt;span class="math"&gt;\(y\)&lt;/span&gt; vs &lt;span class="math"&gt;\(x\)&lt;/span&gt; is given by&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+m_{y \vert x} = \frac{E(\delta x \, \delta y)}{E(\delta x^2)} = m. \tag{2}\label{myx}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Here, we've used (\ref{model}) to evaluate the numerator.  Similarly, when we
+regress &lt;span class="math"&gt;\(x\)&lt;/span&gt; on &lt;span class="math"&gt;\(y\)&lt;/span&gt;, the slope is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation}
+m_{x \vert y} = \frac{E(\delta x \, \delta y)}{E(\delta y^2)} = \frac{m}{E((m x_i + \epsilon_i)^2)} = \frac{m}{m^2+\sigma^2}. \tag{3}\label{mxy}
+\end{equation}&lt;/div&gt;
+&lt;p&gt;Notice that if &lt;span class="math"&gt;\(\sigma^2 &amp;gt; 0\)&lt;/span&gt;, (\ref{myx}) and (\ref{mxy}) are not
+reciprocals.  If we plot both fit lines on a fixed set of axes they will
+differ.&lt;/p&gt;
+&lt;p&gt;We can now understand the illusory DK effect in terms of the two slopes
+(\ref{myx}) and (\ref{mxy}): If we set &lt;span class="math"&gt;\(m=1\)&lt;/span&gt; in (\ref{model}), we have &lt;span class="math"&gt;\(y_i =
+x_i + \epsilon_i\)&lt;/span&gt;.  Averaging performance at fixed prediction gives
+&lt;span class="math"&gt;\(E(y \vert x) = x\)&lt;/span&gt; — no bias.  This is what we'd see by plotting
+&lt;span class="math"&gt;\(y\)&lt;/span&gt; vs &lt;span class="math"&gt;\(x\)&lt;/span&gt;, reading out the slope &lt;span class="math"&gt;\(m_{y \vert x} = 1\)&lt;/span&gt;, as in Figure 2.  But the
+black DK line in Figure 1 is a plot of &lt;span class="math"&gt;\(x\)&lt;/span&gt; vs &lt;span class="math"&gt;\(y\)&lt;/span&gt;, having slope &lt;span class="math"&gt;\(m_{x \vert y}
+= \frac{1}{1+\sigma^2} &amp;lt; 1\)&lt;/span&gt;.  Therefore, while the DK plot does show that the
+top-performing group had, on average, predicted scores below their realized
+scores — it does not show that any group had systematic bias in their
+performance predictions.  A tongue-twister, perhaps, but these are different
+assertions corresponding to two different regressions.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/dk_reciprocal.png" alt="Reciprocal fit plot of actual vs predicted performance" style="max-width: 600px; width: 100%; height: auto;"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Figure 2&lt;/b&gt;: Here, we now bin our synthetic data — created using
+(\ref{model}) with &lt;span class="math"&gt;\(m=1\)&lt;/span&gt; — by predicted performance and then plot
+actual performance against this.  I.e., here we plot "&lt;span class="math"&gt;\(y\)&lt;/span&gt; vs &lt;span class="math"&gt;\(x\)&lt;/span&gt;" instead of
+"&lt;span class="math"&gt;\(x\)&lt;/span&gt; vs &lt;span class="math"&gt;\(y\)&lt;/span&gt;", revealing there is no bias in the predictions.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The original DK plot on its own does not provide evidence for a bias in human
+psychology.  Further, careful follow ups have been done with mixed results
+— it is currently unclear whether the DK effect is real or general
+[3, 4].&lt;/p&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;p&gt;[1] Kruger, J., &amp;amp; Dunning, D. (1999).  "Unskilled and unaware of it: How
+difficulties in recognizing one's own incompetence lead to inflated
+self-assessments." Journal of Personality and Social Psychology, 77(6),
+1121&amp;#8211;1134.&lt;/p&gt;
+&lt;p&gt;[2] Krueger, J. I., &amp;amp; Mueller, R. A. (2002).  "Unskilled, unaware, or both?
+The better-than-average heuristic and statistical regression predict errors
+in estimates of own performance." Journal of Personality and Social
+Psychology, 82(2), 180&amp;#8211;188.&lt;/p&gt;
+&lt;p&gt;[3] Gignac, G. E., &amp;amp; Zajenkowski, M. (2020).  "The Dunning-Kruger effect is
+(mostly) a statistical artefact: Valid approaches to testing the hypothesis
+with individual differences data." Intelligence, 80, 101449.&lt;/p&gt;
+&lt;p&gt;[4] Dunkel, C. S., Nedelec, J. L., &amp;amp; van der Linden, D. (2023).  "Reevaluating
+the Dunning-Kruger effect: A response to and replication of Gignac and
+Zajenkowski (2020)." Intelligence, 96, 101717.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category></entry><entry><title>Two party systems and the quartile voters</title><link href="https://jslandy.com/two-party-systems-quartile-voters" rel="alternate"></link><published>2026-09-06T00:00:00-07:00</published><updated>2026-09-06T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-09-06:/two-party-systems-quartile-voters</id><summary type="html">&lt;p&gt;We present a minimal model for elections in two-party systems [1]. In this
 model, elections that have a primary process produce lower average voter
 utility than do single-stage elections.  In the former case, a candidate wins
 who sits at the first or third quartile on positions, while in the latter the
