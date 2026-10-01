@@ -14,7 +14,7 @@ predictions [2,3].   Here, we don't address whether the effect is real, but
 instead focus on the logical flaw in the original analysis.  We show that it
 stemmed from a common mistake: forgetting that regressing &lt;span class="math"&gt;\(y\)&lt;/span&gt; on &lt;span class="math"&gt;\(x\)&lt;/span&gt; generally
 gives a different slope from regressing &lt;span class="math"&gt;\(x\)&lt;/span&gt; on &lt;span class="math"&gt;\(y\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: Sabine Hossenfelder recently posted a
+&lt;p&gt;&lt;strong&gt;Edit 9/30/2026&lt;/strong&gt;: Sabine Hossenfelder recently posted a
 &lt;a href="https://www.youtube.com/watch?v=0XcEsuFs5Y8"&gt;video&lt;/a&gt; covering similar ideas
 to what I discuss here.&lt;/p&gt;
 &lt;h2&gt;The Dunning-Kruger plot&lt;/h2&gt;
@@ -161,12 +161,13 @@ model, elections that have a primary process produce lower average voter
 utility than do single-stage elections.  In the former case, a candidate wins
 who sits at the first or third quartile on positions, while in the latter the
 winner sits at the median.&lt;/p&gt;
-&lt;h2&gt;Coffee House Allegory&lt;/h2&gt;
-&lt;p&gt;Initially …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We present a minimal model for elections in two-party systems [1]. In this
+&lt;p&gt;&lt;strong&gt;Edit 9/30/2026 …&lt;/strong&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;We present a minimal model for elections in two-party systems [1]. In this
 model, elections that have a primary process produce lower average voter
 utility than do single-stage elections.  In the former case, a candidate wins
 who sits at the first or third quartile on positions, while in the latter the
 winner sits at the median.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Edit 9/30/2026&lt;/strong&gt;: Kindly cited by Bryan Caplan in a related
+&lt;a href="https://www.betonit.ai/p/the-neo-median-voter-model"&gt;post&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Coffee House Allegory&lt;/h2&gt;
 &lt;p&gt;Initially a single coffee shop (black) sits on Main Street. A second business
 decides to open a competing coffee shop (orange) and opts to place it so as to
