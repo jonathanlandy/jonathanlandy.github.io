@@ -14,6 +14,9 @@ predictions [2,3].   Here, we don't address whether the effect is real, but
 instead focus on the logical flaw in the original analysis.  We show that it
 stemmed from a common mistake: forgetting that regressing &lt;span class="math"&gt;\(y\)&lt;/span&gt; on &lt;span class="math"&gt;\(x\)&lt;/span&gt; generally
 gives a different slope from regressing &lt;span class="math"&gt;\(x\)&lt;/span&gt; on &lt;span class="math"&gt;\(y\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: Sabine Hossenfelder recently posted a
+&lt;a href="https://www.youtube.com/watch?v=0XcEsuFs5Y8"&gt;video&lt;/a&gt; covering similar ideas
+to what I discuss here.&lt;/p&gt;
 &lt;h2&gt;The Dunning-Kruger plot&lt;/h2&gt;
 &lt;p&gt;The original DK paper considered an experiment where study participants were
 first asked to predict their future performance on some specified task.  Next,
