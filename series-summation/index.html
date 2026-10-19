@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://jslandy.com/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://jslandy.com/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#333">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#333">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Microsoft EDGE -->
+  <meta name="msapplication-TileColor" content="#333">
+
+  <link href="https://jslandy.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jonathan Landy Atom">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3WTEYX1ZX9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3WTEYX1ZX9');
+</script>
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Jonathan Landy" />
+<meta name="description" content="Here, we will maintain a list of series summation methods. Methods currently covered: Operator method Euler transform for alternating series Borel trick Shanks transform Method 1: Operator method The approach was developed by Isaac Newton. It turns series summation into a mechanical process. Method Consider a series \(a_0, a_1, \ldots, a_n\). Define two operators \(E\) and \(\Delta\) satisfying \begin{eqnarray …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta name="keywords" content="math/stats, methods">
+
+
+  <meta property="og:site_name" content="Jonathan Landy"/>
+  <meta property="og:title" content="Series Summation Methods"/>
+  <meta property="og:description" content="Here, we will maintain a list of series summation methods. Methods currently covered: Operator method Euler transform for alternating series Borel trick Shanks transform Method 1: Operator method The approach was developed by Isaac Newton. It turns series summation into a mechanical process. Method Consider a series \(a_0, a_1, \ldots, a_n\). Define two operators \(E\) and \(\Delta\) satisfying \begin{eqnarray …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://jslandy.com/series-summation"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2026-10-18 09:24:00-07:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="https://jslandy.com/author/jonathan-landy.html">
+  <meta property="article:section" content="articles"/>
+  <meta property="article:tag" content="math/stats"/>
+  <meta property="article:tag" content="methods"/>
+  <meta property="og:image" content="https://jslandy.com/wp-content/uploads/2017/11/samples.jpg">
+
+  <title>Jonathan Landy &ndash; Series Summation Methods</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="https://jslandy.com/">
+      <img src="/images/headshot.png" alt="" title="">
+    </a>
+
+    <h1>
+      <a href="https://jslandy.com/"></a>
+    </h1>
+
+    <p>jslandy's notes on math, data, etc.</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+
+          <li>
+            <a target="_self" href="/" >Blog</a>
+          </li>
+          <li>
+            <a target="_self" href="/about" >About</a>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="series-summation">Series Summation Methods</h1>
+    <p>
+      Published on Sun 18 October 2026
+
+    </p>
+  </header>
+
+
+
+  <div>
+    <p>Here, we will maintain a list of series summation methods.  Methods currently
+covered:</p>
+<ul>
+<li><a href="#operator-method">Operator method</a></li>
+<li><a href="#euler-transform">Euler transform for alternating series</a></li>
+<li><a href="#borel-trick">Borel trick</a></li>
+<li><a href="#shanks-transform">Shanks transform</a></li>
+</ul>
+<h2 id="operator-method">Method 1: Operator method</h2>
+<p>The approach was developed by Isaac Newton.  It turns series summation into a
+mechanical process.</p>
+<h4>Method</h4>
+<p>Consider a series <span class="math">\(a_0, a_1, \ldots, a_n\)</span>.  Define two operators <span class="math">\(E\)</span> and
+<span class="math">\(\Delta\)</span> satisfying</p>
+<div class="math">\begin{eqnarray} \tag{1a} \label{1a}
+E a_i &amp;=&amp; a_{i+1} \\ \tag{1b} \label{1b}
+\Delta a_i &amp;=&amp; a_{i+1} - a_i
+\end{eqnarray}</div>
+<p>Imagining that the <span class="math">\(\{a_i\}\)</span> are partial sums of some series, we'd like to
+evaluate
+</p>
+<div class="math">\begin{eqnarray}
+E^n a_0 = a_n. \tag{2} \label{2}
+\end{eqnarray}</div>
+<p>We can make progress by noting that our two operators are related via</p>
+<div class="math">\begin{eqnarray}
+\Delta = E - 1 \tag{3} \label{3}.
+\end{eqnarray}</div>
+<p>Rearranging, and plugging into (\ref{2}), we get</p>
+<div class="math">\begin{eqnarray}
+E^n a_0 &amp;=&amp; (1 + \Delta)^n a_0 \\
+&amp;=&amp; \sum_{i=0}^n \binom{n}{i} \Delta^i a_0.
+\tag{4} \label{4}
+\end{eqnarray}</div>
+<p>From here, two things can happen:  (a) We can clip the expansion at level <span class="math">\(k\)</span>
+to get a polynomial fit to the series.  This is the interpolating polynomial of
+degree <span class="math">\(k\)</span> that goes through the points <span class="math">\((0, a_0), (1, a_1), \ldots, (k, a_k)\)</span>.
+(b)  It may be that <span class="math">\(\Delta^i a_0 = 0\)</span> for all <span class="math">\(i \geq k\)</span>, say.  In that case,
+the series is exactly polynomial in <span class="math">\(n\)</span>.</p>
+<p>Before moving on, we note that we can also expand <span class="math">\(\Delta^n\)</span> in terms of <span class="math">\(E\)</span>
+using (\ref{3}).  This gives
+</p>
+<div class="math">\begin{eqnarray}
+\Delta^n a_0 = (-1)^n \sum_{i=0}^n \binom{n}{i} (-E)^i a_0, \tag{5} \label{5}
+\end{eqnarray}</div>
+<p>
+an expression that sometimes provides a convenient way to evaluate the <span class="math">\(n\)</span>-th
+difference.</p>
+<h4>Example</h4>
+<p>Let's evaluate <span class="math">\(a_n = \sum_{i=0}^n i^2\)</span>, the sum of the first <span class="math">\(n\)</span> squares.
+To calculate the first few terms in (\ref{4}) for this series, we'll need to
+evaluate <span class="math">\(\Delta a_i\)</span> for the first few <span class="math">\(a_i\)</span>.  These values are</p>
+<div class="math">\begin{eqnarray}
+\Delta a_0 &amp;\equiv&amp; a_1 - a_0 = 1 - 0 = 1 \\
+\Delta a_1 &amp;\equiv&amp; a_2 - a_1 = 5 - 1 = 4 \\
+\Delta a_2 &amp;\equiv&amp; a_3 - a_2 = 14 - 5 = 9 \\
+\Delta a_3 &amp;\equiv&amp; a_4 - a_3 = 30 - 14 = 16  \tag{6} \label{6}
+\end{eqnarray}</div>
+<p>
+Naturally, we get back the subsequent squares in each case.  The second
+differences are
+</p>
+<div class="math">\begin{eqnarray}
+\Delta^2 a_0 &amp;\equiv &amp; \Delta a_1 - \Delta a_0 = 4 - 1 = 3 \\
+\Delta^2 a_1 &amp;\equiv &amp; \Delta a_2 - \Delta a_1 = 9 - 4 = 5 \\
+\Delta^2 a_2 &amp;\equiv &amp; \Delta a_3 - \Delta a_2 = 16 - 9 = 7  \tag{7} \label{7}
+\end{eqnarray}</div>
+<p>
+Finally, the third differences are
+</p>
+<div class="math">\begin{eqnarray}
+\Delta^3 a_0 &amp;\equiv &amp; \Delta^2 a_1 - \Delta^2 a_0 = 5 - 3 = 2 \\
+\Delta^3 a_1 &amp;\equiv &amp; \Delta^2 a_2 - \Delta^2 a_1 = 7 - 5 = 2 \tag{8}\label{8}
+\end{eqnarray}</div>
+<p>
+We see the last two values are both <span class="math">\(2\)</span>.  In fact, every term in the third
+difference sequence is <span class="math">\(2\)</span>, so we get
+</p>
+<div class="math">\begin{eqnarray}
+\Delta^4 a_i = 0 \tag{9}\label{9}
+\end{eqnarray}</div>
+<p>
+and all higher order differences are zero as well. Plugging these results into
+(4), we obtain
+</p>
+<div class="math">\begin{eqnarray}
+a_n &amp;=&amp; \binom{n}{1} \cdot 1 + \binom{n}{2} \cdot 3 + \binom{n}{3} \cdot 2 \\
+&amp;=&amp; \frac{n (n+1)(2n + 1)}{6}, \tag{10} \label{10}
+\end{eqnarray}</div>
+<p>
+the familiar result.  Notice that the sum of squares is cubic in <span class="math">\(n\)</span>, just as
+the integral of a quadratic gives a cubic.</p>
+<h2 id="euler-transform">Method 2: Euler transform for alternating series</h2>
+<p>Here, we review Euler's method for speeding up the convergence of alternating
+series.  This makes use of the operator identity we reviewed above.</p>
+<h4>Method</h4>
+<p>Let <span class="math">\(a_i \geq 0\)</span>, and define the alternating series
+</p>
+<div class="math">\begin{eqnarray}
+S &amp;=&amp; \sum_{i=0}^{\infty} (-1)^i a_i \\
+&amp;=&amp; \sum_{i=0}^{\infty} (-E)^i a_0 \\
+&amp;=&amp; \frac{1}{1 + E} a_0  \tag{11}\label{11}
+\end{eqnarray}</div>
+<p>
+Here, we have summed the geometric series in the second line.  Next, we use
+(\ref{3}) to obtain
+</p>
+<div class="math">\begin{eqnarray}
+S &amp;=&amp; \frac{1}{2 + \Delta} a_0 \\
+&amp;=&amp; \frac{1}{2} \frac{1}{1 + \frac{\Delta}{2}} a_0 \\
+&amp;=&amp; \frac{1}{2} \sum_{i=0}^{\infty} \frac{(-\Delta)^i}{2^i} a_0.
+\tag{12} \label{12}
+\end{eqnarray}</div>
+<p>
+Notice that we have differences appearing here, which often converge more
+quickly, and the factor of <span class="math">\(2^{-i}\)</span> will also help to speed up convergence.
+Note also that (\ref{5}) can be used to programmatically evaluate these terms.</p>
+<h4>Example</h4>
+<p>Consider the alternating sum</p>
+<div class="math">\begin{eqnarray}
+S &amp;\equiv&amp; \sum_{i=0}^{\infty} \frac{(-1)^i}{\log(i + 2)}
+&amp;\approx&amp; 0.9242999 \tag{13} \label{13}
+\end{eqnarray}</div>
+<p>
+By the Leibniz test, this series converges.  However, the logarithm does not
+grow quickly and so we expect slow convergence here.  Indeed, even summing the
+first 100 million terms, we get an estimate having about 3 percent error.  In
+contrast, with the Euler method we can obtain sixteen-digit accuracy using just
+<span class="math">\(k\)</span> terms, where</p>
+<div class="math">\begin{eqnarray}
+k \sim  16 \frac{ \log 10}{\log 2} \approx 50.  \tag{14} \label{14}
+\end{eqnarray}</div>
+<p>Figure 1 below illustrates the much faster rate of convergence of the
+Euler-transformed sum in this case.</p>
+<p align="center">
+     <img src="https://jslandy.com/images/euler_example.png">
+</p>
+<p><strong>Figure 1</strong>:  Plot of the partial sums of (\ref{13}) for both the direct and
+Euler-transformed sums.  The direct sum has not converged even after 100
+million terms, but the Euler-transformed sum reaches machine precision after
+just 50.</p>
+<h2 id="borel-trick">Method 3: Borel trick</h2>
+<p>The Borel trick sometimes allows us to assign a "physical" value to a divergent
+series.  We assume the series is the asymptotic expansion of some function that
+does not have a converging Taylor expansion.  It is particularly natural when
+the <span class="math">\(n\)</span>-th term scales like <span class="math">\(n!\)</span>, which indicates zero radius of convergence,
+perhaps due to a branch cut extending to the origin.   There are practical
+applications of the trick in statistical mechanics and quantum physics, but
+these are too complicated for this post.  Instead, I give a toy example below. </p>
+<h4>Method</h4>
+<p>Let
+</p>
+<div class="math">\begin{eqnarray}
+S(g) = \sum_{i=0}^{\infty} a_i g^i   \tag{15} \label{15}
+\end{eqnarray}</div>
+<p>be a series that may or may not converge.  Multiply the <span class="math">\(k\)</span>-th term by
+<span class="math">\(\frac{1}{k!}\)</span> to obtain a new series</p>
+<div class="math">\begin{eqnarray}
+f(g) = \sum_{i=0}^{\infty} \frac{ a_i}{i!} g^i   \tag{16} \label{16}
+\end{eqnarray}</div>
+<p>Suppose this can be summed, and then we carry out the following integral</p>
+<div class="math">\begin{eqnarray}
+S(g) = \int_0^{\infty} e^{-t} f(gt) dt  \tag{17} \label{17}
+\end{eqnarray}</div>
+<p>This returns <span class="math">\(S(g)\)</span> since the expansion of <span class="math">\(f(gt)\)</span> in (\ref{17}) gives a series of
+gamma functions, canceling out the introduced factorials in (\ref{16}).  To
+apply the trick, we evaluate the sum first and then integrate.</p>
+<h4>Example</h4>
+<p>Let</p>
+<div class="math">\begin{eqnarray}
+S = 1 - 2 + 3 - 4 \pm \ldots  \tag{18} \label{18}
+\end{eqnarray}</div>
+<p>Applying the first step of our trick, we obtain</p>
+<div class="math">\begin{eqnarray}
+f(g) &amp;=&amp; - \sum_{i=0}^{\infty} (-1)^i i \frac{g^i}{i!} \\
+&amp;=&amp;- g \partial_g \sum_{i=0}^{\infty}  \frac{(-g)^i}{i!} \\
+&amp;=&amp;- g \partial_g  \exp(-g) \\
+&amp;=&amp; g \exp(-g) \tag{19} \label{19}
+\end{eqnarray}</div>
+<p>Next,</p>
+<div class="math">\begin{eqnarray}
+S(g) &amp;=&amp;  \int_0^{\infty} g t \exp \left ( -(1 + g)t \right ) dt \\
+&amp;=&amp; \frac{g}{(1+g)^2} \int_0^{\infty} v e^{-v} dv  \\
+&amp;=&amp; \frac{g}{(1+g)^2} \tag{20} \label{20}
+\end{eqnarray}</div>
+<p>Setting <span class="math">\(g \rightarrow 1\)</span>, we get</p>
+<div class="math">\begin{eqnarray}
+1 - 2 +3  -4 \pm \ldots =  \frac{1}{4} \tag{21} \label{21}
+\end{eqnarray}</div>
+<p>
+a familiar expression.</p>
+<p>Note that in this case, we didn't actually need the Borel trick since the terms
+of the series were not growing like the factorials.  Indeed, we can obtain this
+result more simply by introducing the powers of <span class="math">\(g\)</span> alone.  For an example
+where the factorial management is essential, consider the sum <span class="math">\(\sum n!
+(-g)^n\)</span>, which diverges for all <span class="math">\(g\)</span>.  Here, the Borel trick gives a finite
+result involving the exponential integral.</p>
+<h2 id="shanks-transform">Method 4: Shanks transform</h2>
+<p>The Shanks transform provides a simple method to accelerate the convergence of a
+series.  We assume that the error in the partial sums behaves to leading order
+like a geometric decay.   We then use consecutive partial sums to evaluate
+the leading error's form and then remove it.</p>
+<h4>Method</h4>
+<p>Consider the partial sum</p>
+<div class="math">\begin{eqnarray}
+S_n \equiv \sum_{i=0}^n a_i  \tag{22} \label{22}
+\end{eqnarray}</div>
+<p>
+We're interested in evaluating the infinite series</p>
+<div class="math">\begin{eqnarray}
+S \equiv \lim_{n \rightarrow \infty} S_n. \tag{23} \label{23}
+\end{eqnarray}</div>
+<p>We posit that to leading order</p>
+<div class="math">\begin{eqnarray}
+S_n \sim S + \frac{A}{r^{n}}  \tag{24} \label{24}
+\end{eqnarray}</div>
+<p>where <span class="math">\(S\)</span>, <span class="math">\(A\)</span>, and <span class="math">\(r\)</span> are unknown.  To estimate these, we consider three
+consecutive values of <span class="math">\(S_n\)</span>,</p>
+<div class="math">\begin{eqnarray}
+S_{n-1} &amp;=&amp; S + \frac{A}{r^{n - 1}}  \tag{25a} \label{25a}  \\
+S_n &amp;=&amp; S + \frac{A}{r^{n}}  \tag{25b} \label{25b} \\
+S_{n+1} &amp;=&amp; S + \frac{A}{r^{n + 1}}  \tag{25c} \label{25c}
+\end{eqnarray}</div>
+<p>A bit of simple algebra allows us to solve these equations for <span class="math">\(S\)</span>.  Writing
+that estimate for <span class="math">\(S\)</span> as <span class="math">\(S_{Shanks, n}\)</span>, we get</p>
+<div class="math">\begin{eqnarray}
+S_{Shanks, n} &amp;=&amp;  \frac{S_{n+1} S_{n-1} - S_n^2}{S_{n+1} + S_{n-1} - 2 S_n}  \\
+&amp;=&amp; S_n - \frac{a_n a_{n+1}}{a_{n+1} - a_n}
+\tag{26} \label{26}
+\end{eqnarray}</div>
+<p>The idea of the Shanks transform then is to replace the <span class="math">\(n\)</span>-th partial sum by
+the corrected form (\ref{26}), which allows us to "peel off" the leading error
+term.  This approximation will become more accurate as we get to larger <span class="math">\(n\)</span>,
+where the asymptotic form will be more accurate.  If there are additional error
+terms, they can often be removed via additional applications of the transform.
+To do that, we use the first line of (\ref{26}), replacing <span class="math">\(S_n\)</span> by <span class="math">\(S_{Shanks,
+n}\)</span>, etc.</p>
+<h4>Example</h4>
+<p>Consider the sum</p>
+<div class="math">\begin{eqnarray}
+S = \sum_{i=1}^{\infty} \frac{\exp(-x)}{1 + \log(x)} \tag{27} \label{27}
+\end{eqnarray}</div>
+<p>By eye, we can see that this has the required exponential convergence form that
+suggests the Shanks transform will be useful.  Indeed, in Figure 2 below, I plot
+the partial sums and their first two Shanks transforms.  You can see that the
+first Shanks transform converges at a faster exponential rate than the original
+sum, and the second converges faster still.  With each successive transform, we
+can often improve our rate of convergence further.</p>
+<p align="center">
+     <img src="https://jslandy.com/images/shank_example.png">
+</p>
+<p><strong>Figure 2</strong>:  Residual errors in the partial sum of (\ref{27}), as well as
+those from the Shanks transformed partial sums.  The transform allows for
+convergence at a faster exponential rate.  Here, we start the first Shanks
+transform at <span class="math">\(x=2\)</span>, since it requires knowledge of both <span class="math">\(a_1\)</span> and <span class="math">\(a_2\)</span>.  Similarly,
+we start the plot of the second transform at <span class="math">\(x=3\)</span>, since it requires knowledge
+of the first three terms. </p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://jslandy.com/tag/mathstats.html">math/stats</a>
+      <a href="https://jslandy.com/tag/methods.html">methods</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+</article>
+
+<footer></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jonathan Landy ",
+  "url" : "https://jslandy.com",
+  "image": "/images/headshot.png",
+  "description": ""
+}
+</script>
+</body>
+</html>

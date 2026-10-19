@@ -1,5 +1,398 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-09-27T00:00:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>The Illusory Dunning-Kruger Effect and Reciprocal Fits</title><link href="https://jslandy.com/illusory-dunning-kruger-effect" rel="alternate"></link><published>2026-09-27T00:00:00-07:00</published><updated>2026-09-27T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-09-27:/illusory-dunning-kruger-effect</id><summary type="html">&lt;p&gt;The Dunning–Kruger (DK) effect states that people with low skill tend to
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/all.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-10-18T09:24:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Series Summation Methods</title><link href="https://jslandy.com/series-summation" rel="alternate"></link><published>2026-10-18T09:24:00-07:00</published><updated>2026-10-18T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-10-18:/series-summation</id><summary type="html">&lt;p&gt;Here, we will maintain a list of series summation methods.  Methods currently
+covered:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#operator-method"&gt;Operator method&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#euler-transform"&gt;Euler transform for alternating series&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#borel-trick"&gt;Borel trick&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#shanks-transform"&gt;Shanks transform&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="operator-method"&gt;Method 1: Operator method&lt;/h2&gt;
+&lt;p&gt;The approach was developed by Isaac Newton.  It turns series summation into a
+mechanical process.&lt;/p&gt;
+&lt;h4&gt;Method&lt;/h4&gt;
+&lt;p&gt;Consider a series &lt;span class="math"&gt;\(a_0, a_1, \ldots, a_n\)&lt;/span&gt;.  Define two operators &lt;span class="math"&gt;\(E\)&lt;/span&gt; and
+&lt;span class="math"&gt;\(\Delta\)&lt;/span&gt; satisfying&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray …&lt;/div&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><content type="html">&lt;p&gt;Here, we will maintain a list of series summation methods.  Methods currently
+covered:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#operator-method"&gt;Operator method&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#euler-transform"&gt;Euler transform for alternating series&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#borel-trick"&gt;Borel trick&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#shanks-transform"&gt;Shanks transform&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="operator-method"&gt;Method 1: Operator method&lt;/h2&gt;
+&lt;p&gt;The approach was developed by Isaac Newton.  It turns series summation into a
+mechanical process.&lt;/p&gt;
+&lt;h4&gt;Method&lt;/h4&gt;
+&lt;p&gt;Consider a series &lt;span class="math"&gt;\(a_0, a_1, \ldots, a_n\)&lt;/span&gt;.  Define two operators &lt;span class="math"&gt;\(E\)&lt;/span&gt; and
+&lt;span class="math"&gt;\(\Delta\)&lt;/span&gt; satisfying&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1a} \label{1a}
+E a_i &amp;amp;=&amp;amp; a_{i+1} \\ \tag{1b} \label{1b}
+\Delta a_i &amp;amp;=&amp;amp; a_{i+1} - a_i
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Imagining that the &lt;span class="math"&gt;\(\{a_i\}\)&lt;/span&gt; are partial sums of some series, we'd like to
+evaluate
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+E^n a_0 = a_n. \tag{2} \label{2}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;We can make progress by noting that our two operators are related via&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta = E - 1 \tag{3} \label{3}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Rearranging, and plugging into (\ref{2}), we get&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+E^n a_0 &amp;amp;=&amp;amp; (1 + \Delta)^n a_0 \\
+&amp;amp;=&amp;amp; \sum_{i=0}^n \binom{n}{i} \Delta^i a_0.
+\tag{4} \label{4}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;From here, two things can happen:  (a) We can clip the expansion at level &lt;span class="math"&gt;\(k\)&lt;/span&gt;
+to get a polynomial fit to the series.  This is the interpolating polynomial of
+degree &lt;span class="math"&gt;\(k\)&lt;/span&gt; that goes through the points &lt;span class="math"&gt;\((0, a_0), (1, a_1), \ldots, (k, a_k)\)&lt;/span&gt;.
+(b)  It may be that &lt;span class="math"&gt;\(\Delta^i a_0 = 0\)&lt;/span&gt; for all &lt;span class="math"&gt;\(i \geq k\)&lt;/span&gt;, say.  In that case,
+the series is exactly polynomial in &lt;span class="math"&gt;\(n\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Before moving on, we note that we can also expand &lt;span class="math"&gt;\(\Delta^n\)&lt;/span&gt; in terms of &lt;span class="math"&gt;\(E\)&lt;/span&gt;
+using (\ref{3}).  This gives
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta^n a_0 = (-1)^n \sum_{i=0}^n \binom{n}{i} (-E)^i a_0, \tag{5} \label{5}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+an expression that sometimes provides a convenient way to evaluate the &lt;span class="math"&gt;\(n\)&lt;/span&gt;-th
+difference.&lt;/p&gt;
+&lt;h4&gt;Example&lt;/h4&gt;
+&lt;p&gt;Let's evaluate &lt;span class="math"&gt;\(a_n = \sum_{i=0}^n i^2\)&lt;/span&gt;, the sum of the first &lt;span class="math"&gt;\(n\)&lt;/span&gt; squares.
+To calculate the first few terms in (\ref{4}) for this series, we'll need to
+evaluate &lt;span class="math"&gt;\(\Delta a_i\)&lt;/span&gt; for the first few &lt;span class="math"&gt;\(a_i\)&lt;/span&gt;.  These values are&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta a_0 &amp;amp;\equiv&amp;amp; a_1 - a_0 = 1 - 0 = 1 \\
+\Delta a_1 &amp;amp;\equiv&amp;amp; a_2 - a_1 = 5 - 1 = 4 \\
+\Delta a_2 &amp;amp;\equiv&amp;amp; a_3 - a_2 = 14 - 5 = 9 \\
+\Delta a_3 &amp;amp;\equiv&amp;amp; a_4 - a_3 = 30 - 14 = 16  \tag{6} \label{6}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Naturally, we get back the subsequent squares in each case.  The second
+differences are
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta^2 a_0 &amp;amp;\equiv &amp;amp; \Delta a_1 - \Delta a_0 = 4 - 1 = 3 \\
+\Delta^2 a_1 &amp;amp;\equiv &amp;amp; \Delta a_2 - \Delta a_1 = 9 - 4 = 5 \\
+\Delta^2 a_2 &amp;amp;\equiv &amp;amp; \Delta a_3 - \Delta a_2 = 16 - 9 = 7  \tag{7} \label{7}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Finally, the third differences are
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta^3 a_0 &amp;amp;\equiv &amp;amp; \Delta^2 a_1 - \Delta^2 a_0 = 5 - 3 = 2 \\
+\Delta^3 a_1 &amp;amp;\equiv &amp;amp; \Delta^2 a_2 - \Delta^2 a_1 = 7 - 5 = 2 \tag{8}\label{8}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+We see the last two values are both &lt;span class="math"&gt;\(2\)&lt;/span&gt;.  In fact, every term in the third
+difference sequence is &lt;span class="math"&gt;\(2\)&lt;/span&gt;, so we get
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta^4 a_i = 0 \tag{9}\label{9}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+and all higher order differences are zero as well. Plugging these results into
+(4), we obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+a_n &amp;amp;=&amp;amp; \binom{n}{1} \cdot 1 + \binom{n}{2} \cdot 3 + \binom{n}{3} \cdot 2 \\
+&amp;amp;=&amp;amp; \frac{n (n+1)(2n + 1)}{6}, \tag{10} \label{10}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+the familiar result.  Notice that the sum of squares is cubic in &lt;span class="math"&gt;\(n\)&lt;/span&gt;, just as
+the integral of a quadratic gives a cubic.&lt;/p&gt;
+&lt;h2 id="euler-transform"&gt;Method 2: Euler transform for alternating series&lt;/h2&gt;
+&lt;p&gt;Here, we review Euler's method for speeding up the convergence of alternating
+series.  This makes use of the operator identity we reviewed above.&lt;/p&gt;
+&lt;h4&gt;Method&lt;/h4&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(a_i \geq 0\)&lt;/span&gt;, and define the alternating series
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S &amp;amp;=&amp;amp; \sum_{i=0}^{\infty} (-1)^i a_i \\
+&amp;amp;=&amp;amp; \sum_{i=0}^{\infty} (-E)^i a_0 \\
+&amp;amp;=&amp;amp; \frac{1}{1 + E} a_0  \tag{11}\label{11}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, we have summed the geometric series in the second line.  Next, we use
+(\ref{3}) to obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S &amp;amp;=&amp;amp; \frac{1}{2 + \Delta} a_0 \\
+&amp;amp;=&amp;amp; \frac{1}{2} \frac{1}{1 + \frac{\Delta}{2}} a_0 \\
+&amp;amp;=&amp;amp; \frac{1}{2} \sum_{i=0}^{\infty} \frac{(-\Delta)^i}{2^i} a_0.
+\tag{12} \label{12}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Notice that we have differences appearing here, which often converge more
+quickly, and the factor of &lt;span class="math"&gt;\(2^{-i}\)&lt;/span&gt; will also help to speed up convergence.
+Note also that (\ref{5}) can be used to programmatically evaluate these terms.&lt;/p&gt;
+&lt;h4&gt;Example&lt;/h4&gt;
+&lt;p&gt;Consider the alternating sum&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S &amp;amp;\equiv&amp;amp; \sum_{i=0}^{\infty} \frac{(-1)^i}{\log(i + 2)}
+&amp;amp;\approx&amp;amp; 0.9242999 \tag{13} \label{13}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+By the Leibniz test, this series converges.  However, the logarithm does not
+grow quickly and so we expect slow convergence here.  Indeed, even summing the
+first 100 million terms, we get an estimate having about 3 percent error.  In
+contrast, with the Euler method we can obtain sixteen-digit accuracy using just
+&lt;span class="math"&gt;\(k\)&lt;/span&gt; terms, where&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+k \sim  16 \frac{ \log 10}{\log 2} \approx 50.  \tag{14} \label{14}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Figure 1 below illustrates the much faster rate of convergence of the
+Euler-transformed sum in this case.&lt;/p&gt;
+&lt;p align="center"&gt;
+     &lt;img src="https://jslandy.com/images/euler_example.png"&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Figure 1&lt;/strong&gt;:  Plot of the partial sums of (\ref{13}) for both the direct and
+Euler-transformed sums.  The direct sum has not converged even after 100
+million terms, but the Euler-transformed sum reaches machine precision after
+just 50.&lt;/p&gt;
+&lt;h2 id="borel-trick"&gt;Method 3: Borel trick&lt;/h2&gt;
+&lt;p&gt;The Borel trick sometimes allows us to assign a "physical" value to a divergent
+series.  We assume the series is the asymptotic expansion of some function that
+does not have a converging Taylor expansion.  It is particularly natural when
+the &lt;span class="math"&gt;\(n\)&lt;/span&gt;-th term scales like &lt;span class="math"&gt;\(n!\)&lt;/span&gt;, which indicates zero radius of convergence,
+perhaps due to a branch cut extending to the origin.   There are practical
+applications of the trick in statistical mechanics and quantum physics, but
+these are too complicated for this post.  Instead, I give a toy example below. &lt;/p&gt;
+&lt;h4&gt;Method&lt;/h4&gt;
+&lt;p&gt;Let
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S(g) = \sum_{i=0}^{\infty} a_i g^i   \tag{15} \label{15}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;be a series that may or may not converge.  Multiply the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th term by
+&lt;span class="math"&gt;\(\frac{1}{k!}\)&lt;/span&gt; to obtain a new series&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+f(g) = \sum_{i=0}^{\infty} \frac{ a_i}{i!} g^i   \tag{16} \label{16}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Suppose this can be summed, and then we carry out the following integral&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S(g) = \int_0^{\infty} e^{-t} f(gt) dt  \tag{17} \label{17}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;This returns &lt;span class="math"&gt;\(S(g)\)&lt;/span&gt; since the expansion of &lt;span class="math"&gt;\(f(gt)\)&lt;/span&gt; in (\ref{17}) gives a series of
+gamma functions, canceling out the introduced factorials in (\ref{16}).  To
+apply the trick, we evaluate the sum first and then integrate.&lt;/p&gt;
+&lt;h4&gt;Example&lt;/h4&gt;
+&lt;p&gt;Let&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S = 1 - 2 + 3 - 4 \pm \ldots  \tag{18} \label{18}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Applying the first step of our trick, we obtain&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+f(g) &amp;amp;=&amp;amp; - \sum_{i=0}^{\infty} (-1)^i i \frac{g^i}{i!} \\
+&amp;amp;=&amp;amp;- g \partial_g \sum_{i=0}^{\infty}  \frac{(-g)^i}{i!} \\
+&amp;amp;=&amp;amp;- g \partial_g  \exp(-g) \\
+&amp;amp;=&amp;amp; g \exp(-g) \tag{19} \label{19}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Next,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S(g) &amp;amp;=&amp;amp;  \int_0^{\infty} g t \exp \left ( -(1 + g)t \right ) dt \\
+&amp;amp;=&amp;amp; \frac{g}{(1+g)^2} \int_0^{\infty} v e^{-v} dv  \\
+&amp;amp;=&amp;amp; \frac{g}{(1+g)^2} \tag{20} \label{20}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Setting &lt;span class="math"&gt;\(g \rightarrow 1\)&lt;/span&gt;, we get&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+1 - 2 +3  -4 \pm \ldots =  \frac{1}{4} \tag{21} \label{21}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+a familiar expression.&lt;/p&gt;
+&lt;p&gt;Note that in this case, we didn't actually need the Borel trick since the terms
+of the series were not growing like the factorials.  Indeed, we can obtain this
+result more simply by introducing the powers of &lt;span class="math"&gt;\(g\)&lt;/span&gt; alone.  For an example
+where the factorial management is essential, consider the sum &lt;span class="math"&gt;\(\sum n!
+(-g)^n\)&lt;/span&gt;, which diverges for all &lt;span class="math"&gt;\(g\)&lt;/span&gt;.  Here, the Borel trick gives a finite
+result involving the exponential integral.&lt;/p&gt;
+&lt;h2 id="shanks-transform"&gt;Method 4: Shanks transform&lt;/h2&gt;
+&lt;p&gt;The Shanks transform provides a simple method to accelerate the convergence of a
+series.  We assume that the error in the partial sums behaves to leading order
+like a geometric decay.   We then use consecutive partial sums to evaluate
+the leading error's form and then remove it.&lt;/p&gt;
+&lt;h4&gt;Method&lt;/h4&gt;
+&lt;p&gt;Consider the partial sum&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S_n \equiv \sum_{i=0}^n a_i  \tag{22} \label{22}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+We're interested in evaluating the infinite series&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S \equiv \lim_{n \rightarrow \infty} S_n. \tag{23} \label{23}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;We posit that to leading order&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S_n \sim S + \frac{A}{r^{n}}  \tag{24} \label{24}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(S\)&lt;/span&gt;, &lt;span class="math"&gt;\(A\)&lt;/span&gt;, and &lt;span class="math"&gt;\(r\)&lt;/span&gt; are unknown.  To estimate these, we consider three
+consecutive values of &lt;span class="math"&gt;\(S_n\)&lt;/span&gt;,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S_{n-1} &amp;amp;=&amp;amp; S + \frac{A}{r^{n - 1}}  \tag{25a} \label{25a}  \\
+S_n &amp;amp;=&amp;amp; S + \frac{A}{r^{n}}  \tag{25b} \label{25b} \\
+S_{n+1} &amp;amp;=&amp;amp; S + \frac{A}{r^{n + 1}}  \tag{25c} \label{25c}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;A bit of simple algebra allows us to solve these equations for &lt;span class="math"&gt;\(S\)&lt;/span&gt;.  Writing
+that estimate for &lt;span class="math"&gt;\(S\)&lt;/span&gt; as &lt;span class="math"&gt;\(S_{Shanks, n}\)&lt;/span&gt;, we get&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S_{Shanks, n} &amp;amp;=&amp;amp;  \frac{S_{n+1} S_{n-1} - S_n^2}{S_{n+1} + S_{n-1} - 2 S_n}  \\
+&amp;amp;=&amp;amp; S_n - \frac{a_n a_{n+1}}{a_{n+1} - a_n}
+\tag{26} \label{26}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The idea of the Shanks transform then is to replace the &lt;span class="math"&gt;\(n\)&lt;/span&gt;-th partial sum by
+the corrected form (\ref{26}), which allows us to "peel off" the leading error
+term.  This approximation will become more accurate as we get to larger &lt;span class="math"&gt;\(n\)&lt;/span&gt;,
+where the asymptotic form will be more accurate.  If there are additional error
+terms, they can often be removed via additional applications of the transform.
+To do that, we use the first line of (\ref{26}), replacing &lt;span class="math"&gt;\(S_n\)&lt;/span&gt; by &lt;span class="math"&gt;\(S_{Shanks,
+n}\)&lt;/span&gt;, etc.&lt;/p&gt;
+&lt;h4&gt;Example&lt;/h4&gt;
+&lt;p&gt;Consider the sum&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+S = \sum_{i=1}^{\infty} \frac{\exp(-x)}{1 + \log(x)} \tag{27} \label{27}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;By eye, we can see that this has the required exponential convergence form that
+suggests the Shanks transform will be useful.  Indeed, in Figure 2 below, I plot
+the partial sums and their first two Shanks transforms.  You can see that the
+first Shanks transform converges at a faster exponential rate than the original
+sum, and the second converges faster still.  With each successive transform, we
+can often improve our rate of convergence further.&lt;/p&gt;
+&lt;p align="center"&gt;
+     &lt;img src="https://jslandy.com/images/shank_example.png"&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Figure 2&lt;/strong&gt;:  Residual errors in the partial sum of (\ref{27}), as well as
+those from the Shanks transformed partial sums.  The transform allows for
+convergence at a faster exponential rate.  Here, we start the first Shanks
+transform at &lt;span class="math"&gt;\(x=2\)&lt;/span&gt;, since it requires knowledge of both &lt;span class="math"&gt;\(a_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(a_2\)&lt;/span&gt;.  Similarly,
+we start the plot of the second transform at &lt;span class="math"&gt;\(x=3\)&lt;/span&gt;, since it requires knowledge
+of the first three terms. &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category><category term="methods"></category></entry><entry><title>The Illusory Dunning-Kruger Effect and Reciprocal Fits</title><link href="https://jslandy.com/illusory-dunning-kruger-effect" rel="alternate"></link><published>2026-09-27T00:00:00-07:00</published><updated>2026-09-27T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-09-27:/illusory-dunning-kruger-effect</id><summary type="html">&lt;p&gt;The Dunning–Kruger (DK) effect states that people with low skill tend to
 overestimate their ability, while those with high skill tend to underestimate
 theirs.  Though intuitive, the central evidence in the original DK paper [1]
 was famously invalid — its analysis produces the same pattern even when
