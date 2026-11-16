@@ -1,5 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-10-18T09:24:00-07:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Series Summation Methods</title><link href="https://jslandy.com/series-summation" rel="alternate"></link><published>2026-10-18T09:24:00-07:00</published><updated>2026-10-18T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-10-18:/series-summation</id><summary type="html">&lt;p&gt;Here, we will maintain a list of series summation methods.  Methods currently
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jonathan Landy - articles</title><link href="https://jslandy.com/" rel="alternate"></link><link href="https://jslandy.com/feeds/articles.atom.xml" rel="self"></link><id>https://jslandy.com/</id><updated>2026-11-15T00:00:00-08:00</updated><subtitle>jslandy's notes on math, data, etc.</subtitle><entry><title>Large Angle Period of the Pendulum</title><link href="https://jslandy.com/pendulum" rel="alternate"></link><published>2026-11-15T00:00:00-08:00</published><updated>2026-11-15T00:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-11-15:/pendulum</id><summary type="html">&lt;p&gt;Introductory physics texts often derive the approximate formula &lt;span class="math"&gt;\(T = 2 \pi
+\sqrt{\frac{L}{g}}\)&lt;/span&gt; for the period of a pendulum.  This approximation is
+accurate for small amplitudes, but at larger amplitudes the period grows. In
+fact, the period diverges logarithmically as the amplitude approaches
+&lt;span class="math"&gt;\(\theta_{max} \sim \pi\)&lt;/span&gt;, the point where the pendulum can get "stuck" if
+balanced just …&lt;/p&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><content type="html">&lt;p&gt;Introductory physics texts often derive the approximate formula &lt;span class="math"&gt;\(T = 2 \pi
+\sqrt{\frac{L}{g}}\)&lt;/span&gt; for the period of a pendulum.  This approximation is
+accurate for small amplitudes, but at larger amplitudes the period grows. In
+fact, the period diverges logarithmically as the amplitude approaches
+&lt;span class="math"&gt;\(\theta_{max} \sim \pi\)&lt;/span&gt;, the point where the pendulum can get "stuck" if
+balanced just right.  Here, we review the less-well-known analysis of this
+large-amplitude limit, applying an argument very similar to that used for small
+amplitudes.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/pendulum_near_peak.png" alt="Pendulum near peak" style="max-width: 600px; width: 100%; height: auto; margin-top: 2em;"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 1.&lt;/b&gt;  (left) At small amplitudes, the torque on the pendulum can be
+approximated as &lt;span class="math"&gt;\(\tau = -m g L \sin \theta\)&lt;/span&gt; &lt;span class="math"&gt;\(\sim - mgL \theta,\)&lt;/span&gt; where &lt;span class="math"&gt;\(L\)&lt;/span&gt; is
+the pendulum's length.  (right)  For small &lt;span class="math"&gt;\(\Delta \theta \equiv \pi -\theta\)&lt;/span&gt;,
+the torque &lt;span class="math"&gt;\(\tau \approx m g L \Delta \theta\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h2&gt;Small angle approximation&lt;/h2&gt;
+&lt;p&gt;To begin, we'll review the small amplitude approximation.  The left side of
+Figure 1 illustrates the system in question.  To characterize the motion here,
+recall Newton's second law of rotation,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\tau = I \alpha \tag{1} \label{tia}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Here, &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; is the torque, &lt;span class="math"&gt;\(I\)&lt;/span&gt; is the moment of inertia, and &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; is the
+angular acceleration. Plugging in the relevant expressions for the pendulum, we
+obtain the equation of motion&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\ddot{\theta} = -\frac{g}{L} \sin(\theta)  \tag{2} \label{pita}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Now at small amplitudes, we can apply the approximation &lt;span class="math"&gt;\(\sin(\theta) \approx
+\theta\)&lt;/span&gt; to obtain&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\ddot{\theta} \approx -\frac{g}{L} \theta  \tag{3} \label{small}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;which has solution&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\theta = A \sin \left (\sqrt{\frac{g}{L}} t + \phi \right)  \tag{4} \label{sol_small}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Here, &lt;span class="math"&gt;\(A\)&lt;/span&gt; is the amplitude and &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; is a constant phase shift.  The solution
+(\ref{sol_small}) is oscillatory, with period&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+T = 2 \pi \sqrt{ \frac{L}{g}} \tag{5}\label{period_small}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;This is the familiar result. Next, we'll consider the large-amplitude limit.&lt;/p&gt;
+&lt;h2&gt;Large angle approximation&lt;/h2&gt;
+&lt;p&gt;At large amplitudes, the period is dominated by time spent near the upper
+vertical, as in the right side of Figure 1. To highlight that region, we'll
+write &lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta \theta \equiv \pi - \theta \tag{6} \label{dtheta}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;and plug into (\ref{pita}) to obtain&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta\ddot{ \theta} = \frac{g}{L} \sin (\Delta \theta) \tag{7}\label{pita_la}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Close to the upper vertical, we can then again apply a small angle
+approximation, writing&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta \ddot{ \theta} \approx  \frac{g}{L} \Delta \theta \tag{8}\label{eom_la}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The solutions to (\ref{eom_la}) are now exponential rather than sinusoidal,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\Delta  \theta \sim \Delta \theta_0 \exp\left ( \sqrt{ \frac{g}{L}} t \right)
+ \tag{9}\label{la_sol}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Here, &lt;span class="math"&gt;\(\Delta \theta_0 \equiv \pi - \theta_{max}\)&lt;/span&gt; and we've neglected an
+exponentially decaying term for simplicity.  This form (\ref{la_sol}) will
+hold up until the point that the angle is so large that our small angle
+approximation to (\ref{pita_la}) is no longer accurate.  This will occur at
+some finite angle &lt;span class="math"&gt;\(\Delta \theta^*\)&lt;/span&gt; that does not depend on &lt;span class="math"&gt;\(\theta_{max}\)&lt;/span&gt;.
+The time that it takes to reach that point can be obtained from (\ref{la_sol}),
+which gives&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\frac{\Delta  \theta^*}{\pi - \theta_{max}} = \exp\left( \sqrt{ \frac{g}{L}} t \right)
+\tag{10}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Solving for &lt;span class="math"&gt;\(t\)&lt;/span&gt; and noting that in a full period there are four "swings" through
+this dominating region (one each on the way up and down on the right, and two
+more on the left near &lt;span class="math"&gt;\(\theta \sim - \pi\)&lt;/span&gt;), we obtain&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+T \sim 4 \sqrt{\frac{L}{g}} \log \left (\frac{8}{\pi - \theta_{max}} \right) \tag{11} \label{period}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, the factor of &lt;span class="math"&gt;\(8\)&lt;/span&gt; in the logarithm provides a constant correction to the
+period.  We can't derive this second-order constant correction term using our
+simple argument here, but may revisit this in a follow-up post.  Figure 2
+illustrates the correctness of the expression (\ref{period}) for large
+amplitudes.&lt;/p&gt;
+&lt;p align="center"&gt;&lt;img src="https://jslandy.com/images/pendulum_period.png" alt="Pendulum period vs amplitude" style="max-width: 600px; width: 100%; height: auto; margin-top: 2em;"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Figure 2.&lt;/b&gt;  The period of the pendulum vs. &lt;span class="math"&gt;\(\theta_{max}\)&lt;/span&gt;, comparing the
+approximation (\ref{period}) to the exact result.&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;Similar derivations to ours can be found in [1] and [2].&lt;/p&gt;
+&lt;p&gt;[1] E. Butikov, “Oscillations of a simple pendulum with extremely large
+amplitudes,” European Journal of Physics 33, 1555–1563 (2012).&lt;/p&gt;
+&lt;p&gt;[2] Sanjoy Mahajan in &lt;a href="https://ocw.mit.edu/courses/18-098-street-fighting-mathematics-january-iap-2008/13cda967bd72612fb6c902f3747188ee_soln02.pdf"&gt;&lt;em&gt;Street-Fighting Mathematics&lt;/em&gt;, Problem Set 2 Solutions,
+Problem 6 (MIT OpenCourseWare,
+2008)&lt;/a&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category><category term="math/stats"></category></entry><entry><title>Series Summation Methods</title><link href="https://jslandy.com/series-summation" rel="alternate"></link><published>2026-10-18T09:24:00-07:00</published><updated>2026-10-18T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2026-10-18:/series-summation</id><summary type="html">&lt;p&gt;Here, we will maintain a list of series summation methods.  Methods currently
 covered:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="#operator-method"&gt;Operator method&lt;/a&gt;&lt;/li&gt;
