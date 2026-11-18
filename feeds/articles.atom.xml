@@ -8507,7 +8507,197 @@ assuming the the jumps are constrained over some length scale proportional to &l
 &lt;span class="c1"&gt;# 0.0279731750488  &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The key here is that I can quickly paste the &lt;code&gt;tm.mark()&lt;/code&gt; repeatedly throughout my code and quickly check where the slow part sits.&lt;/p&gt;</content><category term="articles"></category><category term="programming"></category></entry><entry><title>Compounding benefits of tax protected accounts</title><link href="https://jslandy.com/compounding-benefits-of-tax-protected-accounts" rel="alternate"></link><published>2019-06-28T09:51:00-07:00</published><updated>2019-06-28T09:51:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2019-06-28:/compounding-benefits-of-tax-protected-accounts</id><summary type="html">&lt;p&gt;Here, we highlight one of the most important benefits of tax protected accounts (eg Traditional and Roth IRAs and 401ks). Specifically, we review the fact that not having to pay taxes on any investment growth that occurs while the money is held in the account results in compounding / exponential growth with a larger exponent than would be obtained in a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we highlight one of the most important benefits of tax protected accounts (eg Traditional and Roth IRAs and 401ks). Specifically, we review the fact that not having to pay taxes on any investment growth that occurs while the money is held in the account results in compounding / exponential growth with a larger exponent than would be obtained in a traditional account.&lt;/p&gt;
+&lt;p&gt;The key here is that I can quickly paste the &lt;code&gt;tm.mark()&lt;/code&gt; repeatedly throughout my code and quickly check where the slow part sits.&lt;/p&gt;</content><category term="articles"></category><category term="programming"></category></entry><entry><title>An orientational integral</title><link href="https://jslandy.com/an-orientational-integral" rel="alternate"></link><published>2019-07-02T07:04:00-07:00</published><updated>2019-07-02T07:04:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2019-07-02:/an-orientational-integral</id><summary type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
+orientations in an n-dimensional space.&lt;/p&gt;
+&lt;h2&gt;Problem definition&lt;/h2&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(\widehat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average of
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}
+J \equiv \langle \widehat{v} \cdot \vec{a}_1 \widehat{v} \cdot \vec{a}_2 \ldots \widehat{v} \cdot …&lt;/div&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><content type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
+orientations in an n-dimensional space.&lt;/p&gt;
+&lt;h2&gt;Problem definition&lt;/h2&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(\widehat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average of
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}
+J \equiv \langle \widehat{v} \cdot \vec{a}_1 \widehat{v} \cdot \vec{a}_2 \ldots \widehat{v} \cdot \vec{a}_k \rangle
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(\vec{a}_1, \ldots, \vec{a}_k\)&lt;/span&gt; are some given fixed vectors. For example, if all &lt;span class="math"&gt;\(\vec{a}_i\)&lt;/span&gt; are equal to &lt;span class="math"&gt;\(\widehat{x}\)&lt;/span&gt;, we want the orientation average of &lt;span class="math"&gt;\(v_x^k\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h2&gt;Solution&lt;/h2&gt;
+&lt;p&gt;We'll evaluate our integral using parameter differentiation of the multivariate Gaussian integral. Let
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+I &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2} + \sum_{i=1}^k \alpha_i \vec{v} \cdot \vec{a}_i} d^nv \\ \tag{2} \label{2}
+&amp;amp;=&amp;amp; \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The expression in the second line follows from completing the square in the exponent in the first -- for review, see our post on the normal distribution, &lt;a href="/normal-distributions"&gt;here&lt;/a&gt;. Now, we consider a particular derivative of &lt;span class="math"&gt;\(I\)&lt;/span&gt; with respect to the &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; parameters. From the first line of (\ref{2}), we have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2}} \prod_{i=1}^k \vec{v} \cdot \vec{a}_i d^n v \\
+&amp;amp;\equiv &amp;amp; \frac{1}{(2 \pi)^{n/2}} \int_0^{\infty} e^{- \frac{\vert \vec{v} \vert^2}{2}} v^{n + k -1} dv \int \prod_{i=1}^k \widehat{v} \cdot \vec{a}_i d \Omega_v \\
+&amp;amp;=&amp;amp; \frac{2^{k/2 - 1}}{\pi^{n/2}} \Gamma(\frac{n+k}{2}) \times \int \prod_{i=1}^k \widehat{v} \cdot \vec{a}_i d \Omega_v
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The second factor above is almost our desired orientation average &lt;span class="math"&gt;\(J\)&lt;/span&gt; -- the only thing it's missing is the normalization, which we can get by evaluating this integral without any &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt;'s.&lt;/p&gt;
+&lt;p&gt;Next, we evaluate the parameter derivative considered above in a second way, using the second line of (\ref{2}). This gives,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{4}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \partial_{\alpha_1}\ldots \partial_{\alpha_k} \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right] \vert_{\vec{\alpha}=0} \\
+&amp;amp;=&amp;amp; \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The sum here is over all possible, unique pairings of the indices. You can see this is correct by carrying out the differentiation one parameter at a time.&lt;/p&gt;
+&lt;p&gt;To complete the calculation, we equate (\ref{3}) and (\ref{4}). This gives
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{5}\label{5}
+\int \prod_{i=1}^k \widehat{v} \cdot \vec{a}_i d \Omega_v = \frac{\pi^{n/2}} {2^{k/2 - 1}\Gamma(\frac{n+k}{2})}\sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Again, to get the desired average, we need to divide the above by the normalization factor. This is given by the value of the integral (\ref{5}) when &lt;span class="math"&gt;\(k = 0\)&lt;/span&gt;. This gives,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{6}\label{6}
+J = \frac{1}{2^{k/2}}\frac{\Gamma(n/2)}{\Gamma(\frac{n+k}{2})} \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
+\end{eqnarray}&lt;/div&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Consider the case where &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \widehat{x}\)&lt;/span&gt;. In this case, we note that the average of &lt;span class="math"&gt;\(\widehat{v}_x^2\)&lt;/span&gt; is equal to the average along any other orientation. This means we have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{7} \label{7}
+\langle \widehat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{n} \sum_{i=1}^n \langle \widehat{v}_x^2 + \widehat{v}_y^2 + \ldots \rangle \\
+&amp;amp;=&amp;amp; \frac{1}{n}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+We get this same result from our more general formula: Plugging in &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \widehat{x}\)&lt;/span&gt; into (\ref{6}), we obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{8} \label{8}
+\langle \widehat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{2}\frac{\Gamma(n/2)}{\Gamma(\frac{n}{2} + 1)} \\
+&amp;amp;=&amp;amp; \frac{1}{n}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The two results agree.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js','mathrsfs.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'TeX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="articles"></category></entry><entry><title>Compounding benefits of tax protected accounts</title><link href="https://jslandy.com/compounding-benefits-of-tax-protected-accounts" rel="alternate"></link><published>2019-06-28T09:51:00-07:00</published><updated>2019-06-28T09:51:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:jslandy.com,2019-06-28:/compounding-benefits-of-tax-protected-accounts</id><summary type="html">&lt;p&gt;Here, we highlight one of the most important benefits of tax protected accounts (eg Traditional and Roth IRAs and 401ks). Specifically, we review the fact that not having to pay taxes on any investment growth that occurs while the money is held in the account results in compounding / exponential growth with a larger exponent than would be obtained in a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we highlight one of the most important benefits of tax protected accounts (eg Traditional and Roth IRAs and 401ks). Specifically, we review the fact that not having to pay taxes on any investment growth that occurs while the money is held in the account results in compounding / exponential growth with a larger exponent than would be obtained in a traditional account.&lt;/p&gt;
 &lt;h2&gt;The growth equations&lt;/h2&gt;
 &lt;p&gt;Here, we consider three types of investment account: A standard bank account without tax protection, a traditional tax protected account, and a Roth tax protected account. We'll consider an idealized situation where we earn regular income of &lt;span class="math"&gt;\(D_0^{\prime}\)&lt;/span&gt; at time &lt;span class="math"&gt;\(0\)&lt;/span&gt; and then place this wealth (taxed, as appropriate for each case) into an investment that always returns a growth factor of &lt;span class="math"&gt;\(g\)&lt;/span&gt;. For simplicity, we'll assume that our tax rate never changes and is given by &lt;span class="math"&gt;\(t\)&lt;/span&gt;. In the next three sections, we calculate expressions for the final wealth at time &lt;span class="math"&gt;\(T\)&lt;/span&gt; that results from each account. Following that, we compare the results.&lt;/p&gt;
 &lt;h3&gt;Standard account&lt;/h3&gt;
